@@ -1,3 +1,5 @@
+// API Configuration
+const apiKey = "38d4fc734b633813b0de7e5758379d2a";
 
 // API Configuration
 const apiKey = '38d4fc734b633813b0de7e5758379d2a';
