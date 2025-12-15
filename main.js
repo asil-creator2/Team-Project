@@ -1,5 +1,3 @@
-// API Configuration
-const apiKey = "38d4fc734b633813b0de7e5758379d2a";
 
 // API Configuration
 const apiKey = '38d4fc734b633813b0de7e5758379d2a';
@@ -607,69 +605,137 @@ function showNotification(message) {
 
 // Show movie details in modal
 async function showMovieDetails(id, type) {
-    try {
-        const endpoint = type === 'tv' 
-            ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
-            : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
-        
-        const response = await fetch(endpoint);
-        const data = await response.json();
-        
-        // Update modal content
-        document.getElementById('modal-title').textContent = type === 'tv' ? data.name : data.title;
-        document.getElementById('modal-rating').textContent = data.vote_average.toFixed(1);
-        
-        // Set year
-        const releaseDate = type === 'tv' ? data.first_air_date : data.release_date;
-        const year = releaseDate ? new Date(releaseDate).getFullYear() : 'N/A';
-        document.getElementById('modal-year').innerHTML = `<i class="far fa-calendar"></i> ${year}`;
-        
-        // Set runtime
-        const runtime = type === 'tv' ? data.episode_run_time?.[0] : data.runtime;
-        document.getElementById('modal-runtime').innerHTML = runtime 
-            ? `<i class="far fa-clock"></i> ${runtime} min` 
-            : `<i class="far fa-clock"></i> N/A`;
-        
-        // Set language
-        const language = data.original_language ? data.original_language.toUpperCase() : 'N/A';
-        document.getElementById('modal-language').innerHTML = `<i class="fas fa-globe"></i> ${language}`;
-        
-        // Set description
-        document.getElementById('modal-description').textContent = data.overview || 'No description available.';
-        
-        // Set backdrop image
-        const backdropUrl = data.backdrop_path 
-            ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
-            : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
-        document.getElementById('modal-backdrop').src = backdropUrl;
-        
-        // Set genres
-        const genresContainer = document.getElementById('modal-genres');
-        genresContainer.innerHTML = '';
-        if (data.genres && data.genres.length > 0) {
-            data.genres.forEach(genre => {
-                const genreTag = document.createElement('span');
-                genreTag.className = 'genre-tag';
-                genreTag.textContent = genre.name;
-                genresContainer.appendChild(genreTag);
-            });
-        }
-        
-        // Update play button
-        const playBtn = document.getElementById('modal-play-btn');
-        playBtn.dataset.id = id;
-        playBtn.dataset.type = type;
-        
-        // Show modal
-        movieModal.classList.add('active');
-        
-        // Add event listener to play button
-        playBtn.onclick = () => {
-            alert(`Now playing: ${type === 'tv' ? data.name : data.title}`);
-        };
-        
-    } catch (error) {
-        console.error('Error loading movie details:', error);
-        alert('Failed to load movie details. Please try again.');
+  try {
+    const endpoint =
+      type === "tv"
+        ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
+        : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
+
+    const response = await fetch(endpoint);
+    const data = await response.json();
+
+    // Title
+    document.getElementById("modal-title").textContent =
+      type === "tv" ? data.name : data.title;
+
+    // Rating
+    document.getElementById("modal-rating").textContent =
+      data.vote_average ? data.vote_average.toFixed(1) : "N/A";
+
+    // Year
+    const releaseDate = type === "tv" ? data.first_air_date : data.release_date;
+    const year = releaseDate ? new Date(releaseDate).getFullYear() : "N/A";
+    document.getElementById("modal-year").innerHTML =
+      `<i class="far fa-calendar"></i> ${year}`;
+
+    // Runtime
+    const runtime = type === "tv"
+      ? data.episode_run_time?.[0]
+      : data.runtime;
+
+    document.getElementById("modal-runtime").innerHTML = runtime
+      ? `<i class="far fa-clock"></i> ${runtime} min`
+      : `<i class="far fa-clock"></i> N/A`;
+
+    // Language
+    const language = data.original_language
+      ? data.original_language.toUpperCase()
+      : "N/A";
+    document.getElementById("modal-language").innerHTML =
+      `<i class="fas fa-globe"></i> ${language}`;
+
+    // Description
+    document.getElementById("modal-description").textContent =
+      data.overview || "No description available.";
+
+    // Backdrop
+    const backdropUrl = data.backdrop_path
+      ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
+      : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
+
+    const modalBackdrop = document.getElementById("modal-backdrop");
+    modalBackdrop.src = backdropUrl;
+    modalBackdrop.style.display = "block";
+
+    // Genres
+    const genresContainer = document.getElementById("modal-genres");
+    genresContainer.innerHTML = "";
+
+    if (data.genres && data.genres.length > 0) {
+      data.genres.forEach((genre) => {
+        const span = document.createElement("span");
+        span.className = "genre-tag";
+        span.textContent = genre.name;
+        genresContainer.appendChild(span);
+      });
     }
+
+    // Play button
+    const playBtn = document.getElementById("modal-play-btn");
+    playBtn.onclick = () => play_Movies(id, type);
+
+    // Reset iframe
+    const iframe = document.getElementById("model_iframe");
+    iframe.src = "";
+    iframe.style.display = "none";
+
+    document.querySelector(".modal-body").style.display = "block";
+
+    // Show modal
+    movieModal.classList.add("active");
+
+  } catch (error) {
+    console.error("Error loading movie details:", error);
+    alert("Failed to load movie details.");
+  }
 }
+
+// Play movie / tv trailer
+async function play_Movies(id, type) {
+  try {
+    let type_Movies;
+
+    if (type === "tv") {
+      type_Movies = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${apiKey}&language=en-US`
+    } else {
+      type_Movies = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=en-US`
+    }
+
+   let result = await fetch(type_Movies);
+    let data_res = await result.json();
+
+    let find_Vid = data_res.results.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (!find_Vid) {
+      alert("The video is not available 😢");
+      return;
+    }
+
+    let modal_Backdrop = document.getElementById("modal-backdrop");
+    modal_Backdrop.style.display = "none";
+
+    let modal_Body = document.querySelector(".modal-body");
+    modal_Body.style.display = "none";
+
+    let iframe = document.getElementById("model_iframe");
+    iframe.src = `https://www.youtube.com/embed/${find_Vid.key}?autoplay=1`;
+    iframe.style.display = "block";
+  } catch (error) {
+    alert("An error occurred while playing the video");
+    console.error(error);
+  }
+};
+
+//  Close Modal
+
+const closeBtn = document.getElementById("movie-modal-close");
+
+closeBtn.addEventListener("click", () => {
+  const iframe = document.getElementById("model_iframe");
+    // إخفاء iframe بدل تفريغ الـ src
+  iframe.style.display = "none";
+  iframe.src = ""; // ⛔ إيقاف الفيديو
+  movieModal.classList.remove("active");
+});
