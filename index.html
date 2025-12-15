@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamFlix | Premium Movie Streaming</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
+    <link  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -44,23 +44,32 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Unlimited Movies, TV Shows, and More.</h1>
-                <p class="hero-description">Stream thousands of movies and TV shows in stunning 4K. Watch anywhere,
-                    anytime. No commitments, cancel anytime.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-play"></i> Start Watching Free
-                    </button>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-info-circle"></i> Learn More
-                    </button>
-                </div>
-            </div>
+    <div class="hero">
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+         <div class="swiper-slide">
+          <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80" alt="Cinematic 4">
         </div>
-    </section>
+       <div class="swiper-slide">
+        <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp" alt="Cinematic2">
+       </div>
+          <div class="swiper-slide">
+            <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"alt="Cinematic2">
+          </div>
+        <div class="swiper-slide">
+          <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg" alt="Cinematic 3">
+        </div>
+       
+      </div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="Unlimited Movies, TV Shows, and More.">Cinematic Hero Title</h1>
+      <p class="hero-description">Stream thousands of movies and TV shows in stunning 4K. Watch anywhere, anytime. No commitments, cancel anytime</p>
+    </div>
+  </div>
 
     <!-- Movies Section -->
     <section class="movies-section" id="movies-section">
@@ -388,7 +397,7 @@
             </div>
         </div>
     </div>
-
+ <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="main.js"></script>
 </body>
 
