@@ -31,6 +31,10 @@
                     <i class="fas fa-bell action-icon" id="notifications-icon"></i>
                     <span class="notification-badge">3</span>
                 </div>
+                <div class="favorites-icon-container">
+                    <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+                    <span class="favorites-count" id="favorites-count">0</span>
+                </div>
                 <i class="fas fa-user action-icon" id="login-icon"></i>
             </div>
         </div>
@@ -114,81 +118,69 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- FAQ Section - Netflix Style -->
     <section class="faq-section">
         <div class="container">
             <h2 class="faq-title">Frequently Asked Questions</h2>
             
             <div class="faq-container">
-                <div class="faq-item active">
-                    <div class="faq-question">
+                <div class="faq-item">
+                    <button class="faq-question">
                         <span>What is StreamFlix?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            StreamFlix is a premium streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices. You can watch as much as you want, anytime you want without a single commercial - all for one low monthly price.
-                        </div>
+                        StreamFlix is a premium streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices. You can watch as much as you want, anytime you want without a single commercial - all for one low monthly price.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">
+                    <button class="faq-question">
                         <span>Is StreamFlix free to use?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            StreamFlix offers a 30-day free trial for new subscribers. After the trial period, you can choose from several subscription plans starting at $8.99 per month. There are no contracts, no cancellation fees, and you can cancel online anytime.
-                        </div>
+                        StreamFlix offers a 30-day free trial for new subscribers. After the trial period, you can choose from several subscription plans starting at $8.99 per month. There are no contracts, no cancellation fees, and you can cancel online anytime.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">
+                    <button class="faq-question">
                         <span>Where do the movies come from?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Our content library includes movies and TV shows from major studios like Warner Bros., Universal, Paramount, and Sony Pictures, as well as independent filmmakers. We also produce original content exclusive to StreamFlix. All content is legally licensed for streaming.
-                        </div>
+                        Our content library includes movies and TV shows from major studios like Warner Bros., Universal, Paramount, and Sony Pictures, as well as independent filmmakers. We also produce original content exclusive to StreamFlix. All content is legally licensed for streaming.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">
+                    <button class="faq-question">
                         <span>Can I add movies to my favorites?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Yes! You can add any movie or TV show to your favorites by clicking the heart icon on the movie card. Your favorites list is saved to your account and can be accessed from any device. You can also create multiple watchlists for different genres or moods.
-                        </div>
+                        Yes! You can add any movie or TV show to your favorites by clicking the heart icon on the movie card. Your favorites list is saved to your account and can be accessed from any device. You can also create multiple watchlists for different genres or moods.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">
+                    <button class="faq-question">
                         <span>Do I need to create an account?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            You need an account to watch full movies and TV shows, but you can browse our catalog without one. Creating an account is free and takes less than a minute. With an account, you get personalized recommendations, can create watchlists, and continue watching across devices.
-                        </div>
+                        You need an account to watch full movies and TV shows, but you can browse our catalog without one. Creating an account is free and takes less than a minute. With an account, you get personalized recommendations, can create watchlists, and continue watching across devices.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">
+                    <button class="faq-question">
                         <span>Can I watch on multiple devices?</span>
                         <i class="fas fa-plus faq-icon"></i>
-                    </div>
+                    </button>
                     <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Absolutely! You can watch StreamFlix on any internet-connected device that supports the StreamFlix app, including smart TVs, smartphones, tablets, streaming media players, game consoles, and computers. You can also download shows to watch offline with the mobile app.
-                        </div>
+                        Absolutely! You can watch StreamFlix on any internet-connected device that supports the StreamFlix app, including smart TVs, smartphones, tablets, streaming media players, game consoles, and computers. You can also download shows to watch offline with the mobile app.
                     </div>
                 </div>
             </div>
@@ -254,10 +246,34 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 StreamFlix. All Rights Reserved. This is a demo website for educational purposes. Data provided by TMDB.</p>
+                <p>&copy; 2023 StreamFlix. All Rights Reserved. This is a demo website for educational purposes. Data provided by TMDB.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Favorites Modal -->
+    <div class="modal-overlay" id="favorites-modal">
+        <div class="favorites-modal">
+            <div class="modal-close" id="favorites-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="favorites-header">
+                <h2 class="favorites-title"><i class="fas fa-heart"></i> My Favorites</h2>
+                <p class="favorites-count-text" id="favorites-count-text">You have 0 favorite movies</p>
+            </div>
+            <div class="favorites-body" id="favorites-body">
+                <!-- Favorite movies will be loaded here via JavaScript -->
+                <div class="favorites-empty" id="favorites-empty">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>Your favorites list is empty</h3>
+                    <p>Start adding movies and TV shows to your favorites by clicking the heart icon on any movie card. They will appear here for easy access.</p>
+                    <button class="btn btn-primary" id="browse-movies-btn">
+                        <i class="fas fa-film"></i> Browse Movies
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Movie Details Modal -->
     <div class="modal-overlay" id="movie-modal">

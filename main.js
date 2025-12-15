@@ -5,15 +5,26 @@ const apiKey = '38d4fc734b633813b0de7e5758379d2a';
 // DOM Elements
 const navbar = document.querySelector('.navbar');
 const loginIcon = document.getElementById('login-icon');
+const favoritesIcon = document.getElementById('favorites-icon');
 const loginModal = document.getElementById('login-modal');
 const movieModal = document.getElementById('movie-modal');
+const favoritesModal = document.getElementById('favorites-modal');
 const loginModalClose = document.getElementById('login-modal-close');
 const movieModalClose = document.getElementById('movie-modal-close');
+const favoritesModalClose = document.getElementById('favorites-modal-close');
 const signupBtn = document.getElementById('signup-btn');
 const searchInput = document.querySelector('.search-input');
 const faqItems = document.querySelectorAll('.faq-item');
-const signupModel = document.getElementById('signUpModel')
-const signupModelClose = document.getElementById('signUp-modal-close')
+
+const browseMoviesBtn = document.getElementById('browse-movies-btn');
+const favoritesCountElement = document.getElementById('favorites-count');
+const favoritesCountText = document.getElementById('favorites-count-text');
+const favoritesBody = document.getElementById('favorites-body');
+const favoritesEmpty = document.getElementById('favorites-empty');
+
+
+
+
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
 let users = JSON.parse(localStorage.getItem('users')) || []
@@ -27,6 +38,9 @@ if (user){
 }
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
+    // Update favorites count
+    updateFavoritesCount();
+    
     // Load movies data
     loadPopularMovies();
     loadPopularSeries();
@@ -35,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup event listeners
     setupEventListeners();
     
-    // Setup FAQ accordion
-    setupFAQAccordion();
+    // Setup FAQ accordion - Netflix Style
+    setupNetflixFAQAccordion();
     
     // Navbar scroll effect
     window.addEventListener('scroll', handleNavbarScroll);
@@ -53,6 +67,11 @@ function setupEventListeners() {
 
     });
     
+    // Favorites icon click
+    favoritesIcon.addEventListener('click', () => {
+        showFavoritesModal();
+    });
+    
     // Modal close buttons
     loginModalClose.addEventListener('click', () => {
         loginModal.classList.remove('active');
@@ -65,8 +84,15 @@ function setupEventListeners() {
         movieModal.classList.remove('active');
     });
     
+    favoritesModalClose.addEventListener('click', () => {
+        favoritesModal.classList.remove('active');
+    });
+    
     // Close modal when clicking outside
-    [loginModal, movieModal ,signupModel].forEach(modal => {
+
+    [loginModal, movieModal, favoritesModal].forEach(modal => {
+
+ 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('active');
@@ -84,6 +110,13 @@ function setupEventListeners() {
             loginModal.classList.remove('active');
             signupModel.classList.add('active')
         }
+    });
+    
+    // Browse movies button in favorites modal
+    browseMoviesBtn.addEventListener('click', () => {
+        favoritesModal.classList.remove('active');
+        // Scroll to movies section
+        document.querySelector('#movies-section').scrollIntoView({ behavior: 'smooth' });
     });
     
     // Login form submission
@@ -167,22 +200,165 @@ function setupEventListeners() {
     });
 }
 
-// Setup FAQ accordion functionality
-function setupFAQAccordion() {
+// Setup Netflix-Style FAQ Accordion
+function setupNetflixFAQAccordion() {
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
         
         question.addEventListener('click', () => {
             // Close all other FAQ items
             faqItems.forEach(otherItem => {
                 if (otherItem !== item && otherItem.classList.contains('active')) {
                     otherItem.classList.remove('active');
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    otherAnswer.style.maxHeight = 0;
+                    otherAnswer.style.opacity = 0;
+                    otherAnswer.style.padding = '0 30px';
                 }
             });
             
             // Toggle current item
-            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+                answer.style.maxHeight = 0;
+                answer.style.opacity = 0;
+                answer.style.padding = '0 30px';
+            } else {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = 1;
+                answer.style.padding = '30px';
+            }
         });
+    });
+}
+
+// Update favorites count in navbar
+function updateFavoritesCount() {
+    const count = favoriteMovies.length;
+    favoritesCountElement.textContent = count;
+    
+    // Hide count if zero
+    if (count === 0) {
+        favoritesCountElement.style.display = 'none';
+    } else {
+        favoritesCountElement.style.display = 'flex';
+    }
+}
+
+// Show favorites modal
+function showFavoritesModal() {
+    favoritesModal.classList.add('active');
+    renderFavorites();
+}
+
+// Render favorites in the modal
+function renderFavorites() {
+    // Update count text
+    const count = favoriteMovies.length;
+    favoritesCountText.textContent = `You have ${count} favorite ${count === 1 ? 'movie' : 'movies'}`;
+    
+    // Clear current content
+    favoritesBody.innerHTML = '';
+    
+    if (count === 0) {
+        // Show empty state
+        favoritesBody.appendChild(favoritesEmpty.cloneNode(true));
+        // Re-add event listener to browse movies button
+        favoritesBody.querySelector('#browse-movies-btn').addEventListener('click', () => {
+            favoritesModal.classList.remove('active');
+            document.querySelector('#movies-section').scrollIntoView({ behavior: 'smooth' });
+        });
+    } else {
+        // Create favorites grid
+        const favoritesGrid = document.createElement('div');
+        favoritesGrid.className = 'favorites-grid';
+        
+        // Add each favorite movie
+        favoriteMovies.forEach(movie => {
+            const favoriteCard = createFavoriteCard(movie);
+            favoritesGrid.appendChild(favoriteCard);
+        });
+        
+        favoritesBody.appendChild(favoritesGrid);
+    }
+}
+
+// Create a favorite card element
+function createFavoriteCard(movie) {
+    const card = document.createElement('div');
+    card.className = 'favorite-card';
+    card.dataset.id = movie.id;
+    card.dataset.type = movie.type;
+    
+    const imageUrl = movie.poster_path 
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+    
+    card.innerHTML = `
+        <img src="${imageUrl}" alt="${movie.title}" class="favorite-poster">
+        <div class="favorite-info">
+            <h3 class="favorite-title">${movie.title}</h3>
+            <div class="favorite-rating">
+                <i class="fas fa-star"></i>
+                <span>${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+            </div>
+            <button class="favorite-remove-btn" data-id="${movie.id}">
+                <i class="fas fa-trash"></i> Remove from Favorites
+            </button>
+        </div>
+    `;
+    
+    // Add event listener to remove button
+    const removeBtn = card.querySelector('.favorite-remove-btn');
+    removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent card click event
+        removeFromFavorites(movie.id);
+    });
+    
+    // Make card clickable to show details
+    card.addEventListener('click', () => {
+        showMovieDetails(movie.id, movie.type);
+    });
+    
+    return card;
+}
+
+// Remove movie from favorites
+function removeFromFavorites(movieId) {
+    const index = favoriteMovies.findIndex(fav => fav.id === movieId);
+    
+    if (index !== -1) {
+        // Remove from array
+        favoriteMovies.splice(index, 1);
+        
+        // Update localStorage
+        localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
+        
+        // Update UI
+        updateFavoritesCount();
+        renderFavorites();
+        
+        // Update favorite buttons on movie cards
+        updateMovieCardFavoriteButtons(movieId);
+        
+        // Show notification
+        showNotification('Removed from favorites!');
+    }
+}
+
+// Update favorite buttons on movie cards when a movie is removed from favorites
+function updateMovieCardFavoriteButtons(movieId) {
+    // Find all movie cards with this ID
+    const movieCards = document.querySelectorAll(`.movie-card[data-id="${movieId}"]`);
+    
+    movieCards.forEach(card => {
+        const favoriteBtn = card.querySelector('.favorite-btn');
+        if (favoriteBtn) {
+            favoriteBtn.classList.remove('active');
+            favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
+        }
     });
 }
 
@@ -347,6 +523,9 @@ function toggleFavorite(movie, button, type) {
         button.classList.add('active');
         button.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
         
+        // Update favorites count
+        updateFavoritesCount();
+        
         // Show notification
         showNotification('Added to favorites!');
     } else {
@@ -355,8 +534,16 @@ function toggleFavorite(movie, button, type) {
         button.classList.remove('active');
         button.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
         
+        // Update favorites count
+        updateFavoritesCount();
+        
         // Show notification
         showNotification('Removed from favorites!');
+        
+        // Update favorites modal if it's open
+        if (favoritesModal.classList.contains('active')) {
+            renderFavorites();
+        }
     }
     
     // Save to localStorage
