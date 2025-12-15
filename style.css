@@ -807,7 +807,7 @@
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(0px);
         }
 
         .modal-overlay.active {
@@ -940,6 +940,7 @@
 
         .modal-overlay.active .login-modal {
             transform: translateY(0);
+            
         }
 
         .login-title {

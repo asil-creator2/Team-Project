@@ -15,15 +15,27 @@ const favoritesModalClose = document.getElementById('favorites-modal-close');
 const signupBtn = document.getElementById('signup-btn');
 const searchInput = document.querySelector('.search-input');
 const faqItems = document.querySelectorAll('.faq-item');
+
 const browseMoviesBtn = document.getElementById('browse-movies-btn');
 const favoritesCountElement = document.getElementById('favorites-count');
 const favoritesCountText = document.getElementById('favorites-count-text');
 const favoritesBody = document.getElementById('favorites-body');
 const favoritesEmpty = document.getElementById('favorites-empty');
 
+
+
+
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+let users = JSON.parse(localStorage.getItem('users')) || []
+let user = localStorage.getItem('currentUser') || false
 
+if (user){
+    loginIcon.classList.add('fa-user-check');
+    loginIcon.classList.remove('fa-user');
+
+
+}
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     // Update favorites count
@@ -48,7 +60,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupEventListeners() {
     // Login icon click
     loginIcon.addEventListener('click', () => {
+        if (user){
+            return;
+        }
         loginModal.classList.add('active');
+
     });
     
     // Favorites icon click
@@ -61,6 +77,9 @@ function setupEventListeners() {
         loginModal.classList.remove('active');
     });
     
+    signupModelClose.addEventListener('click', () => {
+        signupModel.classList.remove('active')
+    })
     movieModalClose.addEventListener('click', () => {
         movieModal.classList.remove('active');
     });
@@ -70,7 +89,10 @@ function setupEventListeners() {
     });
     
     // Close modal when clicking outside
+
     [loginModal, movieModal, favoritesModal].forEach(modal => {
+
+ 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('active');
@@ -80,8 +102,14 @@ function setupEventListeners() {
     
     // Sign up button
     signupBtn.addEventListener('click', () => {
-        alert('Sign up functionality would be implemented here!');
-        loginModal.classList.remove('active');
+        if (signupBtn.classList.contains('loginBtn')){
+            loginModal.classList.add('active');
+            signupModel.classList.remove('active')
+        }
+        else {
+            loginModal.classList.remove('active');
+            signupModel.classList.add('active')
+        }
     });
     
     // Browse movies button in favorites modal
@@ -99,23 +127,46 @@ function setupEventListeners() {
         
         // Simulate login process
         if (email && password) {
-            alert(`Welcome back! You're now logged in as ${email}`);
-            loginModal.classList.remove('active');
-            loginIcon.classList.add('fa-user-check');
-            loginIcon.classList.remove('fa-user');
-        }
-    });
-    
-    // Search input functionality
-    searchInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-            const query = this.value.trim();
-            if (query) {
-                alert(`Search functionality would show results for: "${query}"`);
-                this.value = '';
+            if (users.some(user => user.email === email && user.password === password)){
+                loginModal.classList.remove('active');
+                loginIcon.classList.add('fa-user-check');
+                loginIcon.classList.remove('fa-user');
+            }
+            else {
+                alert('email does not exist')
             }
         }
     });
+
+    // signUp form submission 
+    document.querySelector('.signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('emailSign').value;
+        const password = document.getElementById('passwordSign').value;
+        
+        // Simulate login process
+        if (email && password && name) {
+            const user = {
+                name : name,
+                email : email,
+                password : password,
+            }
+            if (users.some(user => user.email === email && user.password === password)){
+                alert('Email Already Exists')
+            }
+            else {
+                localStorage.setItem('currentUser',user)
+                users.push(user)
+                alert('sign up successfully')
+                signupBtn.classList.remove('active');
+                loginIcon.classList.add('fa-user-check');
+                loginIcon.classList.remove('fa-user');
+            }
+        }
+    });
+
+    
     
     // Setup slider buttons
     setupSliderButtons();
