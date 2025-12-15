@@ -158,7 +158,18 @@ function setupEventListeners() {
                 localStorage.setItem('currentUser', JSON.stringify(user)); // Stringify here
                 users.push(user)
                 localStorage.setItem('users', JSON.stringify(users))
-                alert('sign up successfully')
+                Swal.fire({
+                    title: 'Hello!',
+                    text: 'Signed Up Sucesss',
+                    background: "#9d4edd",
+                    icon : 'success',
+                    color: '#fff',
+                    customClass: {
+                        popup: 'rounded-swal',
+                        confirmButton: 'swal-confirm',
+
+                    },
+                });
                 signupModel.classList.remove('active');
                 loginIcon.classList.add('fa-user-check');
                 loginIcon.classList.remove('fa-user');
