@@ -22,7 +22,7 @@
         const favoritesEmpty = document.getElementById('favorites-empty');
         const signupModel = document.getElementById('signUpModel')
         const signupModelClose = document.getElementById('signUp-modal-close')
-
+        const loginNavigation = document.getElementById('login-btn')
         // Global variables
         let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
         let users = JSON.parse(localStorage.getItem('users')) || []
@@ -92,15 +92,14 @@
             
             // Sign up button
             signupBtn.addEventListener('click', () => {
-                if (signupBtn.classList.contains('loginBtn')){
-                    loginModal.classList.add('active');
-                    signupModel.classList.remove('active')
-                }
-                else {
-                    loginModal.classList.remove('active');
-                    signupModel.classList.add('active')
-                }
+                loginModal.classList.remove('active');
+                signupModel.classList.add('active')
             });
+
+            // login button 
+            loginNavigation.addEventListener('click', () => {
+                loginModal.classList.add('active');
+                signupModel.classList.remove('active')            })
             // Browse movies button in favorites modal
             browseMoviesBtn.addEventListener('click', () => {
                 favoritesModal.classList.remove('active');
