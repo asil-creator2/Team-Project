@@ -399,6 +399,23 @@ function setupSliderButtons() {
     });
 }
 
+// swiper //
+const swiper = new Swiper(".mySwiper", {
+  loop: true,
+  autoplay: {
+    delay: 4000,
+    disableOnInteraction: false,
+  },
+  effect: "fade",
+  fadeEffect: {
+    crossFade: true
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+});
+
 // Fetch popular movies from TMDB API
 async function loadPopularMovies() {
     try {
