@@ -20,15 +20,13 @@ const favoritesCountElement = document.getElementById('favorites-count');
 const favoritesCountText = document.getElementById('favorites-count-text');
 const favoritesBody = document.getElementById('favorites-body');
 const favoritesEmpty = document.getElementById('favorites-empty');
-
-
-
-
+const loginBtnNavigation = document.getElementById('login-btn')
 const signupModel = document.getElementById('signUpModel')
 const signupModelClose = document.getElementById('signUp-modal-close')
 
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+let nowWatching  = JSON.parse(localStorage.getItem('nowWatching')) || []
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let user = JSON.parse(localStorage.getItem('currentUser')) || false;
 
@@ -47,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loadPopularMovies();
     loadPopularSeries();
     loadNowPlayingMovies();
-    
+    loadContinuePlayingMovies(); 
+
     // Setup event listeners
     setupEventListeners();
     
@@ -66,7 +65,8 @@ function setupEventListeners() {
     });
     
     // Favorites icon click
-    favoritesIcon.addEventListener('click', () => {
+    favoritesIcon.addEventListener('click', (e) => {
+        e.stopPropagation(); 
         showFavoritesModal();
     });
     
@@ -98,15 +98,14 @@ function setupEventListeners() {
     
     // Sign up button
     signupBtn.addEventListener('click', () => {
-        if (signupBtn.classList.contains('loginBtn')){
-            loginModal.classList.add('active');
-            signupModel.classList.remove('active')
-        }
-        else {
             loginModal.classList.remove('active');
             signupModel.classList.add('active')
-        }
     });
+    loginBtnNavigation.addEventListener('click', () => {
+            loginModal.classList.add('active');
+            signupModel.classList.remove('active')
+    })
+
     // Browse movies button in favorites modal
     browseMoviesBtn.addEventListener('click', () => {
         favoritesModal.classList.remove('active');
@@ -130,10 +129,20 @@ function setupEventListeners() {
                 loginIcon.classList.remove('fa-user');
             }
             else {
-                alert('email does not exist')
+                loginModal.classList.remove('active')
+                Swal.fire({
+                    text: "Email Doesn't Exist",
+                    background: "#9d4edd",
+                    icon : 'error',
+                    color: '#fff',
+                    customClass: {
+                        popup: 'rounded-swal',
+                        confirmButton: 'swal-confirm',
+                    },
+                });
             }
-        }else {
-            alert('please fill all fields')
+        }else{
+            showNotification('Please Fill All Fields')
         }
     });
     // signUp form submission 
@@ -152,7 +161,17 @@ function setupEventListeners() {
             }
             let userExists = users.find(user => user.email === email && user.password === password)
             if (userExists){
-                alert('Email Already Exists')
+                Swal.fire({
+                    text: 'Email Already Exists',
+                    background: "#9d4edd",
+                    icon : 'error',
+                    color: '#fff',
+                    customClass: {
+                        popup: 'rounded-swal',
+                        confirmButton: 'swal-confirm',
+                    },
+                });
+                signupModel.classList.remove('active')
             }
             else {
                 localStorage.setItem('currentUser', JSON.stringify(user)); // Stringify here
@@ -167,7 +186,6 @@ function setupEventListeners() {
                     customClass: {
                         popup: 'rounded-swal',
                         confirmButton: 'swal-confirm',
-
                     },
                 });
                 signupModel.classList.remove('active');
@@ -175,6 +193,8 @@ function setupEventListeners() {
                 loginIcon.classList.remove('fa-user');
 
             }
+        }else{
+            showNotification('Please Fill All Fields')
         }
     });
 
@@ -477,6 +497,65 @@ async function loadNowPlayingMovies() {
         document.getElementById('now-playing-slider').innerHTML = '<p class="text-center">Failed to load movies. Please try again later.</p>';
     }
 }
+// load continue playing movies from TMDB API
+function loadContinuePlayingMovies() {
+    const slider = document.getElementById('continue-playing-slider');
+
+    // شيل الـ spinner
+    const spinner = document.getElementById('continue-playing-spinner');
+    if (spinner) spinner.remove();
+
+    slider.innerHTML = '';
+
+    if (nowWatching.length === 0) {
+        slider.innerHTML = `<p style="color:white; padding:20px;">
+            You haven't watched anything yet 👀
+        </p>`;
+        return;
+    }
+
+    nowWatching.forEach(movie => {
+        const card = createMovieCard(movie, movie.type);
+        slider.appendChild(card);
+    });
+}
+
+// add the movie to continue watching when the user click to play the movie
+async function addToContinueWatchingFromPlayer(id, type) {
+    localStorage.setItem('nowWatching', JSON.stringify(nowWatching));
+    // لو موجود خلاص
+    if (nowWatching.some(m => m.id === id)) return;
+
+    const endpoint =
+        type === "tv"
+            ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
+            : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
+
+    try {
+        const res = await fetch(endpoint);
+        const movie = await res.json();
+
+        nowWatching.unshift({
+            id: movie.id,
+            title: movie.title,
+            name: movie.name,
+            poster_path: movie.poster_path,
+            vote_average: movie.vote_average,
+            type: type
+        });
+
+        nowWatching = nowWatching.slice(0, 10);
+        localStorage.setItem('nowWatching', JSON.stringify(nowWatching));
+
+        // تحديث لحظي
+        loadContinuePlayingMovies();
+
+    } catch (err) {
+        console.error('Continue Watching error:', err);
+    }
+}
+
+
 
 // Display movies in a slider
 function displayMovies(movies, sliderId, type) {
@@ -494,55 +573,70 @@ function displayMovies(movies, sliderId, type) {
 // Create a movie card element
 function createMovieCard(movie, type) {
     const isFavorite = favoriteMovies.some(fav => fav.id === movie.id);
-    
+
     const card = document.createElement('div');
     card.className = 'movie-card';
     card.dataset.id = movie.id;
     card.dataset.type = type;
-    
-    // Determine title based on type (movie or tv)
-    const title = type === 'tv' ? movie.name : movie.title;
-    const releaseDate = type === 'tv' ? movie.first_air_date : movie.release_date;
-    const year = releaseDate ? new Date(releaseDate).getFullYear() : 'N/A';
-    
-    // Use higher resolution image for better quality
-    const imageUrl = movie.poster_path 
+
+    // Title (safe for movie + tv + localStorage)
+    const title = movie.title || movie.name || 'Unknown';
+
+    // Rating (safe)
+    const rating =
+        typeof movie.vote_average === 'number'
+            ? movie.vote_average.toFixed(1)
+            : 'N/A';
+
+    // Image (safe)
+    const imageUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
-        : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
-    
+        : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1';
+
     card.innerHTML = `
         <img src="${imageUrl}" alt="${title}" class="movie-poster">
+
         <div class="movie-info">
             <h3 class="movie-title">${title}</h3>
             <div class="movie-rating">
                 <i class="fas fa-star"></i>
-                <span>${movie.vote_average.toFixed(1)}</span>
+                <span>${rating}</span>
             </div>
         </div>
+
         <div class="movie-actions">
-            <button class="play-btn" data-id="${movie.id}" data-type="${type}">
+            <button class="play-btn">
                 <i class="fas fa-play"></i> Play Now
             </button>
-            <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${movie.id}">
-                <i class="fas fa-heart"></i> ${isFavorite ? 'In Favorites' : 'Add to Favorites'}
+
+            <button class="favorite-btn ${isFavorite ? 'active' : ''}">
+                <i class="fas fa-heart"></i>
+                ${isFavorite ? 'In Favorites' : 'Add to Favorites'}
             </button>
         </div>
     `;
-    
-    // Add event listeners to buttons
+
+    // Elements
     const playBtn = card.querySelector('.play-btn');
     const favoriteBtn = card.querySelector('.favorite-btn');
-    
-    playBtn.addEventListener('click', () => showMovieDetails(movie.id, type));
-    favoriteBtn.addEventListener('click', () => toggleFavorite(movie, favoriteBtn, type));
-    
-    // Make the entire card clickable to show details
-    card.addEventListener('click', (e) => {
-        if (!playBtn.contains(e.target) && !favoriteBtn.contains(e.target)) {
-            showMovieDetails(movie.id, type);
-        }
+
+    // Play
+    playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showMovieDetails(movie.id, type);
     });
-    
+
+    // Favorite
+    favoriteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(movie, favoriteBtn, type);
+    });
+
+    // Card click → show details
+    card.addEventListener('click', () => {
+        showMovieDetails(movie.id, type);
+    });
+
     return card;
 }
 
@@ -700,7 +794,8 @@ async function showMovieDetails(id, type) {
 
     // Play button
     const playBtn = document.getElementById("modal-play-btn");
-    playBtn.onclick = () => play_Movies(id, type);
+    playBtn.onclick = () => play_Movies(id, type)
+
 
     // Reset iframe
     const iframe = document.getElementById("model_iframe");
@@ -714,7 +809,7 @@ async function showMovieDetails(id, type) {
 
   } catch (error) {
     console.error("Error loading movie details:", error);
-    alert("Failed to load movie details.");
+    showNotification("Failed to load movie details.");
   }
 }
 
@@ -737,7 +832,7 @@ async function play_Movies(id, type) {
     );
 
     if (!find_Vid) {
-      alert("The video is not available 😢");
+      showNotification("The video is not available 😢");
       return;
     }
 
@@ -750,6 +845,8 @@ async function play_Movies(id, type) {
     let iframe = document.getElementById("model_iframe");
     iframe.src = `https://www.youtube.com/embed/${find_Vid.key}?autoplay=1`;
     iframe.style.display = "block";
+    addToContinueWatchingFromPlayer(id, type);
+
   } catch (error) {
     alert("An error occurred while playing the video");
     console.error(error);
