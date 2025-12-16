@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamFlix | Premium Movie Streaming</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -45,35 +47,39 @@
 
     <!-- Hero Section -->
     <div class="hero">
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-         <div class="swiper-slide">
-          <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80" alt="Cinematic 4">
-        </div>
-       <div class="swiper-slide">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp" alt="Cinematic2">
-       </div>
-          <div class="swiper-slide">
-            <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"alt="Cinematic2">
-          </div>
-        <div class="swiper-slide">
-          <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg" alt="Cinematic 3">
-        </div>
-       
-      </div>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80"
+                        alt="Cinematic 4">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp"
+                        alt="Cinematic2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"
+                        alt="Cinematic2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg"
+                        alt="Cinematic 3">
+                </div>
 
-      <div class="swiper-pagination"></div>
+            </div>
+
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Unlimited Movies, TV Shows<br> and More.</h1>
+        </div>
     </div>
 
-    <div class="hero-content">
-      <h1 class="hero-title">Unlimited Movies, TV Shows<br> and More.</h1>
-    </div>
-  </div>
-
-  <!-- Search Section -->
+    <!-- Search Section -->
     <section class="movies-section search-section" id="search-section">
         <div class="container">
-            <h2 class="section-title">Search  <a href="#" class="view-all">View All &rarr;</a></h2>
+            <h2 class="section-title">Search <a href="#" class="view-all">View All &rarr;</a></h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="search-slider">
@@ -93,7 +99,11 @@
     <!-- Movies Section -->
     <section class="movies-section normal" id="movies-section">
         <div class="container">
-            <h2 class="section-title">Popular <span>Movies</span> <a href="#" class="view-all">View All &rarr;</a></h2>
+            <h2 class="section-title">Popular <span>Movies</span> <a href="#" class="view-all" data-type="movie"
+                    data-category="popular">
+                    View All →
+                </a>
+            </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="popular-movies-slider">
@@ -113,7 +123,11 @@
     <!-- Series Section -->
     <section class="movies-section normal" id="series-section">
         <div class="container">
-            <h2 class="section-title">Popular <span>TV Series</span> <a href="#" class="view-all">View All &rarr;</a>
+            <h2 class="section-title">Popular <span>TV Series</span><a href="#" class="view-all" data-type="movie"
+                    data-category="now_playing">
+                    View All →
+                </a>
+
             </h2>
 
             <div class="movies-slider">
@@ -134,7 +148,11 @@
     <!-- New & Popular Section -->
     <section class="movies-section normal" id="popular-section">
         <div class="container">
-            <h2 class="section-title">New & <span>Popular</span> <a href="#" class="view-all">View All &rarr;</a></h2>
+            <h2 class="section-title">New & <span>Popular</span><a href="#" class="view-all" data-type="movie"
+                    data-category="now_playing">
+                    View All →
+                </a>
+            </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="now-playing-slider">
@@ -150,15 +168,18 @@
             </div>
         </div>
     </section>
-        <!-- Continue Watching section-->
+    <!-- Continue Watching section-->
     <section class="movies-section" id="popular-section">
         <div class="container">
-            <h2 class="section-title">Continue <span>Watching</span> <a href="#" class="view-all">View All &rarr;</a></h2>
+            <h2 class="section-title">Continue <span>Watching</span> <a href="#" class="view-all" data-type="continue">
+                    View All →
+                </a>
+            </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="continue-playing-slider">
                     <!-- continue playing movies will be loaded here via JavaScript -->
-                    
+
                     <div class="spinner" id="continue-playing-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="continue-playing-slider">
@@ -170,7 +191,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- FAQ Section - Netflix Style -->
     <section class="faq-section">
         <div class="container">
@@ -436,6 +457,21 @@
             </div>
         </div>
     </div>
+
+    <!-- View All Modal -->
+    <div class="modal-overlay" id="viewAll-modal">
+        <div class="movie-modal view-all-modal">
+            <div class="modal-close" id="viewAll-close">
+                <i class="fas fa-times"></i>
+            </div>
+
+            <h2 class="modal-title" id="viewAll-title"></h2>
+
+            <div class="viewall-grid" id="viewAll-content"></div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="main.js"></script>

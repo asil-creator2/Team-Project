@@ -1390,3 +1390,31 @@
     opacity : 0 ;
     visibility : hidden;
 }
+
+.view-all-modal {
+  position: relative;
+  max-width: 1300px;
+  width: 95%;
+  margin: auto;
+  background: #0b061f;
+  border-radius: 20px;
+  padding: 40px 30px;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.viewall-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 25px;
+}
+
+#viewAll-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  z-index: 999;
+}
