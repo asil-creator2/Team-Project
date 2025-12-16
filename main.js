@@ -494,7 +494,7 @@ async function loadNowPlayingMovies() {
         
         // Remove spinner
         
-        const spinnerElement = document.getElementById('popular-series-spinner');
+        const spinnerElement = document.getElementById('now-playing-spinner');
         if (spinnerElement) { // Check if the element exists before trying to remove it
             spinnerElement.remove();
         }       
