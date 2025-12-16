@@ -1373,3 +1373,20 @@
     background-color: rgb(207, 205, 205);
 }
 
+.search-section{
+    display : none;
+    opacity : 0 ;
+    visibility : hidden;
+}
+
+.search-section.active{
+    display : flex;
+    opacity : 1 ;
+    visibility : visible;
+}
+
+.movies-section.normal.nonActive{
+    display : none;
+    opacity : 0 ;
+    visibility : hidden;
+}

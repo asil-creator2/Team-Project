@@ -454,8 +454,10 @@ async function loadPopularMovies() {
         const data = await response.json();
         
         // Remove spinner
-        document.getElementById('popular-movies-spinner').remove();
-        
+        const spinnerElement = document.getElementById('popular-movies-spinner');
+        if (spinnerElement) { // Check if the element exists before trying to remove it
+            spinnerElement.remove();
+        }        
         // Display movies
         displayMovies(data.results, 'popular-movies-slider', 'movie');
     } catch (error) {
@@ -471,8 +473,11 @@ async function loadPopularSeries() {
         const data = await response.json();
         
         // Remove spinner
-        document.getElementById('popular-series-spinner').remove();
-        
+        const spinnerElement = document.getElementById('popular-series-spinner');
+
+        if (spinnerElement) { // Check if the element exists before trying to remove it
+            spinnerElement.remove();
+        }
         // Display series
         displayMovies(data.results, 'popular-series-slider', 'tv');
     } catch (error) {
@@ -488,8 +493,11 @@ async function loadNowPlayingMovies() {
         const data = await response.json();
         
         // Remove spinner
-        document.getElementById('now-playing-spinner').remove();
         
+        const spinnerElement = document.getElementById('now-playing-spinner');
+        if (spinnerElement) { // Check if the element exists before trying to remove it
+            spinnerElement.remove();
+        }       
         // Display movies
         displayMovies(data.results, 'now-playing-slider', 'movie');
     } catch (error) {
@@ -869,55 +877,85 @@ closeBtn.addEventListener("click", () => {
 ///////// Search Movies ////////////
 
 // Search functionality
-const searchInput2 = document.querySelector('.search-input');
 
 let searchTimeout;
 
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.trim();
 
-    // إلغاء البحث السابق إذا ما انتهى
     clearTimeout(searchTimeout);
 
-    if (query.length === 0) {
-        // إذا الحقل فارغ، أعد عرض الأفلام الأصلية (يمكن تكرار الدوال الأصلية لديك)
-        // مثال: displayMovies(popularMovies, 'popular-movies-slider', 'movie');
+    if (!query) {
+        reloadHomeMovies();
         return;
     }
 
-    // تأخير بسيط لمنع طلبات كثيرة أثناء الكتابة
     searchTimeout = setTimeout(() => {
         searchMoviesAndSeriesLive(query);
-    }, 300); // 300ms بعد آخر حرف
+    }, 400);
 });
+
+
+function reloadHomeMovies() {
+    // إخفاء البحث
+    document.getElementById('search-section').classList.remove('active');
+
+    // إظهار الأقسام العادية
+    document.getElementById('movies-section').classList.remove('nonActive');
+    document.getElementById('series-section').classList.remove('nonActive');
+    document.getElementById('popular-section').classList.remove('nonActive');
+
+    // إعادة تحميل البيانات
+    document.getElementById('popular-movies-slider').innerHTML = '';
+    document.getElementById('popular-series-slider').innerHTML = '';
+    document.getElementById('now-playing-slider').innerHTML = '';
+
+    loadPopularMovies();
+    loadPopularSeries();
+    loadNowPlayingMovies();
+}
+
 
 async function searchMoviesAndSeriesLive(query) {
     try {
-        // البحث على الأفلام والمسلسلات
         const [movieData, tvData] = await Promise.all([
-            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`).then(res => res.json()),
-            fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`).then(res => res.json())
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`)
+                .then(res => res.json()),
+
+            fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`)
+                .then(res => res.json())
         ]);
 
-        const allResults = [...(movieData.results || []), ...(tvData.results || [])];
+        const allResults = [
+            ...(movieData.results || []).map(m => ({ ...m, type: 'movie' })),
+            ...(tvData.results || []).map(t => ({ ...t, type: 'tv' }))
+        ];
 
-        // المكان الذي تريد عرض النتائج فيه، مثال: popular-movies-slider
-        const searchSlider = document.getElementById('popular-movies-slider');
-        searchSlider.innerHTML = ''; // مسح النتائج القديمة
+        // إخفاء الأقسام العادية
+        document.getElementById('movies-section').classList.add('nonActive');
+        document.getElementById('series-section').classList.add('nonActive');
+        document.getElementById('popular-section').classList.add('nonActive');
+
+        // إظهار البحث
+        const searchSection = document.getElementById('search-section');
+        const searchSlider = document.getElementById('search-slider');
+
+        searchSection.classList.add('active');
+        searchSlider.innerHTML = '';
 
         if (allResults.length === 0) {
-            searchSlider.innerHTML = `<p style="color:white; padding:20px;">No results found for "${query}".</p>`;
+            searchSlider.innerHTML =
+                `<p style="color:white;padding:20px">No results for "${query}"</p>`;
             return;
         }
 
-        // نعرض كل النتائج بنفس كروت الفيلم
         allResults.forEach(item => {
-            const type = item.title ? 'movie' : 'tv';
-            const card = createMovieCard(item, type);
+            const card = createMovieCard(item, item.type);
             searchSlider.appendChild(card);
         });
 
     } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error('Search error:', error);
     }
 }
+
