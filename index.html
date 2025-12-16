@@ -70,8 +70,28 @@
     </div>
   </div>
 
+  <!-- Search Section -->
+    <section class="movies-section search-section" id="search-section">
+        <div class="container">
+            <h2 class="section-title">Search  <a href="#" class="view-all">View All &rarr;</a></h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="search-slider">
+                    <!-- Popular movies will be loaded here via JavaScript -->
+                    <div class="spinner" id="search-movies-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="search-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="search-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
     <!-- Movies Section -->
-    <section class="movies-section" id="movies-section">
+    <section class="movies-section normal" id="movies-section">
         <div class="container">
             <h2 class="section-title">Popular <span>Movies</span> <a href="#" class="view-all">View All &rarr;</a></h2>
 
@@ -91,7 +111,7 @@
     </section>
 
     <!-- Series Section -->
-    <section class="movies-section" id="series-section">
+    <section class="movies-section normal" id="series-section">
         <div class="container">
             <h2 class="section-title">Popular <span>TV Series</span> <a href="#" class="view-all">View All &rarr;</a>
             </h2>
@@ -112,7 +132,7 @@
     </section>
 
     <!-- New & Popular Section -->
-    <section class="movies-section" id="popular-section">
+    <section class="movies-section normal" id="popular-section">
         <div class="container">
             <h2 class="section-title">New & <span>Popular</span> <a href="#" class="view-all">View All &rarr;</a></h2>
 
@@ -130,8 +150,6 @@
             </div>
         </div>
     </section>
-
-
         <!-- Continue Watching section-->
     <section class="movies-section" id="popular-section">
         <div class="container">
