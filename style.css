@@ -20,6 +20,10 @@
             --border-radius: 12px;
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
+        
+        html {
+            scroll-behavior: smooth;
+        }     
 
         body {
             font-family: 'Roboto', sans-serif;
