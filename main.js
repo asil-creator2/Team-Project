@@ -767,3 +767,60 @@ closeBtn.addEventListener("click", () => {
   iframe.src = ""; // ⛔ إيقاف الفيديو
   movieModal.classList.remove("active");
 });
+
+
+///////// Search Movies ////////////
+
+// Search functionality
+const searchInput2 = document.querySelector('.search-input');
+
+let searchTimeout;
+
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+
+    // إلغاء البحث السابق إذا ما انتهى
+    clearTimeout(searchTimeout);
+
+    if (query.length === 0) {
+        // إذا الحقل فارغ، أعد عرض الأفلام الأصلية (يمكن تكرار الدوال الأصلية لديك)
+        // مثال: displayMovies(popularMovies, 'popular-movies-slider', 'movie');
+        return;
+    }
+
+    // تأخير بسيط لمنع طلبات كثيرة أثناء الكتابة
+    searchTimeout = setTimeout(() => {
+        searchMoviesAndSeriesLive(query);
+    }, 300); // 300ms بعد آخر حرف
+});
+
+async function searchMoviesAndSeriesLive(query) {
+    try {
+        // البحث على الأفلام والمسلسلات
+        const [movieData, tvData] = await Promise.all([
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`).then(res => res.json()),
+            fetch(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=en-US`).then(res => res.json())
+        ]);
+
+        const allResults = [...(movieData.results || []), ...(tvData.results || [])];
+
+        // المكان الذي تريد عرض النتائج فيه، مثال: popular-movies-slider
+        const searchSlider = document.getElementById('popular-movies-slider');
+        searchSlider.innerHTML = ''; // مسح النتائج القديمة
+
+        if (allResults.length === 0) {
+            searchSlider.innerHTML = `<p style="color:white; padding:20px;">No results found for "${query}".</p>`;
+            return;
+        }
+
+        // نعرض كل النتائج بنفس كروت الفيلم
+        allResults.forEach(item => {
+            const type = item.title ? 'movie' : 'tv';
+            const card = createMovieCard(item, type);
+            searchSlider.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+    }
+}
