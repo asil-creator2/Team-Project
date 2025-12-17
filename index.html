@@ -34,7 +34,7 @@
                 </div>
                 <div class="notification-icon-container">
                     <i class="fas fa-bell action-icon" id="notifications-icon"></i>
-                    <span class="notification-badge">3</span>
+                    <span class="notification-badge" id="notificationBadge"></span>
                 </div>
                 <div class="favorites-icon-container">
                     <i class="fas fa-heart action-icon" id="favorites-icon"></i>
@@ -469,6 +469,25 @@
 
             <div class="viewall-grid" id="viewAll-content"></div>
         </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="notification-overlay" id="notificationModal">
+    <div class="notification-container">
+
+        <header class="notification-header">
+        <h2>Notifications</h2>
+        <div class="header-actions">
+            <button class="clear-btn" id="clearNotifications">Clear all</button>
+            <button class="notification-close" id="closeNotification">×</button>
+        </div>
+        </header>
+
+        <section class="notification-content" id="notificationList">
+        <!-- Notifications injected here -->
+        </section>
+
+    </div>
     </div>
 
 

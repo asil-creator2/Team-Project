@@ -22,13 +22,18 @@ const favoritesEmpty = document.getElementById("favorites-empty");
 const loginBtnNavigation = document.getElementById("login-btn");
 const signupModel = document.getElementById("signUpModel");
 const signupModelClose = document.getElementById("signUp-modal-close");
+const notificationModal = document.getElementById("notificationModal");
+
+
+// Notifications (GLOBAL)
+let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+let unreadCount = 0;
 
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 let nowWatching = JSON.parse(localStorage.getItem("nowWatching")) || [];
 let users = JSON.parse(localStorage.getItem("users")) || [];
 let user = JSON.parse(localStorage.getItem("currentUser")) || false;
-
 // Update login icon based on user status
 if (user) {
   loginIcon.classList.add("fa-user-check");
@@ -48,6 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Setup event listeners
   setupEventListeners();
 
+  updateBadge();
+  renderNotifications();
   // Setup FAQ accordion - Netflix Style
   setupNetflixFAQAccordion();
 
@@ -86,7 +93,7 @@ function setupEventListeners() {
   });
 
   // Close modal when clicking outside
-  [loginModal, movieModal, favoritesModal, signupModel].forEach((modal) => {
+  [loginModal, movieModal, favoritesModal, signupModel, notificationModal].forEach((modal) => {
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.classList.remove("active");
@@ -199,16 +206,7 @@ function setupEventListeners() {
     }
   });
 
-  // Search input functionality
-  searchInput.addEventListener("keyup", function (e) {
-    if (e.key === "Enter") {
-      const query = this.value.trim();
-      if (query) {
-        alert(`Search functionality would show results for: "${query}"`);
-        this.value = "";
-      }
-    }
-  });
+
 
   // Setup slider buttons
   setupSliderButtons();
@@ -238,15 +236,117 @@ function setupEventListeners() {
     });
   });
 
-  // Notification icon click
-  document
-    .getElementById("notifications-icon")
-    .addEventListener("click", function () {
-      alert(
-        'You have 3 new notifications:\n1. New season of "Stranger Things" added\n2. "The Batman" now available\n3. Weekly recommendations ready'
-      );
-    });
+// ----------------------Notification icon click----------------
+  document.getElementById("notifications-icon").addEventListener("click", () => {
+    notificationModal.classList.add("active");
+    unreadCount = 0;
+    updateBadge();
+    renderNotifications();
+  });
+
+  const closeNotifBtn = document.getElementById("closeNotification");
+  if (closeNotifBtn) {
+  closeNotifBtn.addEventListener("click", () => {
+    notificationModal.classList.remove("active");
+  });
 }
+
+  document.getElementById("clearNotifications").addEventListener("click", () => {
+    notifications = [];
+    localStorage.removeItem("notifications");
+    unreadCount = 0;
+    updateBadge();
+    renderNotifications();
+});
+
+
+}
+
+
+/* Example: Real-time events */
+setTimeout(() => {
+  addNotification("New movie added to your favorites.");
+  showNotification('New movie added to your favorites.')
+}, 4000);
+
+setTimeout(() => {
+  addNotification("Your watch progress was saved.");
+  showNotification('Your watch progress was saved.')
+}, 8000);
+
+setInterval(() => {
+  if (notificationModal.classList.contains("active")) {
+    renderNotifications();
+  }
+}, 60000);
+
+
+function updateBadge() {
+  const badge = document.getElementById("notificationBadge");
+  if (!badge) return;
+
+  if (unreadCount > 0) {
+    badge.style.display = "inline-block";
+    badge.textContent = unreadCount;
+  } else {
+    badge.textContent = unreadCount;
+  }
+}
+
+function renderNotifications() {
+  const list = document.getElementById("notificationList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  if (notifications.length === 0) {
+    list.innerHTML = `<p style="font-size:14px;color:#6b7280;">No notifications</p>`;
+    return;
+  }
+
+notifications.forEach(n => {
+  list.innerHTML += `
+    <div class="notification-item">
+      <p class="notification-text">${n.message}</p>
+      <span class="notification-time">${timeAgo(n.createdAt)}</span>
+    </div>
+  `;
+});
+
+};
+
+
+function addNotification(message) {
+  const newNotification = {
+    message,
+    createdAt: Date.now() // ✅ real timestamp
+  };
+
+  notifications.unshift(newNotification);
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+
+  unreadCount++;
+  updateBadge();
+
+  if (notificationModal.classList.contains("active")) {
+    renderNotifications();
+  }
+}
+function timeAgo(timestamp) {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+  if (seconds < 60) return "Just now";
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+
+  const days = Math.floor(hours / 24);
+  return `${days} day${days > 1 ? "s" : ""} ago`;
+}
+
 
 // Setup Netflix-Style FAQ Accordion
 function setupNetflixFAQAccordion() {
@@ -384,7 +484,7 @@ function createFavoriteCard(movie) {
 // Remove movie from favorites
 function removeFromFavorites(movieId) {
   const index = favoriteMovies.findIndex((fav) => fav.id === movieId);
-
+  const movie = favoriteMovies.find((fav) => fav.id === movieId);
   if (index !== -1) {
     // Remove from array
     favoriteMovies.splice(index, 1);
@@ -401,6 +501,9 @@ function removeFromFavorites(movieId) {
 
     // Show notification
     showNotification("Removed from favorites!");
+
+    addNotification(`${movie.title || movie.name || 'unknown'} was removed from your favorites`);
+
   }
 }
 
@@ -694,6 +797,7 @@ function toggleFavorite(movie, button, type) {
 
     // Show notification
     showNotification("Added to favorites!");
+    addNotification(`${type === 'tv' ? movie.name : movie.title} was added to you favorites`)
   } else {
     // Remove from favorites
     favoriteMovies.splice(index, 1);
@@ -768,7 +872,7 @@ async function showMovieDetails(id, type) {
 
     const response = await fetch(endpoint);
     const data = await response.json();
-
+    document.getElementById('viewAll-modal').classList.remove('active')
     // Title
     document.getElementById("modal-title").textContent =
       type === "tv" ? data.name : data.title;
