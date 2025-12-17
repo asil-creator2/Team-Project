@@ -1158,3 +1158,50 @@ async function searchMoviesAndSeriesLive(query) {
     console.error("Search error:", error);
   }
 }
+
+// scroll To Top
+const scrollBtn = document.getElementById("scrollToTop");
+
+// إظهار السهم عند النزول لآخر الصفحة
+window.addEventListener("scroll", () => {
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
+        scrollBtn.style.display = "flex";
+    } else {
+        scrollBtn.style.display = "none";
+    }
+});
+
+// عند الضغط يرجع لأول الصفحة ويختفي
+scrollBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+    scrollBtn.style.display = "none";
+});
+
+
+// Underline nav
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link");
+
+window.addEventListener("scroll", () => {
+    let currentSection = "";
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120; // ارتفاع الناف
+        const sectionHeight = section.offsetHeight;
+
+        if (window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${currentSection}`) {
+            link.classList.add("active");
+        }
+    });
+});
