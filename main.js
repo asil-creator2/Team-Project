@@ -1,3 +1,34 @@
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCQYuaGNzwCPQ1kecl6_cQZVvDxiS9HtG8",
+    authDomain: "movies-app-7dab2.firebaseapp.com",
+    projectId: "movies-app-7dab2",
+    storageBucket: "movies-app-7dab2.firebasestorage.app",
+    messagingSenderId: "138953300462",
+    appId: "1:138953300462:web:95a3b6e1e91699c82956ff"
+};
+
+
+// Firebase App
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+// Firebase Auth
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+
+
 // API Configuration
 const apiKey = "38d4fc734b633813b0de7e5758379d2a";
 
@@ -32,13 +63,14 @@ let unreadCount = 0;
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 let nowWatching = JSON.parse(localStorage.getItem("nowWatching")) || [];
-let users = JSON.parse(localStorage.getItem("users")) || [];
 let user = JSON.parse(localStorage.getItem("currentUser")) || false;
 // Update login icon based on user status
 if (user) {
   loginIcon.classList.add("fa-user-check");
   loginIcon.classList.remove("fa-user");
 }
+
+
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
   // Update favorites count
@@ -121,74 +153,17 @@ function setupEventListeners() {
   });
 
   // Login form submission
-  document.querySelector(".login-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  document.querySelector(".login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    // Simulate login process
-    let userExists = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (email && password) {
-      if (userExists) {
-        localStorage.setItem("currentUser", JSON.stringify(userExists));
-        loginModal.classList.remove("active");
-        loginIcon.classList.add("fa-user-check");
-        loginIcon.classList.remove("fa-user");
-      } else {
-        loginModal.classList.remove("active");
-        Swal.fire({
-          text: "Email Doesn't Exist",
-          background: "#9d4edd",
-          icon: "error",
-          color: "#fff",
-          customClass: {
-            popup: "rounded-swal",
-            confirmButton: "swal-confirm",
-          },
-        });
-      }
-    } else {
-      showNotification("Please Fill All Fields");
-    }
-  });
-  // signUp form submission
-  document.querySelector(".signup-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("emailSign").value;
-    const password = document.getElementById("passwordSign").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    // Simulate login process
-    if (email && password && name) {
-      const user = {
-        name: name,
-        email: email,
-        password: password,
-      };
-      let userExists = users.find(
-        (user) => user.email === email && user.password === password
-      );
-      if (userExists) {
-        Swal.fire({
-          text: "Email Already Exists",
-          background: "#9d4edd",
-          icon: "error",
-          color: "#fff",
-          customClass: {
-            popup: "rounded-swal",
-            confirmButton: "swal-confirm",
-          },
-        });
-        signupModel.classList.remove("active");
-      } else {
-        localStorage.setItem("currentUser", JSON.stringify(user)); // Stringify here
-        users.push(user);
-        localStorage.setItem("users", JSON.stringify(users));
-        Swal.fire({
-          title: "Hello!",
-          text: "Signed Up Sucesss",
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    Swal.fire({
+          title: "Welcome!",
+          text: "loged in Sucesss",
           background: "#9d4edd",
           icon: "success",
           color: "#fff",
@@ -196,15 +171,46 @@ function setupEventListeners() {
             popup: "rounded-swal",
             confirmButton: "swal-confirm",
           },
-        });
-        signupModel.classList.remove("active");
-        loginIcon.classList.add("fa-user-check");
-        loginIcon.classList.remove("fa-user");
-      }
+        })
+  } catch (err) {
+    showNotification("Invalid email or password");
+  }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Logged in:", user.email);
     } else {
-      showNotification("Please Fill All Fields");
+      console.log("Logged out");
     }
   });
+  // signup form submission
+
+  document.querySelector(".signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("emailSign").value.trim();
+    const password = document.getElementById("passwordSign").value.trim();
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      Swal.fire({
+        title: "Welcome!",
+        text: "Signed Up Sucesssfully",
+        background: "#9d4edd",
+        icon: "success",
+        color: "#fff",
+        customClass: {
+          popup: "rounded-swal",
+          confirmButton: "swal-confirm",
+        },
+        })
+      signupModel.classList.remove("active");
+    } catch (err) {
+      showNotification(err.message);
+    }
+  });
+
 
 
 
@@ -346,7 +352,6 @@ function timeAgo(timestamp) {
   const days = Math.floor(hours / 24);
   return `${days} day${days > 1 ? "s" : ""} ago`;
 }
-
 
 // Setup Netflix-Style FAQ Accordion
 function setupNetflixFAQAccordion() {
