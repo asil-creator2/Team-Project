@@ -1066,9 +1066,9 @@ const closeBtn = document.getElementById("movie-modal-close");
 
 closeBtn.addEventListener("click", () => {
   const iframe = document.getElementById("model_iframe");
-  // إخفاء iframe بدل تفريغ الـ src
+  // إخفاء iframe 
   iframe.style.display = "none";
-  iframe.src = ""; // ⛔ إيقاف الفيديو
+  iframe.src = ""; 
   movieModal.classList.remove("active");
 });
 
