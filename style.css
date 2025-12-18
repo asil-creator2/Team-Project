@@ -216,13 +216,6 @@ button {
     color: var(--accent-color);
 }
 
-.user-icon{
-    display: flex;
-    gap: 4px;
-    color: var(--primary-color);
-
-}
-
 .action-icon {
     font-size: 1.2rem;
     color: var(--accent-color);
@@ -1864,35 +1857,59 @@ button {
     transform: scale(1.1);
 }
 
-.logout{
-    background-color: #cd4dff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    display: none;
-}
+  
 
-.logout:hover {
-    background-color: #b13dff;
-    transform: scale(1.05);
 
-}
-.userIcon{
+
+/* Language Switcher Button */
+.language-switcher {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 3px;
-}
-.user-icon{
-    cursor: pointer;
-    
-}
-
-#text{
-    color: purple;
-}
-#text:hover{
-    color: #9d4edd;
+    background: linear-gradient(135deg, #8A2BE2, #6A0DAD);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer !important;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    margin-right: 15px;
+    border: none;
 }
 
+.language-switcher:hover {
+    background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+    cursor: pointer !important;
+}
+
+.language-switcher i {
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.language-switcher span {
+    font-size: 14px;
+}
+
+
+
+.arabic-column  {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.arabic-column::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to left, var(--primary-color), transparent);
+}

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عالم الافلام | بث أفلام متميز</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+ 
+</head>
+
+<body id="top">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">عالم <span>الافلام</span></a>
+
+            <ul class="nav-links">
+                <li><a href="#top" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#movies-section" class="nav-link">الأفلام</a></li>
+                <li><a href="#series-section" class="nav-link">المسلسلات</a></li>
+                <li><a href="#popular-section" class="nav-link">جديد وشائع</a></li>
+            </ul>
+
+            <div class="navbar-actions">
+                <div class="language-switcher" id="language-switcher-arabic">
+                    <i class="fas fa-globe"></i>
+                    <span id="current-language-arabic">English</span>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="ابحث عن أفلام...">
+                </div>
+                <div class="notification-icon-container">
+                    <i class="fas fa-bell action-icon" id="notifications-icon"></i>
+                    <span class="notification-badge" id="notificationBadge"></span>
+                </div>
+                <div class="favorites-icon-container">
+                    <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+                    <span class="favorites-count" id="favorites-count">0</span>
+                </div>
+                <i class="fas fa-user action-icon" id="login-icon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80"
+                        alt="سينمائي 4">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp"
+                        alt="سينمائي 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"
+                        alt="سينمائي 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg"
+                        alt="سينمائي 3">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">أفلام ومسلسلات لا نهائية<br> والمزيد.</h1>
+        </div>
+    </div>
+   
+
+    <!-- Movies Section -->
+    <section class="movies-section normal" id="movies-section">
+        <div class="container">
+            <h2 class="section-title">افلام<span> شائعة</span> <a href="#" class="view-all" data-type="movie"
+                    data-category="popular">
+                    عرض الكل &larr;
+                </a>
+            </h2>
+            <div class="movies-slider">
+                <button class="slider-btn prev" data-slider="popular-movies-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-container" id="popular-movies-slider">
+                    <div class="spinner" id="popular-movies-spinner"></div>
+                </div>
+                <button class="slider-btn next" data-slider="popular-movies-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Series Section -->
+    <section class="movies-section normal" id="series-section">
+        <div class="container">
+            <h2 class="section-title">مسلسلات<span>تلفزيونية شائعة</span><a href="#" class="view-all" data-type="tv"
+                    data-category="now_playing">
+                    عرض الكل &larr;
+                </a>
+            </h2>
+            <div class="movies-slider">
+                <button class="slider-btn prev" data-slider="popular-series-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-container" id="popular-series-slider">
+                    <div class="spinner" id="popular-series-spinner"></div>
+                </div>
+                <button class="slider-btn next" data-slider="popular-series-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New & Popular Section -->
+    <section class="movies-section normal" id="popular-section">
+        <div class="container">
+            <h2 class="section-title">الاكثر مشاهدة<span>جديد</span><a href="#" class="view-all" data-type="movie"
+                    data-category="now_playing">
+                    عرض الكل &larr;
+                </a>
+            </h2>
+            <div class="movies-slider">
+                <button class="slider-btn prev" data-slider="now-playing-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-container" id="now-playing-slider">
+                    <div class="spinner" id="now-playing-spinner"></div>
+                </div>
+                <button class="slider-btn next" data-slider="now-playing-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Watching section-->
+    <section class="movies-section" id="popular-section">
+        <div class="container">
+            <h2 class="section-title">استمر<span> بالمشاهدة</span> <a href="#" class="view-all" data-type="continue">
+                    عرض الكل &larr;
+                </a>
+            </h2>
+            <div class="movies-slider">
+                <button class="slider-btn prev" data-slider="continue-playing-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-container" id="continue-playing-slider">
+                    <div class="spinner" id="continue-playing-spinner"></div>
+                </div>
+                <button class="slider-btn next" data-slider="continue-playing-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section - Netflix Style -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="faq-title">الأسئلة الشائعة</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>ما هو عالم الافلام؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        عالم الافلام هو خدمة بث متميزة تقدم مجموعة واسعة من المسلسلات التلفزيونية والأفلام والأنمي والوثائقيات الحائزة على جوائز وأكثر على آلاف الأجهزة المتصلة بالإنترنت. يمكنك المشاهدة بقدر ما تريد، في أي وقت تريد دون إعلان تجاري واحد - كل ذلك مقابل سعر شهري منخفض.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>هل عالم الافلام مجاني للاستخدام؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        يقدم عالم الافلام إصدارًا تجريبيًا مجانيًا لمدة 30 يومًا للمشتركين الجدد. بعد الفترة التجريبية، يمكنك الاختيار من بين عدة خطط اشتراك تبدأ من 8.99 دولار شهريًا. لا توجد عقود، ولا رسوم إلغاء، ويمكنك الإلغاء عبر الإنترنت في أي وقت.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>من أين تأتي الأفلام؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        تتضمن مكتبة المحتوى لدينا أفلامًا ومسلسلات تلفزيونية من استوديوهات رئيسية مثل وارنر برذرز ويونيفرسال وباراماونت وسوني بيكتشرز، بالإضافة إلى صانعي أفلام مستقلين. ننتج أيضًا محتوى أصليًا حصريًا لعالم الافلام. جميع المحتويات مرخصة قانونيًا للبث.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>هل يمكنني إضافة أفلام إلى المفضلة؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        نعم! يمكنك إضافة أي فيلم أو مسلسل تلفزيوني إلى مفضلتك بالنقر على أيقونة القلب على بطاقة الفيلم. يتم حفظ قائمة المفضلة في حسابك ويمكن الوصول إليها من أي جهاز. يمكنك أيضًا إنشاء قوائم مشاهدة متعددة لأنواع مختلفة أو للحالات المزاجية المختلفة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>هل أحتاج إلى إنشاء حساب؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        تحتاج إلى حساب لمشاهدة الأفلام والمسلسلات التلفزيونية الكاملة، ولكن يمكنك تصفح الكتالوج الخاص بنا دون حساب. إنشاء حساب مجاني ويستغرق أقل من دقيقة. باستخدام حساب، تحصل على توصيات مخصصة، ويمكنك إنشاء قوائم مشاهدة، ومتابعة المشاهدة عبر الأجهزة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>هل يمكنني المشاهدة على أجهزة متعددة؟</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        بالتأكيد! يمكنك مشاهدة عالم الافلام على أي جهاز متصل بالإنترنت يدعم تطبيق عالم الافلام، بما في ذلك التلفزيونات الذكية والهواتف الذكية والأجهزة اللوحية ومشغلات الوسائط المتدفقة وأجهزة الألعاب وأجهزة الكمبيوتر. يمكنك أيضًا تنزيل العروض لمشاهدتها دون اتصال بالإنترنت باستخدام التطبيق المحمول.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">عالم <span>الافلام</span></div>
+                    <p class="footer-tagline">عالم الافلام هو خدمة بث متميزة تقدم مجموعة واسعة من المسلسلات التلفزيونية والأفلام والأنمي والوثائقيات الحائزة على جوائز وأكثر على آلاف الأجهزة المتصلة بالإنترنت.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column arabic">
+                        <h3 class="arabic-column">عالم الافلام </h3>
+                        <ul >
+                            <li><a href="#">معلومات عنا</a></li>
+                            <li><a href="#">الوظائف</a></li>
+                            <li><a href="#">اتصل بنا</a></li>
+                            <li><a href="#">المركز الإعلامي</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column arabic">
+                        <h3 class="arabic-column">الدعم</h3>
+                        <ul>
+                            <li><a href="#">الأسئلة الشائعة</a></li>
+                            <li><a href="#">مركز المساعدة</a></li>
+                            <li><a href="#">الحساب</a></li>
+                            <li><a href="#">سياسة الخصوصية</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column arabic">
+                        <h3 class="arabic-column">قانوني</h3>
+                        <ul>
+                            <li><a href="#">شروط الخدمة</a></li>
+                            <li><a href="#">سياسة الكوكيز</a></li>
+                            <li><a href="#">معلومات الشركة</a></li>
+                            <li><a href="#">الإشعارات القانونية</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column arabic">
+                        <h3 class="arabic-column">المشاهدة</h3>
+                        <ul>
+                            <li><a href="#">تلفزيون</a></li>
+                            <li><a href="#">جوال</a></li>
+                            <li><a href="#">تابلت</a></li>
+                            <li><a href="#">كمبيوتر</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 عالم الافلام. جميع الحقوق محفوظة. هذا موقع تجريبي لأغراض تعليمية. البيانات مقدمة من TMDB.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Favorites Modal -->
+    <div class="modal-overlay" id="favorites-modal">
+        <div class="favorites-modal">
+            <div class="modal-close" id="favorites-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="favorites-header">
+                <h2 class="favorites-title"><i class="fas fa-heart"></i> مفضلتي</h2>
+                <p class="favorites-count-text" id="favorites-count-text">لديك 0 أفلام في المفضلة</p>
+            </div>
+            <div class="favorites-body" id="favorites-body">
+                <div class="favorites-empty" id="favorites-empty">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>قائمة المفضلة فارغة</h3>
+                    <p>ابدأ بإضافة الأفلام والمسلسلات التلفزيونية إلى مفضلتك بالنقر على أيقونة القلب على أي بطاقة فيلم. ستظهر هنا لسهولة الوصول.</p>
+                    <button class="btn btn-primary" id="browse-movies-btn">
+                        <i class="fas fa-film"></i> تصفح الأفلام
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Details Modal -->
+    <div class="modal-overlay" id="movie-modal">
+        <div class="movie-modal">
+            <div class="modal-close" id="movie-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-content">
+                <img src="" alt="خلفية الفيلم" class="modal-backdrop" id="modal-backdrop">
+                <iframe id="model_iframe" class="modal-trailer" frameborder="0" allow="autoplay; encrypted-media"
+                    allowfullscreen style="display:none; width:100%; height:500px;">
+                </iframe>
+                <div class="modal-body">
+                    <h2 class="modal-title" id="modal-title"></h2>
+                    <div class="modal-meta">
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <span id="modal-rating"></span>/10
+                        </span>
+                        <span id="modal-year"></span>
+                        <span id="modal-runtime"></span>
+                        <span id="modal-language"></span>
+                    </div>
+                    <p class="modal-description" id="modal-description"></p>
+                    <div class="modal-genres" id="modal-genres"></div>
+                    <button class="btn btn-primary" id="modal-play-btn">
+                        <i class="fas fa-play"></i> تشغيل الفيلم
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="login-modal" >
+        <div class="login-modal">
+            <div class="modal-close" id="login-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="login-title">  تسجيل الدخول الى عالم الافلام</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-input" placeholder="أدخل بريدك الإلكتروني" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">كلمة المرور</label>
+                    <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
+                </div>
+                <div class="login-buttons">
+                    <button type="submit" class="login-btn primary">تسجيل الدخول</button>
+                    <button type="button" class="login-btn secondary" id="signup-btn">إنشاء حساب جديد</button>
+                </div>
+            </form>
+            <div class="login-footer">
+                <p>تحتاج مساعدة؟ <a href="#">اتصل بالدعم</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- sign up model -->
+    <div class="modal-overlay" id="signUpModel">
+        <div class="login-modal">
+            <div class="modal-close" id="signUp-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="login-title">إنشاء حساب في عالم الافلام </h2>
+            <form class="signup-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">الاسم</label>
+                    <input type="text" id="name" class="form-input" placeholder="أدخل اسمك" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">البريد الإلكتروني</label>
+                    <input type="email" id="emailSign" class="form-input" placeholder="أدخل بريدك الإلكتروني" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">كلمة المرور</label>
+                    <input type="password" id="passwordSign" class="form-input" placeholder="أدخل كلمة المرور" required>
+                </div>
+                <div class="login-buttons">
+                    <button type="submit" class="login-btn primary">إنشاء حساب</button>
+                    <button type="button" class="login-btn secondary loginBtn" id="login-btn">لديك حساب بالفعل</button>
+                </div>
+            </form>
+            <div class="login-footer">
+                <p>تحتاج مساعدة؟ <a href="#">اتصل بالدعم</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Modal -->
+    <div class="modal-overlay" id="viewAll-modal">
+        <div class="movie-modal view-all-modal">
+            <div class="modal-close" id="viewAll-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title" id="viewAll-title"></h2>
+            <div class="viewall-grid" id="viewAll-content"></div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="notification-overlay" id="notificationModal">
+        <div class="notification-container">
+            <header class="notification-header">
+                <h2>الإشعارات</h2>
+                <div class="header-actions">
+                    <button class="clear-btn" id="clearNotifications">مسح الكل</button>
+                    <button class="notification-close" id="closeNotification">×</button>
+                </div>
+            </header>
+            <section class="notification-content" id="notificationList">
+                <!-- Notifications injected here -->
+            </section>
+        </div>
+    </div>
+
+    <!-- scroll To Top -->
+    <button id="scrollToTop" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
