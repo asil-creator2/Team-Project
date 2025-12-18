@@ -1913,3 +1913,35 @@ button {
     height: 3px;
     background: linear-gradient(to left, var(--primary-color), transparent);
 }
+
+.logout{
+    background-color: #cd4dff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    display: none;
+}
+
+.logout:hover {
+    background-color: #b13dff;
+    transform: scale(1.05);
+
+}
+.userIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+}
+.user-icon{
+    cursor: pointer;
+    
+}
+
+#text{
+    color: purple;
+}
+#text:hover{
+    color: #9d4edd;
+}
