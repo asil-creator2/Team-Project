@@ -92,9 +92,9 @@ setupNetflixFAQAccordion();
 window.addEventListener("scroll", handleNavbarScroll);
 });
 // language
-const languageSwitcher = document.getElementById("language-En");
+const languageSwitcher = document.getElementById("language-Ar");
 
-languageSwitcher.addEventListener("click", () => {window.location.href = "./Arabic/Arabic.html"});
+languageSwitcher.addEventListener("click", () => {window.location.href = "../index.html"});
 
 
 
