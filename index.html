@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix | Premium Movie Streaming</title>
+    <title>MovieWorld | Premium Movie Streaming</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
@@ -18,7 +18,7 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">Stream<span>Flix</span></a>
+            <a href="#" class="logo">Movie<span>World</span></a>
 
 <ul class="nav-links">
     <li><a href="#top" class="nav-link active">Home</a></li>
@@ -28,10 +28,14 @@
 </ul>
 
             <div class="navbar-actions">
-
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Search movies...">
+                </div>
+                <!-- في قسم .navbar-actions -->
+            <div class="language-switcher" id="language-switcher">
+                    <i class="fas fa-globe"></i>
+                    <span id="current-language">العربية</span>
                 </div>
                 <div class="notification-icon-container">
                     <i class="fas fa-bell action-icon" id="notifications-icon"></i>
@@ -41,12 +45,7 @@
                     <i class="fas fa-heart action-icon" id="favorites-icon"></i>
                     <span class="favorites-count" id="favorites-count">0</span>
                 </div>
-                <div class="user-icon" id="user-icon">
-                    <i class="fas fa-user action-icon userIcon" id="login-icon"></i> 
-                    <h5 id="text"></h5>
-                </div>
-
-                <button class = "logout" id = "logout">Logout</button>
+                <i class="fas fa-user action-icon" id="login-icon"></i>
             </div>
         </div>
     </nav>

@@ -1,12 +1,12 @@
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCQYuaGNzwCPQ1kecl6_cQZVvDxiS9HtG8",
-    authDomain: "movies-app-7dab2.firebaseapp.com",
-    projectId: "movies-app-7dab2",
-    storageBucket: "movies-app-7dab2.firebasestorage.app",
-    messagingSenderId: "138953300462",
-    appId: "1:138953300462:web:95a3b6e1e91699c82956ff"
+  apiKey: "AIzaSyCQYuaGNzwCPQ1kecl6_cQZVvDxiS9HtG8",
+  authDomain: "movies-app-7dab2.firebaseapp.com",
+  projectId: "movies-app-7dab2",
+  storageBucket: "movies-app-7dab2.firebasestorage.app",
+  messagingSenderId: "138953300462",
+  appId: "1:138953300462:web:95a3b6e1e91699c82956ff"
 };
 
 
@@ -15,16 +15,13 @@ import { initializeApp } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 // Firebase Auth
-import {  
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+onAuthStateChanged
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-  import { getAuth, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -66,170 +63,107 @@ let unreadCount = 0;
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 let nowWatching = JSON.parse(localStorage.getItem("nowWatching")) || [];
+let user = JSON.parse(localStorage.getItem("currentUser")) || false;
+// Update login icon based on user status
+if (user) {
+loginIcon.classList.add("fa-user-check");
+loginIcon.classList.remove("fa-user");
+}
 
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
-  // Update favorites count
-  updateFavoritesCount();
+// Update favorites count
+updateFavoritesCount();
 
-  // Load movies data
-  loadPopularMovies();
-  loadPopularSeries();
-  loadNowPlayingMovies();
-  loadContinuePlayingMovies();
+// Load movies data
+loadPopularMovies();
+loadPopularSeries();
+loadNowPlayingMovies();
+loadContinuePlayingMovies();
 
-  // Setup event listeners
-  setupEventListeners();
+// Setup event listeners
+setupEventListeners();
 
-  updateBadge();
-  renderNotifications();
-  // Setup FAQ accordion - Netflix Style
-  setupNetflixFAQAccordion();
+updateBadge();
+renderNotifications();
+// Setup FAQ accordion - Netflix Style
+setupNetflixFAQAccordion();
 
-  // Navbar scroll effect
-  window.addEventListener("scroll", handleNavbarScroll);
+// Navbar scroll effect
+window.addEventListener("scroll", handleNavbarScroll);
 });
 
 // Setup all event listeners
 function setupEventListeners() {
-  // Login icon click
-  document.getElementById('user-icon').addEventListener("click", () => {
-    signupModel.classList.add("active");
-  });
-
-  // Favorites icon click
-  favoritesIcon.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showFavoritesModal();
-  });
-
-  // Modal close buttons
-  loginModalClose.addEventListener("click", () => {
-    loginModal.classList.remove("active");
-  });
-
-  signupModelClose.addEventListener("click", () => {
-    signupModel.classList.remove("active");
-  });
-
-  movieModalClose.addEventListener("click", () => {
-    movieModal.classList.remove("active");
-  });
-
-  favoritesModalClose.addEventListener("click", () => {
-    favoritesModal.classList.remove("active");
-  });
-
-  // Close modal when clicking outside
-  [loginModal, movieModal, favoritesModal, signupModel, notificationModal].forEach((modal) => {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("active");
-      }
-    });
-  });
-
-  // Sign up button
-  signupBtn.addEventListener("click", () => {
-    loginModal.classList.remove("active");
-    signupModel.classList.add("active");
-  });
-  loginBtnNavigation.addEventListener("click", () => {
-    loginModal.classList.add("active");
-    signupModel.classList.remove("active");
-  });
-
-  // Browse movies button in favorites modal
-  browseMoviesBtn.addEventListener("click", () => {
-    favoritesModal.classList.remove("active");
-    // Scroll to movies section
-    document
-      .querySelector("#movies-section")
-      .scrollIntoView({ behavior: "smooth" });
-  });
-
-  // Login form submission
-  document.querySelector(".login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    loginModal.classList.remove('active')
-    Swal.fire({
-          title: "Welcome!",
-          text: "loged in Sucesss",
-          background: "#9d4edd",
-          icon: "success",
-          color: "#fff",
-          customClass: {
-            popup: "rounded-swal",
-            confirmButton: "swal-confirm",
-          },
-        })
-  } catch (err) {
-    showNotification("Invalid email or password");
-  }
-  });
-
-onAuthStateChanged(auth, async (user) => {
-  const text = document.getElementById('text');
-  const logout = document.getElementById('logout');
-  const userIcon = document.getElementById('user-icon');
-
-  if (user) {
-    await user.reload(); 
-
-    console.log("Logged in:", user.email);
-    console.log("Name:", user.displayName);
-
-    text.innerText = user.displayName || 'User';
-    userIcon.style.display = 'block';
-    logout.style.display = 'block';
-
-  } else {
-    console.log("Logged out");
-
-    text.innerText = 'Sign Up';
-    logout.style.display = 'none';
-  }
+// Login icon click
+loginIcon.addEventListener("click", () => {
+  loginModal.classList.add("active");
 });
 
-
-// logout click
-document.getElementById('logout').addEventListener('click', async () => {
-  await signOut(auth);
+// Favorites icon click
+favoritesIcon.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showFavoritesModal();
 });
-  // signup form submission
 
-  document.querySelector(".signup-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+// Modal close buttons
+loginModalClose.addEventListener("click", () => {
+  loginModal.classList.remove("active");
+});
 
-    const email = document.getElementById("emailSign").value.trim();
-    const password = document.getElementById("passwordSign").value.trim();
-    const name = document.getElementById('name').value.trim()
-    try {
+signupModelClose.addEventListener("click", () => {
+  signupModel.classList.remove("active");
+});
 
-      const userCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
+movieModalClose.addEventListener("click", () => {
+  movieModal.classList.remove("active");
+});
 
-      const user = userCredential.user;
+favoritesModalClose.addEventListener("click", () => {
+  favoritesModal.classList.remove("active");
+});
 
-      await updateProfile(user, {
-        displayName: name
-      });
+// Close modal when clicking outside
+[loginModal, movieModal, favoritesModal, signupModel, notificationModal].forEach((modal) => {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+});
 
-      await user.reload();
+// Sign up button
+signupBtn.addEventListener("click", () => {
+  loginModal.classList.remove("active");
+  signupModel.classList.add("active");
+});
+loginBtnNavigation.addEventListener("click", () => {
+  loginModal.classList.add("active");
+  signupModel.classList.remove("active");
+});
 
-      console.log("Saved name:", user.displayName);
-      signupModel.classList.remove("active");
+// Browse movies button in favorites modal
+browseMoviesBtn.addEventListener("click", () => {
+  favoritesModal.classList.remove("active");
+  // Scroll to movies section
+  document
+    .querySelector("#movies-section")
+    .scrollIntoView({ behavior: "smooth" });
+});
 
-      Swal.fire({
+// Login form submission
+document.querySelector(".login-form").addEventListener("submit", async (e) => {
+e.preventDefault();
+
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value.trim();
+
+try {
+  await signInWithEmailAndPassword(auth, email, password);
+  Swal.fire({
         title: "Welcome!",
-        text: "Signed Up Sucesssfully",
+        text: "loged in Sucesss",
         background: "#9d4edd",
         icon: "success",
         color: "#fff",
@@ -237,64 +171,98 @@ document.getElementById('logout').addEventListener('click', async () => {
           popup: "rounded-swal",
           confirmButton: "swal-confirm",
         },
-        })
-    } catch (err) {
-      showNotification(err.message);
+      })
+} catch (err) {
+  showNotification("Invalid email or password");
+}
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Logged in:", user.email);
+  } else {
+    console.log("Logged out");
+  }
+});
+// signup form submission
+
+document.querySelector(".signup-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("emailSign").value.trim();
+  const password = document.getElementById("passwordSign").value.trim();
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    Swal.fire({
+      title: "Welcome!",
+      text: "Signed Up Sucesssfully",
+      background: "#9d4edd",
+      icon: "success",
+      color: "#fff",
+      customClass: {
+        popup: "rounded-swal",
+        confirmButton: "swal-confirm",
+      },
+      })
+    signupModel.classList.remove("active");
+  } catch (err) {
+    showNotification(err.message);
+  }
+});
+
+
+
+
+// Setup slider buttons
+setupSliderButtons();
+
+// Smooth scrolling for navigation links
+document.querySelectorAll(".nav-links a").forEach((link) => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    // Update active class
+    document
+      .querySelectorAll(".nav-links a")
+      .forEach((a) => a.classList.remove("active"));
+    this.classList.add("active");
+
+    // Scroll to section
+    const targetId = this.getAttribute("href");
+    if (targetId !== "#") {
+      const targetSection = document.querySelector(targetId);
+      if (targetSection) {
+        window.scrollTo({
+          top: targetSection.offsetTop - 80,
+          behavior: "smooth",
+        });
+      }
     }
   });
-
-
-
-
-  // Setup slider buttons
-  setupSliderButtons();
-
-  // Smooth scrolling for navigation links
-  document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      // Update active class
-      document
-        .querySelectorAll(".nav-links a")
-        .forEach((a) => a.classList.remove("active"));
-      this.classList.add("active");
-
-      // Scroll to section
-      const targetId = this.getAttribute("href");
-      if (targetId !== "#") {
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-          window.scrollTo({
-            top: targetSection.offsetTop - 80,
-            behavior: "smooth",
-          });
-        }
-      }
-    });
-  });
+});
 
 // ----------------------Notification icon click----------------
-  document.getElementById("notifications-icon").addEventListener("click", () => {
-    notificationModal.classList.add("active");
-    unreadCount = 0;
-    updateBadge();
-    renderNotifications();
-  });
+document.getElementById("notifications-icon").addEventListener("click", () => {
+  notificationModal.classList.add("active");
+  unreadCount = 0;
+  updateBadge();
+  renderNotifications();
+});
 
-  const closeNotifBtn = document.getElementById("closeNotification");
-  if (closeNotifBtn) {
-  closeNotifBtn.addEventListener("click", () => {
-    notificationModal.classList.remove("active");
-  });
+const closeNotifBtn = document.getElementById("closeNotification");
+if (closeNotifBtn) {
+closeNotifBtn.addEventListener("click", () => {
+  notificationModal.classList.remove("active");
+});
 }
 
-  document.getElementById("clearNotifications").addEventListener("click", () => {
-    notifications = [];
-    localStorage.removeItem("notifications");
-    unreadCount = 0;
-    updateBadge();
-    renderNotifications();
+document.getElementById("clearNotifications").addEventListener("click", () => {
+  notifications = [];
+  localStorage.removeItem("notifications");
+  unreadCount = 0;
+  updateBadge();
+  renderNotifications();
 });
 
 
@@ -303,793 +271,793 @@ document.getElementById('logout').addEventListener('click', async () => {
 
 /* Example: Real-time events */
 setTimeout(() => {
-  addNotification("New movie added to your favorites.");
-  showNotification('New movie added to your favorites.')
+addNotification("New movie added to your favorites.");
+showNotification('New movie added to your favorites.')
 }, 4000);
 
 setTimeout(() => {
-  addNotification("Your watch progress was saved.");
-  showNotification('Your watch progress was saved.')
+addNotification("Your watch progress was saved.");
+showNotification('Your watch progress was saved.')
 }, 8000);
 
 setInterval(() => {
-  if (notificationModal.classList.contains("active")) {
-    renderNotifications();
-  }
+if (notificationModal.classList.contains("active")) {
+  renderNotifications();
+}
 }, 60000);
 
 
 function updateBadge() {
-  const badge = document.getElementById("notificationBadge");
-  if (!badge) return;
+const badge = document.getElementById("notificationBadge");
+if (!badge) return;
 
-  if (unreadCount > 0) {
-    badge.style.display = "inline-block";
-    badge.textContent = unreadCount;
-  } else {
-    badge.textContent = unreadCount;
-  }
+if (unreadCount > 0) {
+  badge.style.display = "inline-block";
+  badge.textContent = unreadCount;
+} else {
+  badge.textContent = unreadCount;
+}
 }
 
 function renderNotifications() {
-  const list = document.getElementById("notificationList");
-  if (!list) return;
+const list = document.getElementById("notificationList");
+if (!list) return;
 
-  list.innerHTML = "";
+list.innerHTML = "";
 
-  if (notifications.length === 0) {
-    list.innerHTML = `<p style="font-size:14px;color:#6b7280;">No notifications</p>`;
-    return;
-  }
+if (notifications.length === 0) {
+  list.innerHTML = `<p style="font-size:14px;color:#6b7280;">No notifications</p>`;
+  return;
+}
 
 notifications.forEach(n => {
-  list.innerHTML += `
-    <div class="notification-item">
-      <p class="notification-text">${n.message}</p>
-      <span class="notification-time">${timeAgo(n.createdAt)}</span>
-    </div>
-  `;
+list.innerHTML += `
+  <div class="notification-item">
+    <p class="notification-text">${n.message}</p>
+    <span class="notification-time">${timeAgo(n.createdAt)}</span>
+  </div>
+`;
 });
 
 };
 
 
 function addNotification(message) {
-  const newNotification = {
-    message,
-    createdAt: Date.now() // ✅ real timestamp
-  };
+const newNotification = {
+  message,
+  createdAt: Date.now() // ✅ real timestamp
+};
 
-  notifications.unshift(newNotification);
-  localStorage.setItem("notifications", JSON.stringify(notifications));
+notifications.unshift(newNotification);
+localStorage.setItem("notifications", JSON.stringify(notifications));
 
-  unreadCount++;
-  updateBadge();
+unreadCount++;
+updateBadge();
 
-  if (notificationModal.classList.contains("active")) {
-    renderNotifications();
-  }
+if (notificationModal.classList.contains("active")) {
+  renderNotifications();
+}
 }
 function timeAgo(timestamp) {
-  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
-  if (seconds < 60) return "Just now";
+if (seconds < 60) return "Just now";
 
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes} min ago`;
+const minutes = Math.floor(seconds / 60);
+if (minutes < 60) return `${minutes} min ago`;
 
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+const hours = Math.floor(minutes / 60);
+if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
 
-  const days = Math.floor(hours / 24);
-  return `${days} day${days > 1 ? "s" : ""} ago`;
+const days = Math.floor(hours / 24);
+return `${days} day${days > 1 ? "s" : ""} ago`;
 }
 
 // Setup Netflix-Style FAQ Accordion
 function setupNetflixFAQAccordion() {
-  faqItems.forEach((item) => {
-    const question = item.querySelector(".faq-question");
-    const answer = item.querySelector(".faq-answer");
+faqItems.forEach((item) => {
+  const question = item.querySelector(".faq-question");
+  const answer = item.querySelector(".faq-answer");
 
-    question.addEventListener("click", () => {
-      // Close all other FAQ items
-      faqItems.forEach((otherItem) => {
-        if (otherItem !== item && otherItem.classList.contains("active")) {
-          otherItem.classList.remove("active");
-          const otherAnswer = otherItem.querySelector(".faq-answer");
-          otherAnswer.style.maxHeight = 0;
-          otherAnswer.style.opacity = 0;
-          otherAnswer.style.padding = "0 30px";
-        }
-      });
-
-      // Toggle current item
-      if (item.classList.contains("active")) {
-        item.classList.remove("active");
-        answer.style.maxHeight = 0;
-        answer.style.opacity = 0;
-        answer.style.padding = "0 30px";
-      } else {
-        item.classList.add("active");
-        answer.style.maxHeight = answer.scrollHeight + "px";
-        answer.style.opacity = 1;
-        answer.style.padding = "30px";
+  question.addEventListener("click", () => {
+    // Close all other FAQ items
+    faqItems.forEach((otherItem) => {
+      if (otherItem !== item && otherItem.classList.contains("active")) {
+        otherItem.classList.remove("active");
+        const otherAnswer = otherItem.querySelector(".faq-answer");
+        otherAnswer.style.maxHeight = 0;
+        otherAnswer.style.opacity = 0;
+        otherAnswer.style.padding = "0 30px";
       }
     });
+
+    // Toggle current item
+    if (item.classList.contains("active")) {
+      item.classList.remove("active");
+      answer.style.maxHeight = 0;
+      answer.style.opacity = 0;
+      answer.style.padding = "0 30px";
+    } else {
+      item.classList.add("active");
+      answer.style.maxHeight = answer.scrollHeight + "px";
+      answer.style.opacity = 1;
+      answer.style.padding = "30px";
+    }
   });
+});
 }
 
 // Update favorites count in navbar
 function updateFavoritesCount() {
-  const count = favoriteMovies.length;
-  favoritesCountElement.textContent = count;
+const count = favoriteMovies.length;
+favoritesCountElement.textContent = count;
 
-  // Hide count if zero
-  if (count === 0) {
-    favoritesCountElement.style.display = "none";
-  } else {
-    favoritesCountElement.style.display = "flex";
-  }
+// Hide count if zero
+if (count === 0) {
+  favoritesCountElement.style.display = "none";
+} else {
+  favoritesCountElement.style.display = "flex";
+}
 }
 
 // Show favorites modal
 function showFavoritesModal() {
-  favoritesModal.classList.add("active");
-  renderFavorites();
+favoritesModal.classList.add("active");
+renderFavorites();
 }
 
 // Render favorites in the modal
 function renderFavorites() {
-  // Update count text
-  const count = favoriteMovies.length;
-  favoritesCountText.textContent = `You have ${count} favorite ${
-    count === 1 ? "movie" : "movies"
-  }`;
+// Update count text
+const count = favoriteMovies.length;
+favoritesCountText.textContent = `You have ${count} favorite ${
+  count === 1 ? "movie" : "movies"
+}`;
 
-  // Clear current content
-  favoritesBody.innerHTML = "";
+// Clear current content
+favoritesBody.innerHTML = "";
 
-  if (count === 0) {
-    // Show empty state
-    favoritesBody.appendChild(favoritesEmpty.cloneNode(true));
-    // Re-add event listener to browse movies button
-    favoritesBody
-      .querySelector("#browse-movies-btn")
-      .addEventListener("click", () => {
-        favoritesModal.classList.remove("active");
-        document
-          .querySelector("#movies-section")
-          .scrollIntoView({ behavior: "smooth" });
-      });
-  } else {
-    // Create favorites grid
-    const favoritesGrid = document.createElement("div");
-    favoritesGrid.className = "favorites-grid";
-
-    // Add each favorite movie
-    favoriteMovies.forEach((movie) => {
-      const favoriteCard = createFavoriteCard(movie);
-      favoritesGrid.appendChild(favoriteCard);
+if (count === 0) {
+  // Show empty state
+  favoritesBody.appendChild(favoritesEmpty.cloneNode(true));
+  // Re-add event listener to browse movies button
+  favoritesBody
+    .querySelector("#browse-movies-btn")
+    .addEventListener("click", () => {
+      favoritesModal.classList.remove("active");
+      document
+        .querySelector("#movies-section")
+        .scrollIntoView({ behavior: "smooth" });
     });
+} else {
+  // Create favorites grid
+  const favoritesGrid = document.createElement("div");
+  favoritesGrid.className = "favorites-grid";
 
-    favoritesBody.appendChild(favoritesGrid);
-  }
+  // Add each favorite movie
+  favoriteMovies.forEach((movie) => {
+    const favoriteCard = createFavoriteCard(movie);
+    favoritesGrid.appendChild(favoriteCard);
+  });
+
+  favoritesBody.appendChild(favoritesGrid);
+}
 }
 
 // Create a favorite card element
 function createFavoriteCard(movie) {
-  const card = document.createElement("div");
-  card.className = "favorite-card";
-  card.dataset.id = movie.id;
-  card.dataset.type = movie.type;
+const card = document.createElement("div");
+card.className = "favorite-card";
+card.dataset.id = movie.id;
+card.dataset.type = movie.type;
 
-  const imageUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
+const imageUrl = movie.poster_path
+  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+  : "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
-  card.innerHTML = `
-        <img src="${imageUrl}" alt="${movie.title}" class="favorite-poster">
-        <div class="favorite-info">
-            <h3 class="favorite-title">${movie.title}</h3>
-            <div class="favorite-rating">
-                <i class="fas fa-star"></i>
-                <span>${
-                  movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"
-                }</span>
-            </div>
-            <button class="favorite-remove-btn" data-id="${movie.id}">
-                <i class="fas fa-trash"></i> Remove from Favorites
-            </button>
-        </div>
-    `;
+card.innerHTML = `
+      <img src="${imageUrl}" alt="${movie.title}" class="favorite-poster">
+      <div class="favorite-info">
+          <h3 class="favorite-title">${movie.title}</h3>
+          <div class="favorite-rating">
+              <i class="fas fa-star"></i>
+              <span>${
+                movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"
+              }</span>
+          </div>
+          <button class="favorite-remove-btn" data-id="${movie.id}">
+              <i class="fas fa-trash"></i> Remove from Favorites
+          </button>
+      </div>
+  `;
 
-  // Add event listener to remove button
-  const removeBtn = card.querySelector(".favorite-remove-btn");
-  removeBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // Prevent card click event
-    removeFromFavorites(movie.id);
-  });
+// Add event listener to remove button
+const removeBtn = card.querySelector(".favorite-remove-btn");
+removeBtn.addEventListener("click", (e) => {
+  e.stopPropagation(); // Prevent card click event
+  removeFromFavorites(movie.id);
+});
 
-  // Make card clickable to show details
-  card.addEventListener("click", () => {
-    showMovieDetails(movie.id, movie.type);
-  });
+// Make card clickable to show details
+card.addEventListener("click", () => {
+  showMovieDetails(movie.id, movie.type);
+});
 
-  return card;
+return card;
 }
 
 // Remove movie from favorites
 function removeFromFavorites(movieId) {
-  const index = favoriteMovies.findIndex((fav) => fav.id === movieId);
-  const movie = favoriteMovies.find((fav) => fav.id === movieId);
-  if (index !== -1) {
-    // Remove from array
-    favoriteMovies.splice(index, 1);
+const index = favoriteMovies.findIndex((fav) => fav.id === movieId);
+const movie = favoriteMovies.find((fav) => fav.id === movieId);
+if (index !== -1) {
+  // Remove from array
+  favoriteMovies.splice(index, 1);
 
-    // Update localStorage
-    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+  // Update localStorage
+  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
 
-    // Update UI
-    updateFavoritesCount();
-    renderFavorites();
+  // Update UI
+  updateFavoritesCount();
+  renderFavorites();
 
-    // Update favorite buttons on movie cards
-    updateMovieCardFavoriteButtons(movieId);
+  // Update favorite buttons on movie cards
+  updateMovieCardFavoriteButtons(movieId);
 
-    // Show notification
-    showNotification("Removed from favorites!");
+  // Show notification
+  showNotification("Removed from favorites!");
 
-    addNotification(`${movie.title || movie.name || 'unknown'} was removed from your favorites`);
+  addNotification(`${movie.title || movie.name || 'unknown'} was removed from your favorites`);
 
-  }
+}
 }
 
 // Update favorite buttons on movie cards when a movie is removed from favorites
 function updateMovieCardFavoriteButtons(movieId) {
-  // Find all movie cards with this ID
-  const movieCards = document.querySelectorAll(
-    `.movie-card[data-id="${movieId}"]`
-  );
+// Find all movie cards with this ID
+const movieCards = document.querySelectorAll(
+  `.movie-card[data-id="${movieId}"]`
+);
 
-  movieCards.forEach((card) => {
-    const favoriteBtn = card.querySelector(".favorite-btn");
-    if (favoriteBtn) {
-      favoriteBtn.classList.remove("active");
-      favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
-    }
-  });
+movieCards.forEach((card) => {
+  const favoriteBtn = card.querySelector(".favorite-btn");
+  if (favoriteBtn) {
+    favoriteBtn.classList.remove("active");
+    favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
+  }
+});
 }
 
 // Navbar scroll effect
 function handleNavbarScroll() {
-  if (window.scrollY > 100) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
+if (window.scrollY > 100) {
+  navbar.classList.add("scrolled");
+} else {
+  navbar.classList.remove("scrolled");
+}
 }
 
 // Setup slider navigation buttons
 function setupSliderButtons() {
-  document.querySelectorAll(".slider-btn").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const sliderId = this.getAttribute("data-slider");
-      const slider = document.getElementById(sliderId);
-      const scrollAmount = 400;
+document.querySelectorAll(".slider-btn").forEach((btn) => {
+  btn.addEventListener("click", function () {
+    const sliderId = this.getAttribute("data-slider");
+    const slider = document.getElementById(sliderId);
+    const scrollAmount = 400;
 
-      if (this.classList.contains("prev")) {
-        slider.scrollLeft -= scrollAmount;
-      } else {
-        slider.scrollLeft += scrollAmount;
-      }
-    });
+    if (this.classList.contains("prev")) {
+      slider.scrollLeft -= scrollAmount;
+    } else {
+      slider.scrollLeft += scrollAmount;
+    }
   });
+});
 }
 
 // swiper //
 const swiper = new Swiper(".mySwiper", {
-  loop: true,
-  autoplay: {
-    delay: 4000,
-    disableOnInteraction: false,
-  },
-  effect: "fade",
-  fadeEffect: {
-    crossFade: true,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
+loop: true,
+autoplay: {
+  delay: 4000,
+  disableOnInteraction: false,
+},
+effect: "fade",
+fadeEffect: {
+  crossFade: true,
+},
+pagination: {
+  el: ".swiper-pagination",
+  clickable: true,
+},
 });
 
 // Fetch popular movies from TMDB API
 async function loadPopularMovies() {
-  try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
-    );
-    const data = await response.json();
+try {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
+  );
+  const data = await response.json();
 
-    // Remove spinner
-    const spinnerElement = document.getElementById("popular-movies-spinner");
-    if (spinnerElement) {
-      // Check if the element exists before trying to remove it
-      spinnerElement.remove();
-    }
-    // Display movies
-    displayMovies(data.results, "popular-movies-slider", "movie");
-  } catch (error) {
-    console.error("Error loading popular movies:", error);
-    document.getElementById("popular-movies-slider").innerHTML =
-      '<p class="text-center">Failed to load movies. Please try again later.</p>';
+  // Remove spinner
+  const spinnerElement = document.getElementById("popular-movies-spinner");
+  if (spinnerElement) {
+    // Check if the element exists before trying to remove it
+    spinnerElement.remove();
   }
+  // Display movies
+  displayMovies(data.results, "popular-movies-slider", "movie");
+} catch (error) {
+  console.error("Error loading popular movies:", error);
+  document.getElementById("popular-movies-slider").innerHTML =
+    '<p class="text-center">Failed to load movies. Please try again later.</p>';
+}
 }
 
 // Fetch popular TV series from TMDB API
 async function loadPopularSeries() {
-  try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`
-    );
-    const data = await response.json();
+try {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`
+  );
+  const data = await response.json();
 
-    // Remove spinner
-    const spinnerElement = document.getElementById("popular-series-spinner");
+  // Remove spinner
+  const spinnerElement = document.getElementById("popular-series-spinner");
 
-    if (spinnerElement) {
-      // Check if the element exists before trying to remove it
-      spinnerElement.remove();
-    }
-    // Display series
-    displayMovies(data.results, "popular-series-slider", "tv");
-  } catch (error) {
-    console.error("Error loading popular series:", error);
-    document.getElementById("popular-series-slider").innerHTML =
-      '<p class="text-center">Failed to load TV series. Please try again later.</p>';
+  if (spinnerElement) {
+    // Check if the element exists before trying to remove it
+    spinnerElement.remove();
   }
+  // Display series
+  displayMovies(data.results, "popular-series-slider", "tv");
+} catch (error) {
+  console.error("Error loading popular series:", error);
+  document.getElementById("popular-series-slider").innerHTML =
+    '<p class="text-center">Failed to load TV series. Please try again later.</p>';
+}
 }
 
 // Fetch now playing movies from TMDB API
 async function loadNowPlayingMovies() {
-  try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`
-    );
-    const data = await response.json();
+try {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`
+  );
+  const data = await response.json();
 
-    // Remove spinner
+  // Remove spinner
 
-    const spinnerElement = document.getElementById("now-playing-spinner");
-    if (spinnerElement) {
-      // Check if the element exists before trying to remove it
-      spinnerElement.remove();
-    }
-    // Display movies
-    displayMovies(data.results, "now-playing-slider", "movie");
-  } catch (error) {
-    console.error("Error loading now playing movies:", error);
-    document.getElementById("now-playing-slider").innerHTML =
-      '<p class="text-center">Failed to load movies. Please try again later.</p>';
+  const spinnerElement = document.getElementById("now-playing-spinner");
+  if (spinnerElement) {
+    // Check if the element exists before trying to remove it
+    spinnerElement.remove();
   }
+  // Display movies
+  displayMovies(data.results, "now-playing-slider", "movie");
+} catch (error) {
+  console.error("Error loading now playing movies:", error);
+  document.getElementById("now-playing-slider").innerHTML =
+    '<p class="text-center">Failed to load movies. Please try again later.</p>';
+}
 }
 // load continue playing movies from TMDB API
 function loadContinuePlayingMovies() {
-  const slider = document.getElementById("continue-playing-slider");
+const slider = document.getElementById("continue-playing-slider");
 
-  // شيل الـ spinner
-  const spinner = document.getElementById("continue-playing-spinner");
-  if (spinner) spinner.remove();
+// شيل الـ spinner
+const spinner = document.getElementById("continue-playing-spinner");
+if (spinner) spinner.remove();
 
-  slider.innerHTML = "";
+slider.innerHTML = "";
 
-  if (nowWatching.length === 0) {
-    slider.innerHTML = `<p style="color:white; padding:20px;">
-            You haven't watched anything yet 👀
-        </p>`;
-    return;
-  }
+if (nowWatching.length === 0) {
+  slider.innerHTML = `<p style="color:white; padding:20px;">
+          You haven't watched anything yet 👀
+      </p>`;
+  return;
+}
 
-  nowWatching.forEach((movie) => {
-    const card = createMovieCard(movie, movie.type);
-    slider.appendChild(card);
-  });
+nowWatching.forEach((movie) => {
+  const card = createMovieCard(movie, movie.type);
+  slider.appendChild(card);
+});
 }
 
 // add the movie to continue watching when the user click to play the movie
 async function addToContinueWatchingFromPlayer(id, type) {
-  localStorage.setItem("nowWatching", JSON.stringify(nowWatching));
-  // لو موجود خلاص
-  if (nowWatching.some((m) => m.id === id)) return;
+localStorage.setItem("nowWatching", JSON.stringify(nowWatching));
+// لو موجود خلاص
+if (nowWatching.some((m) => m.id === id)) return;
 
+const endpoint =
+  type === "tv"
+    ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
+    : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
+
+try {
+  const res = await fetch(endpoint);
+  const movie = await res.json();
+
+  nowWatching.unshift({
+    id: movie.id,
+    title: movie.title,
+    name: movie.name,
+    poster_path: movie.poster_path,
+    vote_average: movie.vote_average,
+    type: type,
+  });
+
+  nowWatching = nowWatching.slice(0, 10);
+  localStorage.setItem("nowWatching", JSON.stringify(nowWatching));
+
+  // تحديث لحظي
+  loadContinuePlayingMovies();
+} catch (err) {
+  console.error("Continue Watching error:", err);
+}
+}
+
+// Display movies in a slider
+function displayMovies(movies, sliderId, type) {
+const slider = document.getElementById(sliderId);
+
+// Limit to 10 movies for performance
+const limitedMovies = movies.slice(0, 10);
+
+limitedMovies.forEach((movie) => {
+  const movieCard = createMovieCard(movie, type);
+  slider.appendChild(movieCard);
+});
+}
+
+// Create a movie card element
+function createMovieCard(movie, type) {
+const isFavorite = favoriteMovies.some((fav) => fav.id === movie.id);
+
+const card = document.createElement("div");
+card.className = "movie-card";
+card.dataset.id = movie.id;
+card.dataset.type = type;
+
+// Title (safe for movie + tv + localStorage)
+const title = movie.title || movie.name || "Unknown";
+
+// Rating (safe)
+const rating =
+  typeof movie.vote_average === "number"
+    ? movie.vote_average.toFixed(1)
+    : "N/A";
+
+// Image (safe)
+const imageUrl = movie.poster_path
+  ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+  : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
+
+card.innerHTML = `
+      <img src="${imageUrl}" alt="${title}" class="movie-poster">
+
+      <div class="movie-info">
+          <h3 class="movie-title">${title}</h3>
+          <div class="movie-rating">
+              <i class="fas fa-star"></i>
+              <span>${rating}</span>
+          </div>
+      </div>
+
+      <div class="movie-actions">
+          <button class="play-btn">
+              <i class="fas fa-play"></i> Play Now
+          </button>
+
+          <button class="favorite-btn ${isFavorite ? "active" : ""}">
+              <i class="fas fa-heart"></i>
+              ${isFavorite ? "In Favorites" : "Add to Favorites"}
+          </button>
+      </div>
+  `;
+
+// Elements
+const playBtn = card.querySelector(".play-btn");
+const favoriteBtn = card.querySelector(".favorite-btn");
+
+// Play
+playBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showMovieDetails(movie.id, type);
+});
+
+// Favorite
+favoriteBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleFavorite(movie, favoriteBtn, type);
+});
+
+// Card click → show details
+card.addEventListener("click", () => {
+  showMovieDetails(movie.id, type);
+});
+
+return card;
+}
+
+// Toggle movie as favorite
+function toggleFavorite(movie, button, type) {
+const index = favoriteMovies.findIndex((fav) => fav.id === movie.id);
+
+if (index === -1) {
+  // Add to favorites
+  favoriteMovies.push({
+    id: movie.id,
+    title: type === "tv" ? movie.name : movie.title,
+    poster_path: movie.poster_path,
+    type: type,
+    vote_average: movie.vote_average,
+  });
+  button.classList.add("active");
+  button.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
+
+  // Update favorites count
+  updateFavoritesCount();
+
+  // Show notification
+  showNotification("Added to favorites!");
+  addNotification(`${type === 'tv' ? movie.name : movie.title} was added to you favorites`)
+} else {
+  // Remove from favorites
+  favoriteMovies.splice(index, 1);
+  button.classList.remove("active");
+  button.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
+
+  // Update favorites count
+  updateFavoritesCount();
+
+  // Show notification
+  showNotification("Removed from favorites!");
+
+  // Update favorites modal if it's open
+  if (favoritesModal.classList.contains("active")) {
+    renderFavorites();
+  }
+}
+
+// Save to localStorage
+localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+}
+
+// Show notification
+function showNotification(message) {
+// Create notification element
+const notification = document.createElement("div");
+notification.className = "notification";
+notification.textContent = message;
+notification.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--primary-color), #7b2cbf);
+      color: white;
+      padding: 18px 30px;
+      border-radius: 12px;
+      z-index: 2000;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
+      animation: fadeInOut 3s ease;
+      border: 1px solid rgba(224, 170, 255, 0.3);
+  `;
+
+// Add CSS for animation
+const style = document.createElement("style");
+style.textContent = `
+      @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateX(100px); }
+          10% { opacity: 1; transform: translateX(0); }
+          90% { opacity: 1; transform: translateX(0); }
+          100% { opacity: 0; transform: translateX(100px); }
+      }
+  `;
+document.head.appendChild(style);
+
+document.body.appendChild(notification);
+
+// Remove notification after animation
+setTimeout(() => {
+  notification.remove();
+  style.remove();
+}, 3000);
+}
+
+// Show movie details in modal
+async function showMovieDetails(id, type) {
+try {
   const endpoint =
     type === "tv"
       ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
       : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
 
-  try {
-    const res = await fetch(endpoint);
-    const movie = await res.json();
+  const response = await fetch(endpoint);
+  const data = await response.json();
+  document.getElementById('viewAll-modal').classList.remove('active')
+  // Title
+  document.getElementById("modal-title").textContent =
+    type === "tv" ? data.name : data.title;
 
-    nowWatching.unshift({
-      id: movie.id,
-      title: movie.title,
-      name: movie.name,
-      poster_path: movie.poster_path,
-      vote_average: movie.vote_average,
-      type: type,
-    });
+  // Rating
+  document.getElementById("modal-rating").textContent = data.vote_average
+    ? data.vote_average.toFixed(1)
+    : "N/A";
 
-    nowWatching = nowWatching.slice(0, 10);
-    localStorage.setItem("nowWatching", JSON.stringify(nowWatching));
+  // Year
+  const releaseDate = type === "tv" ? data.first_air_date : data.release_date;
+  const year = releaseDate ? new Date(releaseDate).getFullYear() : "N/A";
+  document.getElementById(
+    "modal-year"
+  ).innerHTML = `<i class="far fa-calendar"></i> ${year}`;
 
-    // تحديث لحظي
-    loadContinuePlayingMovies();
-  } catch (err) {
-    console.error("Continue Watching error:", err);
-  }
-}
+  // Runtime
+  const runtime = type === "tv" ? data.episode_run_time?.[0] : data.runtime;
 
-// Display movies in a slider
-function displayMovies(movies, sliderId, type) {
-  const slider = document.getElementById(sliderId);
+  document.getElementById("modal-runtime").innerHTML = runtime
+    ? `<i class="far fa-clock"></i> ${runtime} min`
+    : `<i class="far fa-clock"></i> N/A`;
 
-  // Limit to 10 movies for performance
-  const limitedMovies = movies.slice(0, 10);
+  // Language
+  const language = data.original_language
+    ? data.original_language.toUpperCase()
+    : "N/A";
+  document.getElementById(
+    "modal-language"
+  ).innerHTML = `<i class="fas fa-globe"></i> ${language}`;
 
-  limitedMovies.forEach((movie) => {
-    const movieCard = createMovieCard(movie, type);
-    slider.appendChild(movieCard);
-  });
-}
+  // Description
+  document.getElementById("modal-description").textContent =
+    data.overview || "No description available.";
 
-// Create a movie card element
-function createMovieCard(movie, type) {
-  const isFavorite = favoriteMovies.some((fav) => fav.id === movie.id);
-
-  const card = document.createElement("div");
-  card.className = "movie-card";
-  card.dataset.id = movie.id;
-  card.dataset.type = type;
-
-  // Title (safe for movie + tv + localStorage)
-  const title = movie.title || movie.name || "Unknown";
-
-  // Rating (safe)
-  const rating =
-    typeof movie.vote_average === "number"
-      ? movie.vote_average.toFixed(1)
-      : "N/A";
-
-  // Image (safe)
-  const imageUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+  // Backdrop
+  const backdropUrl = data.backdrop_path
+    ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
     : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
 
-  card.innerHTML = `
-        <img src="${imageUrl}" alt="${title}" class="movie-poster">
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  modalBackdrop.src = backdropUrl;
+  modalBackdrop.style.display = "block";
 
-        <div class="movie-info">
-            <h3 class="movie-title">${title}</h3>
-            <div class="movie-rating">
-                <i class="fas fa-star"></i>
-                <span>${rating}</span>
-            </div>
-        </div>
+  // Genres
+  const genresContainer = document.getElementById("modal-genres");
+  genresContainer.innerHTML = "";
 
-        <div class="movie-actions">
-            <button class="play-btn">
-                <i class="fas fa-play"></i> Play Now
-            </button>
-
-            <button class="favorite-btn ${isFavorite ? "active" : ""}">
-                <i class="fas fa-heart"></i>
-                ${isFavorite ? "In Favorites" : "Add to Favorites"}
-            </button>
-        </div>
-    `;
-
-  // Elements
-  const playBtn = card.querySelector(".play-btn");
-  const favoriteBtn = card.querySelector(".favorite-btn");
-
-  // Play
-  playBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showMovieDetails(movie.id, type);
-  });
-
-  // Favorite
-  favoriteBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleFavorite(movie, favoriteBtn, type);
-  });
-
-  // Card click → show details
-  card.addEventListener("click", () => {
-    showMovieDetails(movie.id, type);
-  });
-
-  return card;
-}
-
-// Toggle movie as favorite
-function toggleFavorite(movie, button, type) {
-  const index = favoriteMovies.findIndex((fav) => fav.id === movie.id);
-
-  if (index === -1) {
-    // Add to favorites
-    favoriteMovies.push({
-      id: movie.id,
-      title: type === "tv" ? movie.name : movie.title,
-      poster_path: movie.poster_path,
-      type: type,
-      vote_average: movie.vote_average,
+  if (data.genres && data.genres.length > 0) {
+    data.genres.forEach((genre) => {
+      const span = document.createElement("span");
+      span.className = "genre-tag";
+      span.textContent = genre.name;
+      genresContainer.appendChild(span);
     });
-    button.classList.add("active");
-    button.innerHTML = '<i class="fas fa-heart"></i> In Favorites';
-
-    // Update favorites count
-    updateFavoritesCount();
-
-    // Show notification
-    showNotification("Added to favorites!");
-    addNotification(`${type === 'tv' ? movie.name : movie.title} was added to you favorites`)
-  } else {
-    // Remove from favorites
-    favoriteMovies.splice(index, 1);
-    button.classList.remove("active");
-    button.innerHTML = '<i class="fas fa-heart"></i> Add to Favorites';
-
-    // Update favorites count
-    updateFavoritesCount();
-
-    // Show notification
-    showNotification("Removed from favorites!");
-
-    // Update favorites modal if it's open
-    if (favoritesModal.classList.contains("active")) {
-      renderFavorites();
-    }
   }
 
-  // Save to localStorage
-  localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+  // Play button
+  const playBtn = document.getElementById("modal-play-btn");
+  playBtn.onclick = () => play_Movies(id, type);
+
+  // Reset iframe
+  const iframe = document.getElementById("model_iframe");
+  iframe.src = "";
+  iframe.style.display = "none";
+
+  document.querySelector(".modal-body").style.display = "block";
+
+  // Show modal
+  movieModal.classList.add("active");
+} catch (error) {
+  console.error("Error loading movie details:", error);
+  showNotification("Failed to load movie details.");
 }
-
-// Show notification
-function showNotification(message) {
-  // Create notification element
-  const notification = document.createElement("div");
-  notification.className = "notification";
-  notification.textContent = message;
-  notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: linear-gradient(135deg, var(--primary-color), #7b2cbf);
-        color: white;
-        padding: 18px 30px;
-        border-radius: 12px;
-        z-index: 2000;
-        font-weight: 600;
-        box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
-        animation: fadeInOut 3s ease;
-        border: 1px solid rgba(224, 170, 255, 0.3);
-    `;
-
-  // Add CSS for animation
-  const style = document.createElement("style");
-  style.textContent = `
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateX(100px); }
-            10% { opacity: 1; transform: translateX(0); }
-            90% { opacity: 1; transform: translateX(0); }
-            100% { opacity: 0; transform: translateX(100px); }
-        }
-    `;
-  document.head.appendChild(style);
-
-  document.body.appendChild(notification);
-
-  // Remove notification after animation
-  setTimeout(() => {
-    notification.remove();
-    style.remove();
-  }, 3000);
-}
-
-// Show movie details in modal
-async function showMovieDetails(id, type) {
-  try {
-    const endpoint =
-      type === "tv"
-        ? `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`
-        : `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
-
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    document.getElementById('viewAll-modal').classList.remove('active')
-    // Title
-    document.getElementById("modal-title").textContent =
-      type === "tv" ? data.name : data.title;
-
-    // Rating
-    document.getElementById("modal-rating").textContent = data.vote_average
-      ? data.vote_average.toFixed(1)
-      : "N/A";
-
-    // Year
-    const releaseDate = type === "tv" ? data.first_air_date : data.release_date;
-    const year = releaseDate ? new Date(releaseDate).getFullYear() : "N/A";
-    document.getElementById(
-      "modal-year"
-    ).innerHTML = `<i class="far fa-calendar"></i> ${year}`;
-
-    // Runtime
-    const runtime = type === "tv" ? data.episode_run_time?.[0] : data.runtime;
-
-    document.getElementById("modal-runtime").innerHTML = runtime
-      ? `<i class="far fa-clock"></i> ${runtime} min`
-      : `<i class="far fa-clock"></i> N/A`;
-
-    // Language
-    const language = data.original_language
-      ? data.original_language.toUpperCase()
-      : "N/A";
-    document.getElementById(
-      "modal-language"
-    ).innerHTML = `<i class="fas fa-globe"></i> ${language}`;
-
-    // Description
-    document.getElementById("modal-description").textContent =
-      data.overview || "No description available.";
-
-    // Backdrop
-    const backdropUrl = data.backdrop_path
-      ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
-      : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
-
-    const modalBackdrop = document.getElementById("modal-backdrop");
-    modalBackdrop.src = backdropUrl;
-    modalBackdrop.style.display = "block";
-
-    // Genres
-    const genresContainer = document.getElementById("modal-genres");
-    genresContainer.innerHTML = "";
-
-    if (data.genres && data.genres.length > 0) {
-      data.genres.forEach((genre) => {
-        const span = document.createElement("span");
-        span.className = "genre-tag";
-        span.textContent = genre.name;
-        genresContainer.appendChild(span);
-      });
-    }
-
-    // Play button
-    const playBtn = document.getElementById("modal-play-btn");
-    playBtn.onclick = () => play_Movies(id, type);
-
-    // Reset iframe
-    const iframe = document.getElementById("model_iframe");
-    iframe.src = "";
-    iframe.style.display = "none";
-
-    document.querySelector(".modal-body").style.display = "block";
-
-    // Show modal
-    movieModal.classList.add("active");
-  } catch (error) {
-    console.error("Error loading movie details:", error);
-    showNotification("Failed to load movie details.");
-  }
 }
 
 // Event Listener  View All
 document.querySelectorAll(".view-all").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
+btn.addEventListener("click", (e) => {
+  e.preventDefault();
 
-    const type = btn.dataset.type;
-    const category = btn.dataset.category;
+  const type = btn.dataset.type;
+  const category = btn.dataset.category;
 
-    openViewAllModal(type, category);
-  });
+  openViewAllModal(type, category);
+});
 });
 
 // open View All Modal
 async function openViewAllModal(type, category) {
-  const modal = document.getElementById("viewAll-modal");
-  const content = document.getElementById("viewAll-content");
-  const title = document.getElementById("viewAll-title");
+const modal = document.getElementById("viewAll-modal");
+const content = document.getElementById("viewAll-content");
+const title = document.getElementById("viewAll-title");
 
-  content.innerHTML = "";
+content.innerHTML = "";
 
-  if (type === "movie" && category === "popular")
-    title.textContent = "All Popular Movies";
+if (type === "movie" && category === "popular")
+  title.textContent = "All Popular Movies";
 
-  if (type === "tv" && category === "popular")
-    title.textContent = "All Popular TV Series";
+if (type === "tv" && category === "popular")
+  title.textContent = "All Popular TV Series";
 
-  if (category === "now_playing") title.textContent = "Now Playing Movies";
+if (category === "now_playing") title.textContent = "Now Playing Movies";
 
-  if (type === "continue") {
-    title.textContent = "Continue Watching";
-    nowWatching.forEach((item) => {
-      content.appendChild(createMovieCard(item, item.type));
-    });
-    modal.classList.add("active");
-    return;
-  }
+if (type === "continue") {
+  title.textContent = "Continue Watching";
+  nowWatching.forEach((item) => {
+    content.appendChild(createMovieCard(item, item.type));
+  });
+  modal.classList.add("active");
+  return;
+}
 
-  // API Endpoint
-  let endpoint = "";
+// API Endpoint
+let endpoint = "";
 
-  if (type === "movie" && category === "popular") endpoint = "movie/popular";
+if (type === "movie" && category === "popular") endpoint = "movie/popular";
 
-  if (type === "movie" && category === "now_playing")
-    endpoint = "movie/now_playing";
+if (type === "movie" && category === "now_playing")
+  endpoint = "movie/now_playing";
 
-  if (type === "tv") endpoint = "tv/popular";
+if (type === "tv") endpoint = "tv/popular";
 
-  try {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${endpoint}?api_key=${apiKey}&language=en-US&page=1`
-    );
-    const data = await res.json();
+try {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/${endpoint}?api_key=${apiKey}&language=en-US&page=1`
+  );
+  const data = await res.json();
 
-    data.results.forEach((item) => {
-      content.appendChild(createMovieCard(item, type));
-    });
+  data.results.forEach((item) => {
+    content.appendChild(createMovieCard(item, type));
+  });
 
-    modal.classList.add("active");
-  } catch (err) {
-    console.error(err);
-  }
+  modal.classList.add("active");
+} catch (err) {
+  console.error(err);
+}
 }
 
 document.getElementById("viewAll-close").addEventListener("click", () => {
-  document.getElementById("viewAll-modal").classList.remove("active");
+document.getElementById("viewAll-modal").classList.remove("active");
 });
 
 // Play movie / tv trailer
 async function play_Movies(id, type) {
-  try {
-    let type_Movies;
+try {
+  let type_Movies;
 
-    if (type === "tv") {
-      type_Movies = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${apiKey}&language=en-US`;
-    } else {
-      type_Movies = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=en-US`;
-    }
-
-    let result = await fetch(type_Movies);
-    let data_res = await result.json();
-
-    let find_Vid = data_res.results.find(
-      (v) => v.type === "Trailer" && v.site === "YouTube"
-    );
-
-    if (!find_Vid) {
-      showNotification("The video is not available 😢");
-      return;
-    }
-
-    let modal_Backdrop = document.getElementById("modal-backdrop");
-    modal_Backdrop.style.display = "none";
-
-    let modal_Body = document.querySelector(".modal-body");
-    modal_Body.style.display = "none";
-
-    let iframe = document.getElementById("model_iframe");
-    iframe.src = `https://www.youtube.com/embed/${find_Vid.key}?autoplay=1`;
-    iframe.style.display = "block";
-    addToContinueWatchingFromPlayer(id, type);
-  } catch (error) {
-    alert("An error occurred while playing the video");
-    console.error(error);
+  if (type === "tv") {
+    type_Movies = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${apiKey}&language=en-US`;
+  } else {
+    type_Movies = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}&language=en-US`;
   }
+
+  let result = await fetch(type_Movies);
+  let data_res = await result.json();
+
+  let find_Vid = data_res.results.find(
+    (v) => v.type === "Trailer" && v.site === "YouTube"
+  );
+
+  if (!find_Vid) {
+    showNotification("The video is not available 😢");
+    return;
+  }
+
+  let modal_Backdrop = document.getElementById("modal-backdrop");
+  modal_Backdrop.style.display = "none";
+
+  let modal_Body = document.querySelector(".modal-body");
+  modal_Body.style.display = "none";
+
+  let iframe = document.getElementById("model_iframe");
+  iframe.src = `https://www.youtube.com/embed/${find_Vid.key}?autoplay=1`;
+  iframe.style.display = "block";
+  addToContinueWatchingFromPlayer(id, type);
+} catch (error) {
+  alert("An error occurred while playing the video");
+  console.error(error);
+}
 }
 
 //  Close Modal
@@ -1097,11 +1065,11 @@ async function play_Movies(id, type) {
 const closeBtn = document.getElementById("movie-modal-close");
 
 closeBtn.addEventListener("click", () => {
-  const iframe = document.getElementById("model_iframe");
-  // إخفاء iframe 
-  iframe.style.display = "none";
-  iframe.src = ""; 
-  movieModal.classList.remove("active");
+const iframe = document.getElementById("model_iframe");
+// إخفاء iframe 
+iframe.style.display = "none";
+iframe.src = ""; 
+movieModal.classList.remove("active");
 });
 
 ///////// Search Movies ////////////
@@ -1111,84 +1079,84 @@ closeBtn.addEventListener("click", () => {
 let searchTimeout;
 
 searchInput.addEventListener("input", () => {
-  const query = searchInput.value.trim();
+const query = searchInput.value.trim();
 
-  clearTimeout(searchTimeout);
+clearTimeout(searchTimeout);
 
-  if (!query) {
-    reloadHomeMovies();
-    return;
-  }
+if (!query) {
+  reloadHomeMovies();
+  return;
+}
 
-  searchTimeout = setTimeout(() => {
-    searchMoviesAndSeriesLive(query);
-  }, 400);
+searchTimeout = setTimeout(() => {
+  searchMoviesAndSeriesLive(query);
+}, 400);
 });
 
 function reloadHomeMovies() {
-  // إخفاء البحث
-  document.getElementById("search-section").classList.remove("active");
+// إخفاء البحث
+document.getElementById("search-section").classList.remove("active");
 
-  // إظهار الأقسام العادية
-  document.getElementById("movies-section").classList.remove("nonActive");
-  document.getElementById("series-section").classList.remove("nonActive");
-  document.getElementById("popular-section").classList.remove("nonActive");
+// إظهار الأقسام العادية
+document.getElementById("movies-section").classList.remove("nonActive");
+document.getElementById("series-section").classList.remove("nonActive");
+document.getElementById("popular-section").classList.remove("nonActive");
 
-  // إعادة تحميل البيانات
-  document.getElementById("popular-movies-slider").innerHTML = "";
-  document.getElementById("popular-series-slider").innerHTML = "";
-  document.getElementById("now-playing-slider").innerHTML = "";
+// إعادة تحميل البيانات
+document.getElementById("popular-movies-slider").innerHTML = "";
+document.getElementById("popular-series-slider").innerHTML = "";
+document.getElementById("now-playing-slider").innerHTML = "";
 
-  loadPopularMovies();
-  loadPopularSeries();
-  loadNowPlayingMovies();
+loadPopularMovies();
+loadPopularSeries();
+loadNowPlayingMovies();
 }
 
 async function searchMoviesAndSeriesLive(query) {
-  try {
-    const [movieData, tvData] = await Promise.all([
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-          query
-        )}&language=en-US`
-      ).then((res) => res.json()),
+try {
+  const [movieData, tvData] = await Promise.all([
+    fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+        query
+      )}&language=en-US`
+    ).then((res) => res.json()),
 
-      fetch(
-        `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(
-          query
-        )}&language=en-US`
-      ).then((res) => res.json()),
-    ]);
+    fetch(
+      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(
+        query
+      )}&language=en-US`
+    ).then((res) => res.json()),
+  ]);
 
-    const allResults = [
-      ...(movieData.results || []).map((m) => ({ ...m, type: "movie" })),
-      ...(tvData.results || []).map((t) => ({ ...t, type: "tv" })),
-    ];
+  const allResults = [
+    ...(movieData.results || []).map((m) => ({ ...m, type: "movie" })),
+    ...(tvData.results || []).map((t) => ({ ...t, type: "tv" })),
+  ];
 
-    // إخفاء الأقسام العادية
-    document.getElementById("movies-section").classList.add("nonActive");
-    document.getElementById("series-section").classList.add("nonActive");
-    document.getElementById("popular-section").classList.add("nonActive");
+  // إخفاء الأقسام العادية
+  document.getElementById("movies-section").classList.add("nonActive");
+  document.getElementById("series-section").classList.add("nonActive");
+  document.getElementById("popular-section").classList.add("nonActive");
 
-    // إظهار البحث
-    const searchSection = document.getElementById("search-section");
-    const searchSlider = document.getElementById("search-slider");
+  // إظهار البحث
+  const searchSection = document.getElementById("search-section");
+  const searchSlider = document.getElementById("search-slider");
 
-    searchSection.classList.add("active");
-    searchSlider.innerHTML = "";
+  searchSection.classList.add("active");
+  searchSlider.innerHTML = "";
 
-    if (allResults.length === 0) {
-      searchSlider.innerHTML = `<p style="color:white;padding:20px">No results for "${query}"</p>`;
-      return;
-    }
-
-    allResults.forEach((item) => {
-      const card = createMovieCard(item, item.type);
-      searchSlider.appendChild(card);
-    });
-  } catch (error) {
-    console.error("Search error:", error);
+  if (allResults.length === 0) {
+    searchSlider.innerHTML = `<p style="color:white;padding:20px">No results for "${query}"</p>`;
+    return;
   }
+
+  allResults.forEach((item) => {
+    const card = createMovieCard(item, item.type);
+    searchSlider.appendChild(card);
+  });
+} catch (error) {
+  console.error("Search error:", error);
+}
 }
 
 // scroll To Top
@@ -1196,20 +1164,20 @@ const scrollBtn = document.getElementById("scrollToTop");
 
 // إظهار السهم عند النزول لآخر الصفحة
 window.addEventListener("scroll", () => {
-    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
-        scrollBtn.style.display = "flex";
-    } else {
-        scrollBtn.style.display = "none";
-    }
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
+      scrollBtn.style.display = "flex";
+  } else {
+      scrollBtn.style.display = "none";
+  }
 });
 
 // عند الضغط يرجع لأول الصفحة ويختفي
 scrollBtn.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-    scrollBtn.style.display = "none";
+  window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+  });
+  scrollBtn.style.display = "none";
 });
 
 
@@ -1218,22 +1186,98 @@ const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
 
 window.addEventListener("scroll", () => {
-    let currentSection = "";
+  let currentSection = "";
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120; // ارتفاع الناف
-        const sectionHeight = section.offsetHeight;
+  sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120; // ارتفاع الناف
+      const sectionHeight = section.offsetHeight;
 
-        if (window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute("id");
-        }
-    });
+      if (window.scrollY >= sectionTop &&
+          window.scrollY < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute("id");
+      }
+  });
 
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${currentSection}`) {
-            link.classList.add("active");
-        }
-    });
+  navLinks.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${currentSection}`) {
+          link.classList.add("active");
+      }
+  });
 });
+
+
+
+
+
+
+// Language Switcher Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // For English page (index.html)
+  const englishLanguageSwitcher = document.getElementById('language-switcher');
+  if (englishLanguageSwitcher) {
+      englishLanguageSwitcher.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'arabic.html';
+      });
+  }
+
+  // For Arabic page (arabic.html)
+  const arabicLanguageSwitcher = document.getElementById('language-switcher-arabic');
+  if (arabicLanguageSwitcher) {
+      arabicLanguageSwitcher.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'index.html';
+      });
+  }
+
+  // Save language preference
+  if (window.location.pathname.includes('arabic.html')) {
+      localStorage.setItem('preferred-language', 'arabic');
+  } else {
+      localStorage.setItem('preferred-language', 'english');
+  }
+
+  // Optional: Auto-redirect based on browser language
+  const preferredLanguage = localStorage.getItem('preferred-language');
+  if (!preferredLanguage && navigator.language.startsWith('ar')) {
+      // If user's browser is in Arabic and no preference is saved, redirect to Arabic version
+      if (!window.location.pathname.includes('arabic.html')) {
+          window.location.href = 'arabic.html';
+      }
+  }
+});
+
+// Scroll to top button functionality
+const scrollToTopBtn = document.getElementById('scrollToTop');
+if (scrollToTopBtn) {
+  window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+          scrollToTopBtn.style.display = 'flex';
+      } else {
+          scrollToTopBtn.style.display = 'none';
+      }
+  });
+
+  scrollToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+      });
+  });
+}
+
+const languageSwitcher = document.getElementById("language-switcher");
+
+languageSwitcher.addEventListener("click", () => {
+window.location.href = "Arabic.html";
+});
+
+const languageSwitcher1 = document.getElementById("language-switcher");
+
+languageSwitcher1.addEventListener("click", () => {
+window.location.href = "index.html";
+});
+
+
+
