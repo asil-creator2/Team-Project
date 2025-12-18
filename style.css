@@ -216,6 +216,13 @@ button {
     color: var(--accent-color);
 }
 
+.user-icon{
+    display: flex;
+    gap: 4px;
+    color: var(--primary-color);
+
+}
+
 .action-icon {
     font-size: 1.2rem;
     color: var(--accent-color);
@@ -1857,4 +1864,35 @@ button {
     transform: scale(1.1);
 }
 
-  
+.logout{
+    background-color: #cd4dff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    display: none;
+}
+
+.logout:hover {
+    background-color: #b13dff;
+    transform: scale(1.05);
+
+}
+.userIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+}
+.user-icon{
+    cursor: pointer;
+    
+}
+
+#text{
+    color: purple;
+}
+#text:hover{
+    color: #9d4edd;
+}
+

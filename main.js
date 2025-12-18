@@ -15,13 +15,16 @@ import { initializeApp } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 // Firebase Auth
-import {
-  getAuth,
+import {  
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged
 } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+  import { getAuth, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -63,12 +66,6 @@ let unreadCount = 0;
 // Global variables
 let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 let nowWatching = JSON.parse(localStorage.getItem("nowWatching")) || [];
-let user = JSON.parse(localStorage.getItem("currentUser")) || false;
-// Update login icon based on user status
-if (user) {
-  loginIcon.classList.add("fa-user-check");
-  loginIcon.classList.remove("fa-user");
-}
 
 
 // Initialize the application
@@ -97,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // Setup all event listeners
 function setupEventListeners() {
   // Login icon click
-  loginIcon.addEventListener("click", () => {
-    loginModal.classList.add("active");
+  document.getElementById('user-icon').addEventListener("click", () => {
+    signupModel.classList.add("active");
   });
 
   // Favorites icon click
@@ -161,6 +158,7 @@ function setupEventListeners() {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    loginModal.classList.remove('active')
     Swal.fire({
           title: "Welcome!",
           text: "loged in Sucesss",
@@ -177,13 +175,34 @@ function setupEventListeners() {
   }
   });
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("Logged in:", user.email);
-    } else {
-      console.log("Logged out");
-    }
-  });
+onAuthStateChanged(auth, async (user) => {
+  const text = document.getElementById('text');
+  const logout = document.getElementById('logout');
+  const userIcon = document.getElementById('user-icon');
+
+  if (user) {
+    await user.reload(); 
+
+    console.log("Logged in:", user.email);
+    console.log("Name:", user.displayName);
+
+    text.innerText = user.displayName || 'User';
+    userIcon.style.display = 'block';
+    logout.style.display = 'block';
+
+  } else {
+    console.log("Logged out");
+
+    text.innerText = 'Sign Up';
+    logout.style.display = 'none';
+  }
+});
+
+
+// logout click
+document.getElementById('logout').addEventListener('click', async () => {
+  await signOut(auth);
+});
   // signup form submission
 
   document.querySelector(".signup-form").addEventListener("submit", async (e) => {
@@ -191,9 +210,23 @@ function setupEventListeners() {
 
     const email = document.getElementById("emailSign").value.trim();
     const password = document.getElementById("passwordSign").value.trim();
-
+    const name = document.getElementById('name').value.trim()
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+
+      const userCredential =
+        await createUserWithEmailAndPassword(auth, email, password);
+
+      const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: name
+      });
+
+      await user.reload();
+
+      console.log("Saved name:", user.displayName);
+      signupModel.classList.remove("active");
+
       Swal.fire({
         title: "Welcome!",
         text: "Signed Up Sucesssfully",
@@ -205,7 +238,6 @@ function setupEventListeners() {
           confirmButton: "swal-confirm",
         },
         })
-      signupModel.classList.remove("active");
     } catch (err) {
       showNotification(err.message);
     }
