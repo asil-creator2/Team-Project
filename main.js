@@ -1247,42 +1247,7 @@ window.addEventListener("scroll", () => {
 
 
 
-// Language Switcher Functionality
-document.addEventListener('DOMContentLoaded', function() {
-  // For English page (index.html)
-  const englishLanguageSwitcher = document.getElementById('language-switcher');
-  if (englishLanguageSwitcher) {
-      englishLanguageSwitcher.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'arabic.html';
-      });
-  }
 
-  // For Arabic page (arabic.html)
-  const arabicLanguageSwitcher = document.getElementById('language-switcher-arabic');
-  if (arabicLanguageSwitcher) {
-      arabicLanguageSwitcher.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'index.html';
-      });
-  }
-
-  // Save language preference
-  if (window.location.pathname.includes('arabic.html')) {
-      localStorage.setItem('preferred-language', 'arabic');
-  } else {
-      localStorage.setItem('preferred-language', 'english');
-  }
-
-  // Optional: Auto-redirect based on browser language
-  const preferredLanguage = localStorage.getItem('preferred-language');
-  if (!preferredLanguage && navigator.language.startsWith('ar')) {
-      // If user's browser is in Arabic and no preference is saved, redirect to Arabic version
-      if (!window.location.pathname.includes('arabic.html')) {
-          window.location.href = 'arabic.html';
-      }
-  }
-});
 
 // Scroll to top button functionality
 const scrollToTopBtn = document.getElementById('scrollToTop');
