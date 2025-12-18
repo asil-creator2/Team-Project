@@ -302,11 +302,7 @@ document.getElementById("clearNotifications").addEventListener("click", () => {
 }
 
 
-/* Example: Real-time events */
-setTimeout(() => {
-addNotification("New movie added to your favorites.");
-showNotification('New movie added to your favorites.')
-}, 4000);
+
 
 setTimeout(() => {
 addNotification("Your watch progress was saved.");
