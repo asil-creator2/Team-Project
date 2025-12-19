@@ -89,7 +89,7 @@
     <!-- Search Section -->
     <section class="movies-section search-section" id="search-section">
         <div class="container">
-            <h2 class="section-title">Search <a href="#" class="view-all">View All &rarr;</a></h2>
+            <h2 class="section-title">Search <a href="#" class="view-all" data-category="search">View All &rarr;</a></h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="search-slider">
@@ -509,6 +509,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script type="module" src="main.js" ></script>
+    <script>
+        const languageSwitcher = document.getElementById("language-En");
+
+        languageSwitcher.addEventListener("click", () => {window.location.href = "./Arabic/Arabic.html"});
+
+    </script>
 </body>
 
 </html>

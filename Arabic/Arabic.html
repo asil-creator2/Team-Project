@@ -82,7 +82,25 @@
             <h1 class="hero-title">أفلام ومسلسلات لا نهائية<br> والمزيد.</h1>
         </div>
     </div>
-   
+       <!-- Search Section -->
+    <section class="movies-section search-section" id="search-section">
+        <div class="container">
+            <h2 class="section-title">البحث <a href="#" class="view-all" data-category="search">عرض الكل &rarr;</a></h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="search-slider">
+                    <!-- Popular movies will be loaded here via JavaScript -->
+                    <div class="spinner" id="search-movies-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="search-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="search-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Movies Section -->
     <section class="movies-section normal" id="movies-section">
@@ -450,7 +468,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="../main.js"></script>
     <script>
         const languageSwitcherAr = document.getElementById("language-Ar");
 
