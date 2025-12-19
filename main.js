@@ -92,9 +92,6 @@ setupNetflixFAQAccordion();
 window.addEventListener("scroll", handleNavbarScroll);
 });
 // language
-const languageSwitcher = document.getElementById("language-En");
-
-languageSwitcher.addEventListener("click", () => {window.location.href = "./Arabic/Arabic.html"});
 
 
 
@@ -218,7 +215,7 @@ document.getElementById('logout').addEventListener('click', async () => {
 
     const email = document.getElementById("emailSign").value.trim();
     const password = document.getElementById("passwordSign").value.trim();
-    const name = document.getElementById('name').value.trim()
+    const name = document.getElementById('name').value.trim();
     try {
 
       const userCredential =
@@ -309,8 +306,6 @@ document.getElementById("clearNotifications").addEventListener("click", () => {
 }
 
 
-
-
 setTimeout(() => {
 addNotification("Your watch progress was saved.");
 showNotification('Your watch progress was saved.')
@@ -334,6 +329,7 @@ if (unreadCount > 0) {
   badge.textContent = unreadCount;
 }
 }
+
 
 function renderNotifications() {
 const list = document.getElementById("notificationList");
@@ -374,6 +370,8 @@ if (notificationModal.classList.contains("active")) {
   renderNotifications();
 }
 }
+
+
 function timeAgo(timestamp) {
 const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
@@ -387,6 +385,7 @@ if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
 
 const days = Math.floor(hours / 24);
 return `${days} day${days > 1 ? "s" : ""} ago`;
+
 }
 
 // Setup Netflix-Style FAQ Accordion
@@ -766,9 +765,8 @@ const rating =
     : "N/A";
 
 // Image (safe)
-const imageUrl = movie.poster_path
-  ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
-  : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
+const imageUrl =`https://image.tmdb.org/t/p/w780${movie.poster_path}`
+
 
 card.innerHTML = `
       <img src="${imageUrl}" alt="${title}" class="movie-poster">
@@ -950,9 +948,7 @@ try {
     data.overview || "No description available.";
 
   // Backdrop
-  const backdropUrl = data.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
-    : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
+  const backdropUrl = `https://image.tmdb.org/t/p/original${data.backdrop_path}`;
 
   const modalBackdrop = document.getElementById("modal-backdrop");
   modalBackdrop.src = backdropUrl;
@@ -1148,6 +1144,7 @@ loadPopularSeries();
 loadNowPlayingMovies();
 }
 
+
 async function searchMoviesAndSeriesLive(query) {
 try {
   const [movieData, tvData] = await Promise.all([
@@ -1190,6 +1187,7 @@ try {
     const card = createMovieCard(item, item.type);
     searchSlider.appendChild(card);
   });
+
 } catch (error) {
   console.error("Search error:", error);
 }
@@ -1241,11 +1239,6 @@ window.addEventListener("scroll", () => {
       }
   });
 });
-
-
-
-
-
 
 
 
