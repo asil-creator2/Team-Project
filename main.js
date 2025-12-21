@@ -33,6 +33,30 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 
+window.signUpCallback = async function (response) {
+  const credential = GoogleAuthProvider.credential(response.credential);
+
+  try {
+    const result = await signInWithCredential(auth, credential);
+    console.log("Firebase user:", result.user);
+    signupModel.classList.remove('active')
+    loginModal.classList.remove('active')
+        Swal.fire({
+          title: `Welcome ${result.user.displayName} !`,
+          text: "We Hope You Enjoy our website!",
+          background: "#9d4edd",
+          icon: "success",
+          color: "#fff",
+          customClass: {
+            popup: "rounded-swal",
+            confirmButton: "swal-confirm",
+          },
+        })
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 
 // API Configuration
@@ -1300,26 +1324,4 @@ if (scrollToTopBtn) {
 }
 
 
-window.signUpCallback = async function (response) {
-  const credential = GoogleAuthProvider.credential(response.credential);
 
-  try {
-    const result = await signInWithCredential(auth, credential);
-    console.log("Firebase user:", result.user);
-    signupModel.classList.remove('active')
-    loginModal.classList.remove('active')
-        Swal.fire({
-          title: `Welcome ${result.user.displayName} !`,
-          text: "We Hope You Enjoy our website!",
-          background: "#9d4edd",
-          icon: "success",
-          color: "#fff",
-          customClass: {
-            popup: "rounded-swal",
-            confirmButton: "swal-confirm",
-          },
-        })
-  } catch (error) {
-    console.error(error);
-  }
-};
