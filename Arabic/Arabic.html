@@ -28,15 +28,23 @@
                 <li><a href="#popular-section" class="nav-link">جديد وشائع</a></li>
             </ul>
 
-            <div class="navbar-actions">
-                <div class="language-switcher" id = "language-Ar">
-                    <i class="fas fa-globe"></i>
-                    <span id="current-language-arabic">English</span>
-                </div>
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="ابحث عن أفلام...">
-                </div>
+<div class="navbar-actions">
+
+        <!-- Language (NO JS) -->
+        <details class="lang-dropdown">
+          <summary class="lang-trigger" title="اختر اللغة">
+            <i class="fas fa-globe"></i>
+            <span class="lang-code">AR</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </summary>
+
+          <div class="lang-menu" role="listbox" aria-label="اختر اللغة">
+            <a class="lang-option" href="../index.html">English</a>
+            <a class="lang-option active" href="./Arabic.html">العربية</a>
+            <a class="lang-option" href="../TR.html/TR.html">Türkçe</a>
+          </div>
+        </details>
+        
                 <div class="notification-icon-container">
                     <i class="fas fa-bell action-icon" id="notifications-icon"></i>
                     <span class="notification-badge" id="notificationBadge"></span>
