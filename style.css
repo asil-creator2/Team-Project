@@ -1862,38 +1862,55 @@ button {
   
 
 
+/* Menu lang */
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
 
-/* Language Switcher Button */
-.language-switcher {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(135deg, #8A2BE2, #6A0DAD);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    cursor: pointer !important;
-    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
-    margin-right: 15px;
-    border: none;
+  min-width: 180px;
+  padding: 8px;
+  border-radius: 14px;
+
+  background: linear-gradient(180deg, #12001f, #0b0014);
+  border: 1px solid rgba(157, 78, 221, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  z-index: 3000;
 }
 
-.language-switcher:hover {
-    background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
-    cursor: pointer !important;
+.lang-option {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #f5f3ff;
+  font-size: 0.95rem;
+  transition: 0.2s ease;
 }
 
-.language-switcher i {
-    margin-right: 8px;
-    font-size: 1.1em;
+.lang-option:hover {
+  background: rgba(157, 78, 221, 0.18);
 }
 
-.language-switcher span {
-    font-size: 14px;
+.lang-option.active {
+  background: rgba(157, 78, 221, 0.28);
+  border: 1px solid rgba(157, 78, 221, 0.35);
 }
+
+/* RTL support for Arabic page */
+html[dir="rtl"] .lang-trigger {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .lang-menu {
+  right: auto;
+  left: 0;
+}
+
+
+
+
 
 
 
