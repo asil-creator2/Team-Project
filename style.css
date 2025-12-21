@@ -1402,6 +1402,8 @@ button {
 /* style alerts */
 .rounded-swal {
     border-radius: 45px !important;
+    background-color: var(--primary-color);
+    color : white;
 }
 
 .swal-confirm {

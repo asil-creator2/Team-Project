@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
     <link rel="stylesheet" href="style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
 </head>
 
 <body id="top">
@@ -89,7 +91,7 @@
     <!-- Search Section -->
     <section class="movies-section search-section" id="search-section">
         <div class="container">
-            <h2 class="section-title">Search <a href="#" class="view-all" data-category="search">View All &rarr;</a></h2>
+            <h2 class="section-title">Search <a href="#" class="view-all">View All &rarr;</a></h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="search-slider">
@@ -427,8 +429,26 @@
                 </div>
                 <div class="login-buttons">
                     <button type="submit" class="login-btn primary">Sign In</button>
+                <div id="g_id_onload"
+                    data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                    data-context="signup"
+                    data-ux_mode="popup"
+                    data-callback="signUpCallback"
+                    data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="pill"
+                    data-theme="filled_blue"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="left"
+                    data-width="300px">
+                </div>
                     <button type="button" class="login-btn secondary" id="signup-btn">Create New Account</button>
                 </div>
+
             </form>
             <div class="login-footer">
                 <p>Need help? <a href="#">Contact Support</a></p>
@@ -458,6 +478,24 @@
                 </div>
                 <div class="login-buttons">
                     <button type="submit" class="login-btn primary">Sign In</button>
+                    <div id="g_id_onload"
+                        data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                        data-context="signup"
+                        data-ux_mode="popup"
+                        data-callback="signUpCallback"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="pill"
+                        data-theme="filled_blue"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="left"
+                        data-width="300px">
+                    </div>
+
                     <button type="button" class="login-btn secondary loginBtn" id="login-btn">Already have an
                         Account</button>
                 </div>
@@ -500,19 +538,20 @@
     </div>
     </div>
 
-<!-- scroll To Top -->
-<button id="scrollToTop" class="scroll-top-btn">
-    <i class="fas fa-arrow-up"></i>
-</button>
-
-
+    <!-- scroll To Top -->
+    <button id="scrollToTop" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script type="module" src="main.js" ></script>
+    
+
     <script>
         const languageSwitcher = document.getElementById("language-En");
 
         languageSwitcher.addEventListener("click", () => {window.location.href = "./Arabic/Arabic.html"});
+
 
     </script>
 </body>

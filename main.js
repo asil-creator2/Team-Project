@@ -24,6 +24,8 @@ onAuthStateChanged
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import { signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { GoogleAuthProvider, signInWithCredential } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 
 
 // Initialize Firebase
@@ -32,12 +34,12 @@ const auth = getAuth(app);
 
 
 
+
 // API Configuration
 const apiKey = "38d4fc734b633813b0de7e5758379d2a";
 
 // DOM Elements
 const navbar = document.querySelector(".navbar");
-const loginIcon = document.getElementById("login-icon");
 const favoritesIcon = document.getElementById("favorites-icon");
 const loginModal = document.getElementById("login-modal");
 const movieModal = document.getElementById("movie-modal");
@@ -91,7 +93,6 @@ setupNetflixFAQAccordion();
 // Navbar scroll effect
 window.addEventListener("scroll", handleNavbarScroll);
 });
-// language
 
 
 
@@ -99,9 +100,10 @@ window.addEventListener("scroll", handleNavbarScroll);
 // Setup all event listeners
 function setupEventListeners() {
   // Login icon click
-  document.getElementById('user-icon').addEventListener("click", () => {
-    signupModel.classList.add("active");
-  })
+  const openSignupModel = () => {
+    signupModel.classList.add('active');
+};
+  document.getElementById('user-icon').addEventListener("click", openSignupModel)
 // Favorites icon click
 favoritesIcon.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -194,20 +196,52 @@ onAuthStateChanged(auth, async (user) => {
     text.innerText = user.displayName || 'User';
     userIcon.style.display = 'block';
     logout.style.display = 'block';
+    userIcon.removeEventListener('click', openSignupModel)
 
   } else {
     console.log("Logged out");
 
     text.innerText = 'Sign Up';
     logout.style.display = 'none';
+    userIcon.addEventListener('click',() => {
+      signupModel.classList.add('active')
+    })
+
   }
 });
 
 
 // logout click
-document.getElementById('logout').addEventListener('click', async () => {
-  await signOut(auth);
+document.getElementById('logout').addEventListener('click', () => {
+  Swal.fire({
+    title: "Do you want to logout?",
+    text: "You will be logged out from the website (Note: This action cannot be undone)",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+    customClass: {
+      popup: "rounded-swal",
+      confirmButton: "swal-confirm",
+      cancelButton : "swal-confirm"
+    },
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await signOut(auth);
+
+      Swal.fire({
+        title: "Loged out success",
+        icon: "success",
+        confirmButtonText: "Ok",
+        customClass: {
+          popup: "rounded-swal",
+          confirmButton: "swal-confirm",
+        },
+      });
+    }
+  });
 });
+
   // signup form submission
 
   document.querySelector(".signup-form").addEventListener("submit", async (e) => {
@@ -215,7 +249,7 @@ document.getElementById('logout').addEventListener('click', async () => {
 
     const email = document.getElementById("emailSign").value.trim();
     const password = document.getElementById("passwordSign").value.trim();
-    const name = document.getElementById('name').value.trim();
+    const name = document.getElementById('name').value.trim()
     try {
 
       const userCredential =
@@ -233,7 +267,7 @@ document.getElementById('logout').addEventListener('click', async () => {
       signupModel.classList.remove("active");
 
       Swal.fire({
-        title: "Welcome!",
+        title: `Welcome ${user.displayName}!`,
         text: "Signed Up Sucesssfully",
         background: "#9d4edd",
         icon: "success",
@@ -306,6 +340,8 @@ document.getElementById("clearNotifications").addEventListener("click", () => {
 }
 
 
+
+
 setTimeout(() => {
 addNotification("Your watch progress was saved.");
 showNotification('Your watch progress was saved.')
@@ -329,7 +365,6 @@ if (unreadCount > 0) {
   badge.textContent = unreadCount;
 }
 }
-
 
 function renderNotifications() {
 const list = document.getElementById("notificationList");
@@ -370,8 +405,6 @@ if (notificationModal.classList.contains("active")) {
   renderNotifications();
 }
 }
-
-
 function timeAgo(timestamp) {
 const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
@@ -385,7 +418,6 @@ if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
 
 const days = Math.floor(hours / 24);
 return `${days} day${days > 1 ? "s" : ""} ago`;
-
 }
 
 // Setup Netflix-Style FAQ Accordion
@@ -765,8 +797,9 @@ const rating =
     : "N/A";
 
 // Image (safe)
-const imageUrl =`https://image.tmdb.org/t/p/w780${movie.poster_path}`
-
+const imageUrl = movie.poster_path
+  ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+  : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
 
 card.innerHTML = `
       <img src="${imageUrl}" alt="${title}" class="movie-poster">
@@ -948,7 +981,9 @@ try {
     data.overview || "No description available.";
 
   // Backdrop
-  const backdropUrl = `https://image.tmdb.org/t/p/original${data.backdrop_path}`;
+  const backdropUrl = data.backdrop_path
+    ? `https://image.tmdb.org/t/p/original${data.backdrop_path}`
+    : "https://images.unsplash.com/photo-1536440136628-849c177e76a1";
 
   const modalBackdrop = document.getElementById("modal-backdrop");
   modalBackdrop.src = backdropUrl;
@@ -1144,7 +1179,6 @@ loadPopularSeries();
 loadNowPlayingMovies();
 }
 
-
 async function searchMoviesAndSeriesLive(query) {
 try {
   const [movieData, tvData] = await Promise.all([
@@ -1187,7 +1221,6 @@ try {
     const card = createMovieCard(item, item.type);
     searchSlider.appendChild(card);
   });
-
 } catch (error) {
   console.error("Search error:", error);
 }
@@ -1242,6 +1275,11 @@ window.addEventListener("scroll", () => {
 
 
 
+
+
+
+
+
 // Scroll to top button functionality
 const scrollToTopBtn = document.getElementById('scrollToTop');
 if (scrollToTopBtn) {
@@ -1262,3 +1300,26 @@ if (scrollToTopBtn) {
 }
 
 
+window.signUpCallback = async function (response) {
+  const credential = GoogleAuthProvider.credential(response.credential);
+
+  try {
+    const result = await signInWithCredential(auth, credential);
+    console.log("Firebase user:", result.user);
+    signupModel.classList.remove('active')
+    loginModal.classList.remove('active')
+        Swal.fire({
+          title: `Welcome ${result.user.displayName} !`,
+          text: "We Hope You Enjoy our website!",
+          background: "#9d4edd",
+          icon: "success",
+          color: "#fff",
+          customClass: {
+            popup: "rounded-swal",
+            confirmButton: "swal-confirm",
+          },
+        })
+  } catch (error) {
+    console.error(error);
+  }
+};
