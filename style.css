@@ -2003,3 +2003,159 @@ html[dir="rtl"] .lang-menu {
 #text:hover{
     color: #9d4edd;
 }
+
+/* ===============================
+   Team Footer – Responsive
+   =============================== */
+
+.team-footer {
+  padding: 60px 20px 80px;
+  text-align: center;
+  background: transparent; /* keep footer background transparent to match site */
+  transition: padding-bottom 0.28s ease;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  color: #f6f6ff;
+}
+
+.title span {
+  display: block;
+  font-size: 14px;
+  color: var(--primary-color, #8b7dff);
+  margin-top: 6px;
+  opacity: 0.95;
+}
+
+/* Grid layout adapts to available width */
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 36px;
+  justify-content: center;
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.member {
+  position: relative;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Avatar */
+.circle {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(255,255,255,0.04);
+  transition: transform 0.28s cubic-bezier(.2,.8,.2,1), box-shadow 0.28s ease;
+}
+
+/* Floating card (desktop) */
+.card {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 260px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius: 10px;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0,0,0,0.6));
+  font-size: 14px;
+  color: #dcdcff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.28s cubic-bezier(.2,.8,.2,1);
+  border: 1px solid rgba(255,255,255,0.04);
+  text-align: left;
+}
+
+/* Hover interactions only on devices that support hover (desktop/tablet with fine pointer) */
+@media (hover: hover) and (pointer: fine) {
+  .member:hover .circle {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 16px 34px rgba(0,0,0,0.5);
+  }
+
+  .member:hover .card {
+    opacity: 1;
+    transform: translateX(-50%) translateY(24px);
+    pointer-events: auto;
+  }
+.team-footer:hover {
+    padding-bottom: 220px; /* adjust if you want more/less space */
+  }
+}
+
+.card .email {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #c8cfff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.01);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.card .email i {
+  color: var(--primary-color, #8b7dff);
+  margin-right: 6px;
+}
+
+/* Large screens */
+@media (min-width: 1100px) {
+  .team { grid-template-columns: repeat(4, 1fr); gap: 40px; }
+}
+
+/* Desktop / large */
+@media (max-width: 900px) {
+  .team { grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 820px; }
+  .card { width: 240px;}
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .team { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .circle { width: 68px; height: 68px; font-size: 13px; }
+  .card { width: 220px; font-size: 13.5px; }
+}
+
+/* Mobile: single column, cards visible under avatars */
+@media (max-width: 600px) {
+  .team { grid-template-columns: 1fr; gap: 20px; }
+  .member { width: 100%; }
+  .circle { margin: 0 auto; width: 64px; height: 64px; cursor: default; pointer-events: none; }
+  .card { position: static; transform: none; opacity: 1; pointer-events: auto; width: 92%; margin: 12px auto 0; text-align: center; }
+  .title { margin-bottom: 30px; font-size: 20px; }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+  .circle { width: 56px; height: 56px; font-size: 12px; }
+  .card { width: 96%; font-size: 13px; padding: 12px 14px; }
+  .team-footer { padding: 40px 12px 60px; }
+}
+ 
