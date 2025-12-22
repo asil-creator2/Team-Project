@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-
-<html lang="tr" dir="ltr">
-
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix | Premium Film Yayını</title>
-
+    <title>MovieWorld | Premium Film ve Dizi İzleme</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
     <link rel="stylesheet" href="../style.css">
+
 </head>
 
 <body id="top">
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">Stream<span>Flix</span></a>
+            <a href="#" class="logo">Movie<span>World</span></a>
 
             <ul class="nav-links">
                 <li><a href="#top" class="nav-link active">Ana Sayfa</a></li>
@@ -29,80 +28,88 @@
                 <li><a href="#popular-section" class="nav-link">Yeni & Popüler</a></li>
             </ul>
 
-        <div class="navbar-actions">
-
-        <!-- Language (NO JS) -->
-        <details class="lang-dropdown">
-          <summary class="lang-trigger" title="Dil seçin">
-            <i class="fas fa-globe"></i>
-            <span class="lang-code">TR</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </summary>
-
-          <div class="lang-menu" role="listbox" aria-label="Dil seçin">
-            <a class="lang-option" href="../index.html">English</a>
-            <a class="lang-option" href="../Arabic/Arabic.html">العربية</a>
-            <a class="lang-option active" href="./TR.html">Türkçe</a>
-          </div>
-        </details>
-
+            <div class="navbar-actions">
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Filmleri ara...">
+                    <input type="text" class="search-input" placeholder="Film ara...">
                 </div>
 
-                <div class="notification-icon-container">
-                    <i class="fas fa-bell action-icon" id="notifications-icon"></i>
-                    <span class="notification-badge" id="notificationBadge"></span>
-                </div>
 
-                <div class="favorites-icon-container">
-                    <i class="fas fa-heart action-icon" id="favorites-icon"></i>
-                    <span class="favorites-count" id="favorites-count">0</span>
-                </div>
+                <div class="navbar-actions">
 
-                <i class="fas fa-user action-icon" id="login-icon"></i>
+                    <!-- Dil Seçimi (JS YOK) -->
+                    <details class="lang-dropdown">
+                        <summary class="lang-trigger" title="Dil seç">
+                            <i class="fas fa-globe"></i>
+                            <span class="lang-code">TR</span>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </summary>
+
+                        <div class="lang-menu" role="listbox" aria-label="Dil seç">
+                            <a class="lang-option" href="./index.html">English</a>
+                            <a class="lang-option" href="./Arabic/Arabic.html">العربية</a>
+                            <a class="lang-option active" href="./TR.html/TR.html">Türkçe</a>
+                        </div>
+                    </details>
+
+
+                    <div class="notification-icon-container">
+                        <i class="fas fa-bell action-icon" id="notifications-icon"></i>
+                        <span class="notification-badge" id="notificationBadge"></span>
+                    </div>
+                    <div class="favorites-icon-container">
+                        <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+                        <span class="favorites-count" id="favorites-count">0</span>
+                    </div>
+                    <div class="user-icon" id="user-icon">
+                        <i class="fas fa-user action-icon userIcon" id="login-icon"></i>
+                        <h5 id="text"></h5>
+                    </div>
+
+                    <button class="logout" id="logout">Çıkış Yap</button>
+                </div>
             </div>
-        </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Bölümü -->
     <div class="hero">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80"
-                        alt="Cinematic 4">
+                        alt="Sinematik 4">
                 </div>
                 <div class="swiper-slide">
                     <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp"
-                        alt="Cinematic 2">
+                        alt="Sinematik 2">
                 </div>
                 <div class="swiper-slide">
                     <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"
-                        alt="Cinematic 2">
+                        alt="Sinematik 2">
                 </div>
                 <div class="swiper-slide">
                     <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg"
-                        alt="Cinematic 3">
+                        alt="Sinematik 3">
                 </div>
+
             </div>
 
             <div class="swiper-pagination"></div>
         </div>
 
         <div class="hero-content">
-            <h1 class="hero-title">Sınırsız Filmler, Diziler<br> ve Daha Fazlası.</h1>
+            <h1 class="hero-title">Sınırsız Film, Dizi<br> ve Daha Fazlası.</h1>
         </div>
     </div>
 
-    <!-- Search Section -->
+    <!-- Arama Bölümü -->
     <section class="movies-section search-section" id="search-section">
         <div class="container">
-            <h2 class="section-title">Arama <a href="#" class="view-all">Tümünü Gör &rarr;</a></h2>
+            <h2 class="section-title">Ara <a href="#" class="view-all">Tümünü Gör &rarr;</a></h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="search-slider">
+                    <!-- Popüler filmler JavaScript ile buraya yüklenecek -->
                     <div class="spinner" id="search-movies-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="search-slider">
@@ -115,15 +122,18 @@
         </div>
     </section>
 
-    <!-- Movies Section -->
+    <!-- Filmler Bölümü -->
     <section class="movies-section normal" id="movies-section">
         <div class="container">
-            <h2 class="section-title">Popüler <span>Filmler</span>
-                <a href="#" class="view-all" data-type="movie" data-category="popular">Tümünü Gör →</a>
+            <h2 class="section-title">Popüler <span>Filmler</span> <a href="#" class="view-all" data-type="movie"
+                    data-category="popular">
+                    Tümünü Gör →
+                </a>
             </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="popular-movies-slider">
+                    <!-- Popüler filmler JavaScript ile buraya yüklenecek -->
                     <div class="spinner" id="popular-movies-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="popular-movies-slider">
@@ -136,15 +146,19 @@
         </div>
     </section>
 
-    <!-- Series Section -->
+    <!-- Diziler Bölümü -->
     <section class="movies-section normal" id="series-section">
         <div class="container">
-            <h2 class="section-title">Popüler <span>Diziler</span>
-                <a href="#" class="view-all" data-type="tv" data-category="now_playing">Tümünü Gör →</a>
+            <h2 class="section-title">Popüler <span>TV Dizileri</span><a href="#" class="view-all" data-type="tv"
+                    data-category="now_playing">
+                    Tümünü Gör →
+                </a>
+
             </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="popular-series-slider">
+                    <!-- Popüler diziler JavaScript ile buraya yüklenecek -->
                     <div class="spinner" id="popular-series-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="popular-series-slider">
@@ -157,15 +171,18 @@
         </div>
     </section>
 
-    <!-- New & Popular Section -->
+    <!-- Yeni & Popüler Bölümü -->
     <section class="movies-section normal" id="popular-section">
         <div class="container">
-            <h2 class="section-title">Yeni & <span>Popüler</span>
-                <a href="#" class="view-all" data-type="movie" data-category="now_playing">Tümünü Gör →</a>
+            <h2 class="section-title">Yeni & <span>Popüler</span><a href="#" class="view-all" data-type="movie"
+                    data-category="now_playing">
+                    Tümünü Gör →
+                </a>
             </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="now-playing-slider">
+                    <!-- Şu anda oynayan filmler JavaScript ile buraya yüklenecek -->
                     <div class="spinner" id="now-playing-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="now-playing-slider">
@@ -177,16 +194,18 @@
             </div>
         </div>
     </section>
-
-    <!-- Continue Watching section (غيرت id عشان مايتكررش) -->
-    <section class="movies-section normal" id="continue-section">
+    <!-- İzlemeye Devam Et bölümü -->
+    <section class="movies-section" id="popular-section">
         <div class="container">
-            <h2 class="section-title">İzlemeye <span>Devam Et</span>
-                <a href="#" class="view-all" data-type="continue">Tümünü Gör →</a>
+            <h2 class="section-title">İzlemeye <span>Devam Et</span> <a href="#" class="view-all" data-type="continue">
+                    Tümünü Gör →
+                </a>
             </h2>
 
             <div class="movies-slider">
                 <div class="slider-container" id="continue-playing-slider">
+                    <!-- izlemeye devam edilen filmler JavaScript ile buraya yüklenecek -->
+
                     <div class="spinner" id="continue-playing-spinner"></div>
                 </div>
                 <button class="slider-btn prev" data-slider="continue-playing-slider">
@@ -199,7 +218,7 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- SSS Bölümü - Netflix Tarzı -->
     <section class="faq-section">
         <div class="container">
             <h2 class="faq-title">Sıkça Sorulan Sorular</h2>
@@ -207,26 +226,25 @@
             <div class="faq-container">
                 <div class="faq-item">
                     <button class="faq-question">
-                        <span>StreamFlix nedir?</span>
+                        <span>MovieWorld nedir?</span>
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        StreamFlix; ödüllü diziler, filmler, anime, belgeseller ve daha fazlasını
-                        binlerce internet bağlantılı cihazda sunan premium bir yayın servisidir.
-                        İstediğiniz kadar, istediğiniz zaman reklamsız izleyebilirsiniz — hepsi tek bir
-                        uygun aylık ücretle.
+                        MovieWorld, binlerce internet bağlantılı cihazda çok çeşitli ödüllü TV şovları, filmler, anime,
+                        belgeseller ve daha fazlasını sunan premium bir yayın hizmetidir. Reklamsız, düşük aylık bir
+                        ücret karşılığında istediğiniz zaman, istediğiniz kadar izleyebilirsiniz.
                     </div>
                 </div>
 
-                                <div class="faq-item">
+                <div class="faq-item">
                     <button class="faq-question">
-                        <span>StreamFlix’i kullanmak ücretsiz mi?</span>
+                        <span>MovieWorld ücretsiz mi?</span>
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        StreamFlix, yeni aboneler için 30 günlük ücretsiz deneme sunar. Deneme süresi bittikten sonra,
-                        aylık 8,99$’dan başlayan farklı abonelik planlarından birini seçebilirsiniz. Sözleşme yoktur,
-                        iptal ücreti yoktur ve istediğiniz zaman online olarak iptal edebilirsiniz.
+                        MovieWorld, yeni abonelere 30 günlük ücretsiz deneme süresi sunar. Deneme süresinden sonra,
+                        ayda 8.99$'dan başlayan çeşitli abonelik planları arasından seçim yapabilirsiniz. Sözleşme
+                        yoktur, iptal ücreti yoktur ve istediğiniz zaman çevrimiçi olarak iptal edebilirsiniz.
                     </div>
                 </div>
 
@@ -236,9 +254,10 @@
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        İçerik kütüphanemizde Warner Bros., Universal, Paramount ve Sony Pictures gibi büyük stüdyolardan
-                        filmler ve diziler ile bağımsız yapımcıların içerikleri bulunur. Ayrıca StreamFlix’e özel
-                        orijinal içerikler de üretiriz. Tüm içerikler yayın için yasal olarak lisanslıdır.
+                        İçerik kütüphanemiz, Warner Bros., Universal, Paramount ve Sony Pictures gibi büyük stüdyoların
+                        yanı sıra bağımsız film yapımcılarının filmlerini ve TV şovlarını içerir. Ayrıca yalnızca
+                        MovieWorld'de bulunan orijinal içerikler de üretiyoruz. Tüm içerikler yasal olarak akış için
+                        lisanslanmıştır.
                     </div>
                 </div>
 
@@ -248,9 +267,10 @@
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Evet! Film kartındaki kalp ikonuna tıklayarak herhangi bir filmi veya diziyi favorilerinize
-                        ekleyebilirsiniz. Favoriler listeniz hesabınıza kaydedilir ve tüm cihazlardan erişilebilir.
-                        Ayrıca farklı türler veya ruh halinize göre birden fazla izleme listesi oluşturabilirsiniz.
+                        Evet! Film kartındaki kalp simgesine tıklayarak herhangi bir filmi veya TV şovunu
+                        favorilerinize ekleyebilirsiniz. Favoriler listeniz hesabınıza kaydedilir ve herhangi bir
+                        cihazdan erişilebilir. Ayrıca farklı türler veya ruh halleri için birden fazla izleme listesi
+                        oluşturabilirsiniz.
                     </div>
                 </div>
 
@@ -260,9 +280,10 @@
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Tam filmleri ve dizileri izlemek için bir hesaba ihtiyacınız var; ancak katalogda hesap olmadan
-                        gezinebilirsiniz. Hesap oluşturmak ücretsizdir ve bir dakikadan kısa sürer. Hesabınızla kişiselleştirilmiş
-                        öneriler alır, izleme listeleri oluşturabilir ve cihazlar arasında izlemeye devam edebilirsiniz.
+                        Tam filmleri ve TV şovlarını izlemek için bir hesaba ihtiyacınız var, ancak kataloğumuzu hesap
+                        olmadan göz atabilirsiniz. Hesap oluşturmak ücretsizdir ve bir dakikadan az sürer. Bir hesabınız
+                        olduğunda, kişiselleştirilmiş öneriler alır, izleme listeleri oluşturabilir ve cihazlar
+                        arasında izlemeye devam edebilirsiniz.
                     </div>
                 </div>
 
@@ -272,9 +293,10 @@
                         <i class="fas fa-plus faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Kesinlikle! StreamFlix’i, StreamFlix uygulamasını destekleyen tüm internet bağlantılı cihazlarda
-                        izleyebilirsiniz: Akıllı TV’ler, telefonlar, tabletler, medya oynatıcılar, oyun konsolları ve bilgisayarlar.
-                        Ayrıca mobil uygulama ile içerikleri indirip çevrimdışı izleyebilirsiniz.
+                        Kesinlikle! MovieWorld'ü akıllı TV'ler, akıllı telefonlar, tabletler, akış ortamı oynatıcıları,
+                        oyun konsolları ve bilgisayarlar dahil olmak üzere MovieWorld uygulamasını destekleyen herhangi
+                        bir internet bağlantılı cihazda izleyebilirsiniz. Ayrıca mobil uygulama ile çevrimdışı izlemek
+                        için şovları indirebilirsiniz.
                     </div>
                 </div>
             </div>
@@ -286,11 +308,9 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="footer-logo">Stream<span>Flix</span></div>
-                    <p class="footer-tagline">
-                        StreamFlix, ödüllü diziler, filmler, anime, belgeseller ve daha fazlasını
-                        binlerce internet bağlantılı cihazda sunan premium bir yayın servisidir.
-                    </p>
+                    <div class="footer-logo">Movie<span>World</span></div>
+                    <p class="footer-tagline">MovieWorld, binlerce internet bağlantılı cihazda çok çeşitli ödüllü TV
+                        şovları, filmler, anime, belgeseller ve daha fazlasını sunan premium bir yayın hizmetidir.</p>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
@@ -301,7 +321,7 @@
 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h3>StreamFlix</h3>
+                        <h3>MovieWorld</h3>
                         <ul>
                             <li><a href="#">Hakkımızda</a></li>
                             <li><a href="#">Kariyer</a></li>
@@ -323,10 +343,10 @@
                     <div class="footer-column">
                         <h3>Yasal</h3>
                         <ul>
-                            <li><a href="#">Kullanım Şartları</a></li>
+                            <li><a href="#">Hizmet Şartları</a></li>
                             <li><a href="#">Çerez Politikası</a></li>
                             <li><a href="#">Kurumsal Bilgiler</a></li>
-                            <li><a href="#">Yasal Bildirimler</a></li>
+                            <li><a href="#">Yasal Uyarılar</a></li>
                         </ul>
                     </div>
 
@@ -343,15 +363,13 @@
             </div>
 
             <div class="footer-bottom">
-                <p>
-                    &copy; 2025 StreamFlix. Tüm Hakları Saklıdır. Bu site eğitim amaçlı bir demo projedir.
-                    Veriler TMDB tarafından sağlanmaktadır.
-                </p>
+                <p>&copy; 2025 MovieWorld. Tüm Hakları Saklıdır. Bu, eğitim amaçlı bir demo web sitesidir. Veriler TMDB
+                    tarafından sağlanmaktadır.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Favorites Modal -->
+    <!-- Favoriler Modal -->
     <div class="modal-overlay" id="favorites-modal">
         <div class="favorites-modal">
             <div class="modal-close" id="favorites-modal-close">
@@ -362,22 +380,21 @@
                 <p class="favorites-count-text" id="favorites-count-text">0 favori filminiz var</p>
             </div>
             <div class="favorites-body" id="favorites-body">
+                <!-- Favori filmler JavaScript ile buraya yüklenecek -->
                 <div class="favorites-empty" id="favorites-empty">
                     <i class="fas fa-heart-broken"></i>
                     <h3>Favoriler listeniz boş</h3>
-                    <p>
-                        Herhangi bir film kartındaki kalp ikonuna tıklayarak filmleri ve dizileri favorilerinize eklemeye başlayın.
-                        Kolay erişim için burada görünecekler.
-                    </p>
+                    <p>Herhangi bir film kartındaki kalp simgesine tıklayarak filmleri ve TV şovlarını favorilerinize
+                        eklemeye başlayın. Kolay erişim için burada görünecekler.</p>
                     <button class="btn btn-primary" id="browse-movies-btn">
-                        <i class="fas fa-film"></i> Filmlere Göz At
+                        <i class="fas fa-film"></i> Filmleri Göz At
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Movie Details Modal -->
+    <!-- Film Detayları Modal -->
     <div class="modal-overlay" id="movie-modal">
         <div class="movie-modal">
             <div class="modal-close" id="movie-modal-close">
@@ -410,13 +427,13 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Giriş Modal -->
     <div class="modal-overlay" id="login-modal">
         <div class="login-modal">
             <div class="modal-close" id="login-modal-close">
                 <i class="fas fa-times"></i>
             </div>
-            <h2 class="login-title">StreamFlix’e Giriş Yap</h2>
+            <h2 class="login-title">MovieWorld'e Giriş Yap</h2>
             <form class="login-form">
                 <div class="form-group">
                     <label for="email" class="form-label">E-posta Adresi</label>
@@ -428,47 +445,66 @@
                 </div>
                 <div class="login-buttons">
                     <button type="submit" class="login-btn primary">Giriş Yap</button>
+                    <div id="g_id_onload"
+                        data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                        data-context="signup" data-ux_mode="popup" data-callback="signUpCallback"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue"
+                        data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="300px">
+                    </div>
                     <button type="button" class="login-btn secondary" id="signup-btn">Yeni Hesap Oluştur</button>
                 </div>
+
             </form>
             <div class="login-footer">
-                <p>Yardıma mı ihtiyacınız var? <a href="#">Destek ile İletişime Geçin</a></p>
+                <p>Yardıma mı ihtiyacınız var? <a href="#">Destekle İletişime Geçin</a></p>
             </div>
         </div>
     </div>
-
-    <!-- Sign Up Modal -->
+    <!-- kayıt ol modeli -->
     <div class="modal-overlay" id="signUpModel">
         <div class="login-modal">
             <div class="modal-close" id="signUp-modal-close">
                 <i class="fas fa-times"></i>
             </div>
-            <h2 class="login-title">StreamFlix’e Kaydol</h2>
+            <h2 class="login-title">MovieWorld'e Kaydol</h2>
             <form class="signup-form">
                 <div class="form-group">
-                    <label for="name" class="form-label">Ad</label>
+                    <label for="name" class="form-label">Ad Soyad</label>
                     <input type="text" id="name" class="form-input" placeholder="Adınızı girin" required>
                 </div>
                 <div class="form-group">
-                    <label for="emailSign" class="form-label">E-posta Adresi</label>
+                    <label for="email" class="form-label">E-posta Adresi</label>
                     <input type="email" id="emailSign" class="form-input" placeholder="E-postanızı girin" required>
                 </div>
                 <div class="form-group">
-                    <label for="passwordSign" class="form-label">Şifre</label>
+                    <label for="password" class="form-label">Şifre</label>
                     <input type="password" id="passwordSign" class="form-input" placeholder="Şifrenizi girin" required>
                 </div>
                 <div class="login-buttons">
-                    <button type="submit" class="login-btn primary">Kaydol</button>
-                    <button type="button" class="login-btn secondary loginBtn" id="login-btn">Zaten hesabım var</button>
+                    <button type="submit" class="login-btn primary">Giriş Yap</button>
+                    <div id="g_id_onload"
+                        data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                        data-context="signup" data-ux_mode="popup" data-callback="signUpCallback"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue"
+                        data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="300px">
+                    </div>
+
+                    <button type="button" class="login-btn secondary loginBtn" id="login-btn">Zaten Hesabım Var</button>
                 </div>
             </form>
             <div class="login-footer">
-                <p>Yardıma mı ihtiyacınız var? <a href="#">Destek ile İletişime Geçin</a></p>
+                <p>Yardıma mı ihtiyacınız var? <a href="#">Destekle İletişime Geçin</a></p>
             </div>
         </div>
     </div>
 
-    <!-- View All Modal -->
+    <!-- Tümünü Gör Modal -->
     <div class="modal-overlay" id="viewAll-modal">
         <div class="movie-modal view-all-modal">
             <div class="modal-close" id="viewAll-close">
@@ -476,13 +512,15 @@
             </div>
 
             <h2 class="modal-title" id="viewAll-title"></h2>
+
             <div class="viewall-grid" id="viewAll-content"></div>
         </div>
     </div>
 
-    <!-- Notification Modal -->
+    <!-- Bildirim Modal -->
     <div class="notification-overlay" id="notificationModal">
         <div class="notification-container">
+
             <header class="notification-header">
                 <h2>Bildirimler</h2>
                 <div class="header-actions">
@@ -492,22 +530,21 @@
             </header>
 
             <section class="notification-content" id="notificationList">
-                <!-- Notifications injected here -->
+                <!-- Bildirimler buraya enjekte edilecek -->
             </section>
+
         </div>
     </div>
 
-    <!-- Scroll To Top -->
+    <!-- Yukarı Çık -->
     <button id="scrollToTop" class="scroll-top-btn">
         <i class="fas fa-arrow-up"></i>
     </button>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script type="module" src="../main.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 </body>
-
-
 
 </html>
