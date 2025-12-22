@@ -1863,40 +1863,79 @@ button {
 
 
 /* Menu lang */
-.lang-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-
-  min-width: 180px;
-  padding: 8px;
-  border-radius: 14px;
-
-  background: linear-gradient(180deg, #12001f, #0b0014);
-  border: 1px solid rgba(157, 78, 221, 0.35);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-
-  z-index: 3000;
-}
-
-.lang-option {
-  display: block;
-  padding: 10px 12px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #f5f3ff;
-  font-size: 0.95rem;
-  transition: 0.2s ease;
-}
-
-.lang-option:hover {
-  background: rgba(157, 78, 221, 0.18);
-}
-
-.lang-option.active {
-  background: rgba(157, 78, 221, 0.28);
-  border: 1px solid rgba(157, 78, 221, 0.35);
-}
+/* container */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* remove default arrow */
+  .lang-dropdown summary {
+    list-style: none;
+  }
+  .lang-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  /* trigger (icon + EN + arrow) */
+  .lang-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer; /* 👈 الماوس يصير إيد */
+    color: #b45cff; /* بنفسجي */
+    font-weight: 600;
+  }
+  
+  /* hover effect */
+  .lang-trigger:hover {
+    color: #d18bff;
+  }
+  
+  /* dropdown menu */
+  .lang-menu {
+    position: absolute;
+    top: 100%; /* 👈 تحت الأيقونة */
+    right: 0;
+    margin-top: 8px;
+    background: #1e1e2e;
+    border: 1px solid #b45cff;
+    border-radius: 12px;
+    min-width: 160px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+  }
+  
+  /* hide when closed */
+  .lang-dropdown:not([open]) .lang-menu {
+    display: none;
+  }
+  
+  /* options */
+  .lang-option {
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    border-radius: 8px;
+    transition: background 0.3s;
+    cursor: pointer; /* 👈 إيد */
+  }
+  
+  .lang-option:hover {
+    background: #b45cff;
+  }
+  
+  .lang-option.active {
+    background: #8a2be2;
+  }
+  
+  /* chevron rotation */
+  .lang-dropdown[open] .chevron {
+    transform: rotate(180deg);
+    transition: 0.3s;
+  }
 
 /* RTL support for Arabic page */
 html[dir="rtl"] .lang-trigger {
