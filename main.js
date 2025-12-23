@@ -224,8 +224,18 @@ onAuthStateChanged(auth, async (user) => {
 
   } else {
     console.log("Logged out");
-
-    text.innerText = 'Sign Up';
+     switch (window.document.html.lang) {
+        case 'ar':
+          text.innerText = 'تسجيل الدخول';
+          break;
+        case 'en':
+          text.innerText = 'Sign up';
+          break;
+        case 'tr':
+          text.innerText = 'Giriş Yap';
+          break;
+     }
+    
     logout.style.display = 'none';
     userIcon.addEventListener('click',() => {
       signupModel.classList.add('active')
@@ -1325,3 +1335,50 @@ if (scrollToTopBtn) {
 
 
 
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav = document.getElementById("mobileNav");
+
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("active");
+});
+
+/* تسكير المنيو لما نضغط رابط */
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => {
+    mobileNav.classList.remove("active");
+  });
+});
+
+const mobileLogout = document.getElementById("mobileLogout");
+if (mobileLogout) {
+  mobileLogout.addEventListener("click", () => {
+    document.getElementById("logout").click();
+  });
+}
+
+// Mobile buttons connect to original actions
+document.getElementById("mobileNotifications").onclick = () =>
+  document.getElementById("notifications-icon").click();
+
+document.getElementById("mobileFavorites").onclick = () =>
+  document.getElementById("favorites-icon").click();
+
+document.getElementById("mobileAccount").onclick = () =>
+  document.getElementById("user-icon").click();
+
+document.getElementById("mobileLogout").onclick = () =>
+  document.getElementById("logout").click();
+
+
+
+const menuToggle2 = document.querySelector(".menu-toggle");
+const mobileNav2 = document.querySelector(".mobile-nav");
+const closeMenu = document.querySelector(".close-menu");
+
+menuToggle2.addEventListener("click", () => {
+  mobileNav2.classList.add("active");
+});
+
+closeMenu.addEventListener("click", () => {
+  mobileNav.classList.remove("active");
+});

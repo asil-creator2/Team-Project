@@ -15,7 +15,685 @@
 
 </head>
 <body id="top">
+    <!-- Navbar --><!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmler Dünyası| Premium Film ve Dizi İzleme</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+<body id="top">
     <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+      
+          <!-- Logo -->
+          <a href="#" class="logo">Filmler<span>Dünyası</span></a>
+      
+          <!-- Desktop Nav Links -->
+          <ul class="nav-links">
+            <li><a href="#top" class="active">Ana Sayfa</a></li>
+            <li><a href="#movies-section">Filmler</a></li>
+            <li><a href="#series-section">Diziler</a></li>
+            <li><a href="#popular-section">Yeni & Popüler</a></li>
+          </ul>
+      
+          <!-- Search -->
+          <div class="search-container mobile-search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Film ara...">
+          </div>
+      
+          <!-- Desktop Actions -->
+          <div class="navbar-actions desktop-actions">
+      
+           <!-- Dil Seçimi (JS YOK) -->
+           <details class="lang-dropdown">
+            <summary class="lang-trigger" title="Dil seç">
+                <i class="fas fa-globe"></i>
+                <span class="lang-code">TR</span>
+                <i class="fas fa-chevron-down chevron"></i>
+            </summary>
+
+            <div class="lang-menu" role="listbox" aria-label="Dil seç">
+                <a class="lang-option" href="../index.html">🇬🇧English</a>
+                <a class="lang-option" href="../Arabic/Arabic.html">🇸🇦العربية</a>
+                <a class="lang-option active" href="./TR.html">🇹🇷 Türkçe</a>
+            </div>
+        </details>
+      
+            <!-- Notifications -->
+            <div class="notification-icon-container">
+              <i class="fas fa-bell action-icon" id="notifications-icon"></i>
+              <span class="notification-badge" id="notificationBadge"></span>
+            </div>
+      
+            <!-- Favorites -->
+            <div class="favorites-icon-container">
+              <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+              <span class="favorites-count" id="favorites-count">0</span>
+            </div>
+      
+            <!-- Account -->
+            <div class="user-icon" id="user-icon">
+              <i class="fas fa-user action-icon"></i>
+              <h5 id="text">çıkış yap</h5>
+            </div>
+      
+            <button class="logout" id="logout">Çıkış Yap</button>
+          </div>
+      
+          <!-- Mobile Menu Button -->
+          <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+      
+        </div>
+      
+        <!-- Mobile Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <button class="close-menu">✕</button>
+          
+            <!-- Language -->
+            <details class="lang-dropdown">
+              <summary class="lang-trigger" title="Dil seç">
+                <i class="fas fa-globe"></i>
+                <span class="lang-code">TR</span>
+                <i class="fas fa-chevron-down chevron"></i>
+              </summary>
+          
+              <div class="lang-menu" role="listbox" aria-label="Dil seç">
+                <a class="lang-option" href="../index.html"> 🇬🇧 English</a>
+                <a class="lang-option" href="../Arabic/Arabic.html">🇸🇦 العربية</a>
+                <a class="lang-option active" href="./TR.html">🇹🇷 Türkçe</a>
+              </div>
+            </details>
+          
+            <!-- Links -->
+            <a href="#top">
+              <i class="fas fa-house"></i>
+              Ana Sayfa
+            </a>
+          
+            <a href="#movies-section">
+              <i class="fas fa-film"></i>
+              Filmler
+            </a>
+          
+            <a href="#series-section">
+              <i class="fas fa-tv"></i>
+              Diziler
+            </a>
+          
+            <a href="#popular-section">
+              <i class="fas fa-fire"></i>
+              Yeni & Popüler
+            </a>
+          
+            <!-- Buttons -->
+            <button class="mobile-btn" id="mobileNotifications">
+              <i class="fas fa-bell"></i>
+              Bildirimler
+            </button>
+          
+            <button class="mobile-btn" id="mobileFavorites">
+              <i class="fas fa-heart"></i>
+              Favoriler
+            </button>
+          
+            <button class="mobile-btn" id="mobileAccount">
+              <i class="fas fa-user"></i>
+              Hesap
+            </button>
+          
+            <button class="mobile-logout" id="mobileLogout">
+              <i class="fas fa-right-from-bracket"></i>
+              Çıkış Yap
+            </button>
+          </div>
+      </nav>
+
+    <!-- Hero Bölümü -->
+    <div class="hero">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1470&q=80"
+                        alt="Sinematik 4">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20251024/pngtree-purple-film-strip-winding-with-abstract-lines-image_19973103.webp"
+                        alt="Sinematik 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20250121/pngtree-neon-lit-auditorium-with-pink-and-purple-lighting-in-futuristic-cinema-image_16892953.jpg"
+                        alt="Sinematik 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-steam-wave-international-film-festival-banner-poster-image_195212.jpg"
+                        alt="Sinematik 3">
+                </div>
+
+            </div>
+
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Sınırsız Film, Dizi<br> ve Daha Fazlası.</h1>
+        </div>
+    </div>
+
+    <!-- Arama Bölümü -->
+    <section class="movies-section search-section" id="search-section">
+        <div class="container">
+            <h2 class="section-title">Ara <a href="#" class="view-all">Tümünü Gör &rarr;</a></h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="search-slider">
+                    <!-- Popüler filmler JavaScript ile buraya yüklenecek -->
+                    <div class="spinner" id="search-movies-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="search-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="search-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filmler Bölümü -->
+    <section class="movies-section normal" id="movies-section">
+        <div class="container">
+            <h2 class="section-title">Popüler <span>Filmler</span> <a href="#" class="view-all" data-type="movie"
+                    data-category="popular">
+                    Tümünü Gör →
+                </a>
+            </h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="popular-movies-slider">
+                    <!-- Popüler filmler JavaScript ile buraya yüklenecek -->
+                    <div class="spinner" id="popular-movies-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="popular-movies-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="popular-movies-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diziler Bölümü -->
+    <section class="movies-section normal" id="series-section">
+        <div class="container">
+            <h2 class="section-title">Popüler <span>TV Dizileri</span><a href="#" class="view-all" data-type="tv"
+                    data-category="now_playing">
+                    Tümünü Gör →
+                </a>
+
+            </h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="popular-series-slider">
+                    <!-- Popüler diziler JavaScript ile buraya yüklenecek -->
+                    <div class="spinner" id="popular-series-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="popular-series-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="popular-series-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Yeni & Popüler Bölümü -->
+    <section class="movies-section normal" id="popular-section">
+        <div class="container">
+            <h2 class="section-title">Yeni & <span>Popüler</span><a href="#" class="view-all" data-type="movie"
+                    data-category="now_playing">
+                    Tümünü Gör →
+                </a>
+            </h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="now-playing-slider">
+                    <!-- Şu anda oynayan filmler JavaScript ile buraya yüklenecek -->
+                    <div class="spinner" id="now-playing-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="now-playing-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="now-playing-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- İzlemeye Devam Et bölümü -->
+    <section class="movies-section" id="popular-section">
+        <div class="container">
+            <h2 class="section-title">İzlemeye <span>Devam Et</span> <a href="#" class="view-all" data-type="continue">
+                    Tümünü Gör →
+                </a>
+            </h2>
+
+            <div class="movies-slider">
+                <div class="slider-container" id="continue-playing-slider">
+                    <!-- izlemeye devam edilen filmler JavaScript ile buraya yüklenecek -->
+
+                    <div class="spinner" id="continue-playing-spinner"></div>
+                </div>
+                <button class="slider-btn prev" data-slider="continue-playing-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next" data-slider="continue-playing-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SSS Bölümü  -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="faq-title">Sıkça Sorulan Sorular</h2>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Filmler Dünyası nedir?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Filmler Dünyası, binlerce internet bağlantılı cihazda çok çeşitli ödüllü TV şovları, filmler, anime,
+                        belgeseller ve daha fazlasını sunan premium bir yayın hizmetidir. Reklamsız, düşük aylık bir
+                        ücret karşılığında istediğiniz zaman, istediğiniz kadar izleyebilirsiniz.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Filmler Dünyası ücretsiz mi?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Filmler Dünyası, yeni abonelere 30 günlük ücretsiz deneme süresi sunar. Deneme süresinden sonra,
+                        ayda 8.99$'dan başlayan çeşitli abonelik planları arasından seçim yapabilirsiniz. Sözleşme
+                        yoktur, iptal ücreti yoktur ve istediğiniz zaman çevrimiçi olarak iptal edebilirsiniz.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Filmler nereden geliyor?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        İçerik kütüphanemiz, Warner Bros., Universal, Paramount ve Sony Pictures gibi büyük stüdyoların
+                        yanı sıra bağımsız film yapımcılarının filmlerini ve TV şovlarını içerir. Ayrıca yalnızca
+                        Filmler Dünyası'da bulunan orijinal içerikler de üretiyoruz. Tüm içerikler yasal olarak akış için
+                        lisanslanmıştır.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Filmleri favorilerime ekleyebilir miyim?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Evet! Film kartındaki kalp simgesine tıklayarak herhangi bir filmi veya TV şovunu
+                        favorilerinize ekleyebilirsiniz. Favoriler listeniz hesabınıza kaydedilir ve herhangi bir
+                        cihazdan erişilebilir. Ayrıca farklı türler veya ruh halleri için birden fazla izleme listesi
+                        oluşturabilirsiniz.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Hesap oluşturmam gerekiyor mu?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Tam filmleri ve TV şovlarını izlemek için bir hesaba ihtiyacınız var, ancak kataloğumuzu hesap
+                        olmadan göz atabilirsiniz. Hesap oluşturmak ücretsizdir ve bir dakikadan az sürer. Bir hesabınız
+                        olduğunda, kişiselleştirilmiş öneriler alır, izleme listeleri oluşturabilir ve cihazlar
+                        arasında izlemeye devam edebilirsiniz.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Birden fazla cihazda izleyebilir miyim?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Kesinlikle! Filmler Dünyası akıllı TV'ler, akıllı telefonlar, tabletler, akış ortamı oynatıcıları,
+                        oyun konsolları ve bilgisayarlar dahil olmak üzere MovieWorld uygulamasını destekleyen herhangi
+                        bir internet bağlantılı cihazda izleyebilirsiniz. Ayrıca mobil uygulama ile çevrimdışı izlemek
+                        için şovları indirebilirsiniz.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Filmler <span>Dünyası</span></div>
+                    <p class="footer-tagline">Filmler Dünyası, binlerce internet bağlantılı cihazda çok çeşitli ödüllü TV
+                        şovları, filmler, anime, belgeseller ve daha fazlasını sunan premium bir yayın hizmetidir.</p>
+                                        <footer class="team-footer">
+                        <h2 class="title">
+                            bu web sitesinin geliştiricileri
+                            <span>yaratıcı dokunuşları ekibi</span>
+                        </h2>
+
+                        <div class="team">
+
+                            <div class="member">
+                            <div class="circle ">Asil</div>
+                            <div class="card">
+                            Merhaba, Ben Asil, HTML, CSS ve JavaScript kullanarak modern ve kullanıcı dostu web deneyimleri oluşturmaya odaklanmış 13 yaşında bir ön yüz geliştiricisiyim.
+                            Mısırlıyım, şu anda BAE'de yaşıyorum.
+                            İletişime geçmek için
+                            <div class="email">
+                                <i class="fa-solid fa-envelope"></i>
+                                ic.asil2011@gmail.com
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="member">
+                            <div class="circle">Walaa</div>
+                            <div class="card">
+                                Merhaba, ben Walaa, 20 yaşındayım ve Frontend geliştiricisiyim. Modern, çekici ve kullanıcı dostu web sitesi arayüzleri tasarlıyorum. Mısırlıyım ve Mısır'da yaşıyorum. Benimle iletişime geçmek için lütfen mahmoudwalaa696@gmail.com adresine e-posta gönderin.                                <div class="email">
+                                <i class="fa-solid fa-envelope"></i>
+                                mahmoudwalaa696@gmail.com
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="member">
+                            <div class="circle">Hala</div>
+                            <div class="card">
+                                Ben Hale,22 yaşında Türkiye’de yaşayan Suriyeli bir frontend geliştiricisiyim; tasarıma tutkuyla bağlıyım ve fikirleri kullanıcı dostu arayüzlere dönüştürmeyi seviyorum.
+                                <div class="email">
+                                <i class="fa-solid fa-envelope"></i>
+                                hala45515@gmail.com        
+                            </div>
+                            </div>
+                            </div>
+
+                            <div class="member">
+                            <div class="circle">Menna</div>
+                            <div class="card">
+                                HTML, CSS ve JavaScript kullanarak duyarlı (responsive) web siteleri geliştirmeye ilgi duyan bir Ön Yüz (Front-End) Geliştiricisiyim.
+                                <div class="email">
+                                <i class="fa-solid fa-envelope"></i>
+                                menna@email.com
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </footer>
+                        <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Filmler Dünyası</h3>
+                        <ul>
+                            <li><a href="#">Hakkımızda</a></li>
+                            <li><a href="#">Kariyer</a></li>
+                            <li><a href="#">Bize Ulaşın</a></li>
+                            <li><a href="#">Medya Merkezi</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Destek</h3>
+                        <ul>
+                            <li><a href="#">SSS</a></li>
+                            <li><a href="#">Yardım Merkezi</a></li>
+                            <li><a href="#">Hesap</a></li>
+                            <li><a href="#">Gizlilik Politikası</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Yasal</h3>
+                        <ul>
+                            <li><a href="#">Hizmet Şartları</a></li>
+                            <li><a href="#">Çerez Politikası</a></li>
+                            <li><a href="#">Kurumsal Bilgiler</a></li>
+                            <li><a href="#">Yasal Uyarılar</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>İzle</h3>
+                        <ul>
+                            <li><a href="#">TV</a></li>
+                            <li><a href="#">Mobil</a></li>
+                            <li><a href="#">Tablet</a></li>
+                            <li><a href="#">Bilgisayar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Filmler Dünyası. Tüm Hakları Saklıdır. Bu, eğitim amaçlı bir demo web sitesidir. Veriler TMDB
+                    tarafından sağlanmaktadır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Favoriler Modal -->
+    <div class="modal-overlay" id="favorites-modal">
+        <div class="favorites-modal">
+            <div class="modal-close" id="favorites-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="favorites-header">
+                <h2 class="favorites-title"><i class="fas fa-heart"></i> Favorilerim</h2>
+                <p class="favorites-count-text" id="favorites-count-text">0 favori filminiz var</p>
+            </div>
+            <div class="favorites-body" id="favorites-body">
+                <!-- Favori filmler JavaScript ile buraya yüklenecek -->
+                <div class="favorites-empty" id="favorites-empty">
+                    <i class="fas fa-heart-broken"></i>
+                    <h3>Favoriler listeniz boş</h3>
+                    <p>Herhangi bir film kartındaki kalp simgesine tıklayarak filmleri ve TV şovlarını favorilerinize
+                        eklemeye başlayın. Kolay erişim için burada görünecekler.</p>
+                    <button class="btn btn-primary" id="browse-movies-btn">
+                        <i class="fas fa-film"></i> Filmleri Göz At
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Film Detayları Modal -->
+    <div class="modal-overlay" id="movie-modal">
+        <div class="movie-modal">
+            <div class="modal-close" id="movie-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-content">
+                <img src="" alt="Film Arka Planı" class="modal-backdrop" id="modal-backdrop">
+                <iframe id="model_iframe" class="modal-trailer" frameborder="0" allow="autoplay; encrypted-media"
+                    allowfullscreen style="display:none; width:100%; height:500px;">
+                </iframe>
+
+                <div class="modal-body">
+                    <h2 class="modal-title" id="modal-title"></h2>
+                    <div class="modal-meta">
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <span id="modal-rating"></span>/10
+                        </span>
+                        <span id="modal-year"></span>
+                        <span id="modal-runtime"></span>
+                        <span id="modal-language"></span>
+                    </div>
+                    <p class="modal-description" id="modal-description"></p>
+                    <div class="modal-genres" id="modal-genres"></div>
+                    <button class="btn btn-primary" id="modal-play-btn">
+                        <i class="fas fa-play"></i> Filmi Oynat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giriş Modal -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="login-modal">
+            <div class="modal-close" id="login-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="login-title">Filmler Dünyası'a Giriş Yap</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">E-posta Adresi</label>
+                    <input type="email" id="email" class="form-input" placeholder="E-postanızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Şifre</label>
+                    <input type="password" id="password" class="form-input" placeholder="Şifrenizi girin" required>
+                </div>
+                <div class="login-buttons">
+                    <button type="submit" class="login-btn primary">Giriş Yap</button>
+                    <div id="g_id_onload"
+                        data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                        data-context="signup" data-ux_mode="popup" data-callback="signUpCallback"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue"
+                        data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="300px">
+                    </div>
+                    <button type="button" class="login-btn secondary" id="signup-btn">Yeni Hesap Oluştur</button>
+                </div>
+
+            </form>
+            <div class="login-footer">
+                <p>Yardıma mı ihtiyacınız var? <a href="#">Destekle İletişime Geçin</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- kayıt ol modeli -->
+    <div class="modal-overlay" id="signUpModel">
+        <div class="login-modal">
+            <div class="modal-close" id="signUp-modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="login-title">Filmler Dünyası'a Kaydol</h2>
+            <form class="signup-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">Ad Soyad</label>
+                    <input type="text" id="name" class="form-input" placeholder="Adınızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">E-posta Adresi</label>
+                    <input type="email" id="emailSign" class="form-input" placeholder="E-postanızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Şifre</label>
+                    <input type="password" id="passwordSign" class="form-input" placeholder="Şifrenizi girin" required>
+                </div>
+                <div class="login-buttons">
+                    <button type="submit" class="login-btn primary">Giriş Yap</button>
+                    <div id="g_id_onload"
+                        data-client_id="949184496442-59781v82d1je6cfmrofq2ao6csicapn1.apps.googleusercontent.com"
+                        data-context="signup" data-ux_mode="popup" data-callback="signUpCallback"
+                        data-auto_prompt="false">
+                    </div>
+
+                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue"
+                        data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="300px">
+                    </div>
+
+                    <button type="button" class="login-btn secondary loginBtn" id="login-btn">Zaten Hesabım Var</button>
+                </div>
+            </form>
+            <div class="login-footer">
+                <p>Yardıma mı ihtiyacınız var? <a href="#">Destekle İletişime Geçin</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tümünü Gör Modal -->
+    <div class="modal-overlay" id="viewAll-modal">
+        <div class="movie-modal view-all-modal">
+            <div class="modal-close" id="viewAll-close">
+                <i class="fas fa-times"></i>
+            </div>
+
+            <h2 class="modal-title" id="viewAll-title"></h2>
+
+            <div class="viewall-grid" id="viewAll-content"></div>
+        </div>
+    </div>
+
+    <!-- Bildirim Modal -->
+    <div class="notification-overlay" id="notificationModal">
+        <div class="notification-container">
+
+            <header class="notification-header">
+                <h2>Bildirimler</h2>
+                <div class="header-actions">
+                    <button class="clear-btn" id="clearNotifications">Tümünü temizle</button>
+                    <button class="notification-close" id="closeNotification">×</button>
+                </div>
+            </header>
+
+            <section class="notification-content" id="notificationList">
+                <!-- Bildirimler buraya enjekte edilecek -->
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Yukarı Çık -->
+    <button id="scrollToTop" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script type="module" src="../main.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+</body>
+
+</html>
     <nav class="navbar">
         <div class="container">
             <a href="#" class="logo">Filmler<span>Dünyası</span></a>
