@@ -19,57 +19,144 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">Movie<span>World</span></a>
-
+      
+          <!-- Logo -->
+          <a href="#" class="logo">Movie<span>World</span></a>
+      
+       
+  
+  
+           <!-- Desktop Nav Links -->
 <ul class="nav-links">
-    <li><a href="#top" class="nav-link active">Home</a></li>
-    <li><a href="#movies-section" class="nav-link">Movies</a></li>
-    <li><a href="#series-section" class="nav-link">Series</a></li>
-    <li><a href="#popular-section" class="nav-link">New & Popular</a></li>
-</ul>
-
-            <div class="navbar-actions">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search movies...">
-                </div>
-
-
-             <div class="navbar-actions">
-
-        <!-- Language (NO JS) -->
-        <details class="lang-dropdown">
-          <summary class="lang-trigger" title="Select language">
-            <i class="fas fa-globe"></i>
-            <span class="lang-code">EN</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </summary>
-
-          <div class="lang-menu" role="listbox" aria-label="Select language">
-            <a class="lang-option active" href="./index.html">English</a>
-            <a class="lang-option" href="./Arabic/Arabic.html">العربية</a>
-            <a class="lang-option" href="./TR.html/TR.html">Türkçe</a>
+    <li><a href="#top" class="active">Home</a></li>
+    <li><a href="#movies-section">Movies</a></li>
+    <li><a href="#series-section">Series</a></li>
+    <li><a href="#popular-section">New & Popular</a></li>
+  </ul>
+          <!-- Search (يظهر بالموبايل والديسكتوب) -->
+          <div class="search-container mobile-search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search movies...">
           </div>
-        </details>
+     
+          <!-- Desktop Actions -->
+          <div class="navbar-actions desktop-actions">
+      
 
-
-                <div class="notification-icon-container">
-                    <i class="fas fa-bell action-icon" id="notifications-icon"></i>
-                    <span class="notification-badge" id="notificationBadge"></span>
-                </div>
-                <div class="favorites-icon-container">
-                    <i class="fas fa-heart action-icon" id="favorites-icon"></i>
-                    <span class="favorites-count" id="favorites-count">0</span>
-                </div>
-                <div class="user-icon" id="user-icon">
-                    <i class="fas fa-user action-icon userIcon" id="login-icon"></i> 
-                    <h5 id="text"></h5>
-                </div>
-
-                <button class = "logout" id = "logout">Logout</button>
+            
+               <!-- Language (NO JS) -->
+        <details class="lang-dropdown">
+            <summary class="lang-trigger" title="Select language">
+              <i class="fas fa-globe"></i>
+              <span class="lang-code">EN</span>
+              <i class="fas fa-chevron-down chevron"></i>
+            </summary>
+  
+            <div class="lang-menu" role="listbox" aria-label="Select language">
+              <a class="lang-option active" href="./index.html">🇬🇧English</a>
+              <a class="lang-option" href="./Arabic/Arabic.html">🇸🇦العربية</a>
+              <a class="lang-option" href="./TR.html/TR.html">🇹🇷 Türkçe</a>
             </div>
+          </details>
+      
+            <!-- Notifications -->
+            <div class="notification-icon-container">
+              <i class="fas fa-bell action-icon" id="notifications-icon"></i>
+              <span class="notification-badge" id="notificationBadge"></span>
+            </div>
+      
+            <!-- Favorites -->
+            <div class="favorites-icon-container">
+              <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+              <span class="favorites-count" id="favorites-count">0</span>
+            </div>
+      
+            <!-- Account -->
+            <div class="user-icon" id="user-icon">
+              <i class="fas fa-user action-icon"></i>
+              <h5 id="text"> sign up</h5>
+            </div>
+      
+            <button class="logout" id="logout">Logout</button>
+          </div>
+      
+          <!-- Mobile Menu Button -->
+          <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+      
         </div>
-    </nav>
+      
+        <!-- Mobile Menu -->
+        <div class="mobile-nav" id="mobileNav">
+
+            <button class="close-menu">
+              <i class="fas fa-xmark"></i>
+            </button>
+          
+            <!-- Language -->
+            <details class="lang-dropdown">
+              <summary class="lang-trigger" title="Select language">
+                <i class="fas fa-globe"></i>
+                <span class="lang-code">EN</span>
+                <i class="fas fa-chevron-down chevron"></i>
+              </summary>
+          
+              <div class="lang-menu" role="listbox" aria-label="Select language">
+                <a class="lang-option active" href="./index.html">
+                  🇬🇧 English
+                </a>
+                <a class="lang-option" href="./Arabic/Arabic.html">
+                  🇸🇦 العربية
+                </a>
+                <a class="lang-option" href="./TR.html/TR.html">
+                  🇹🇷 Türkçe
+                </a>
+              </div>
+            </details>
+          
+            <!-- Links -->
+            <a href="#top">
+              <i class="fas fa-house"></i>
+              <span>Home</span>
+            </a>
+          
+            <a href="#movies-section">
+              <i class="fas fa-film"></i>
+              <span>Movies</span>
+            </a>
+          
+            <a href="#series-section">
+              <i class="fas fa-tv"></i>
+              <span>Series</span>
+            </a>
+          
+            <a href="#popular-section">
+              <i class="fas fa-fire"></i>
+              <span>New & Popular</span>
+            </a>
+          
+            <!-- Buttons -->
+            <button class="mobile-btn" id="mobileNotifications">
+              <i class="fas fa-bell"></i>
+              <span>Notifications</span>
+            </button>
+          
+            <button class="mobile-btn" id="mobileFavorites">
+              <i class="fas fa-heart"></i>
+              <span>Favorites</span>
+            </button>
+          
+            <button class="mobile-btn" id="mobileAccount">
+              <i class="fas fa-user"></i>
+              <span>Account</span>
+            </button>
+            <button class="mobile-logout" id="mobileLogout">
+                <i class="fas fa-right-from-bracket"></i>
+                <span>Logout</span>
+              </button>
+          </div>
+      </nav>
 
     <!-- Hero Section -->
     <div class="hero">
@@ -257,7 +344,7 @@
                     <div class="faq-answer">
                         Our content library includes movies and TV shows from major studios like Warner Bros.,
                         Universal, Paramount, and Sony Pictures, as well as independent filmmakers. We also produce
-                        original content exclusive to StreamFlix. All content is legally licensed for streaming.
+                        original content exclusive to MovieWorld . All content is legally licensed for streaming.
                     </div>
                 </div>
 

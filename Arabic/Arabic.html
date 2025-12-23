@@ -17,51 +17,134 @@
 
 <body id="top">
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar" dir="rtl">
         <div class="container">
-            <a href="#" class="logo">عالم <span>الافلام</span></a>
-
-            <ul class="nav-links">
-                <li><a href="#top" class="nav-link active">الرئيسية</a></li>
-                <li><a href="#movies-section" class="nav-link">الأفلام</a></li>
-                <li><a href="#series-section" class="nav-link">المسلسلات</a></li>
-                <li><a href="#popular-section" class="nav-link">جديد وشائع</a></li>
-            </ul>
-
-<div class="navbar-actions">
-
-        <!-- Language (NO JS) -->
-        <details class="lang-dropdown">
-          <summary class="lang-trigger" title="اختر اللغة">
-            <i class="fas fa-globe"></i>
-            <span class="lang-code">AR</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </summary>
-
-          <div class="lang-menu" role="listbox" aria-label="اختر اللغة">
-            <a class="lang-option" href="../index.html">English</a>
-            <a class="lang-option active" href="./Arabic.html">العربية</a>
-            <a class="lang-option" href="../TR.html/TR.html">Türkçe</a>
+      
+          <!-- Logo -->
+          <a href="#" class="logo">عالم <span>الأفلام</span></a>
+      
+          <!-- Desktop Nav Links -->
+          <ul class="nav-links">
+            <li><a href="#top" class="active">الرئيسية</a></li>
+            <li><a href="#movies-section">الأفلام</a></li>
+            <li><a href="#series-section">المسلسلات</a></li>
+            <li><a href="#popular-section">جديد وشائع</a></li>
+          </ul>
+      
+          <!-- Search -->
+          <div class="search-container mobile-search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="ابحث عن فيلم...">
           </div>
-        </details>
-        
-                <div class="notification-icon-container">
-                    <i class="fas fa-bell action-icon" id="notifications-icon"></i>
-                    <span class="notification-badge" id="notificationBadge"></span>
-                </div>
-                <div class="favorites-icon-container">
-                    <i class="fas fa-heart action-icon" id="favorites-icon"></i>
-                    <span class="favorites-count" id="favorites-count">0</span>
-                </div>
-                <div class="user-icon" id="user-icon">
-                    <i class="fas fa-user action-icon userIcon" id="login-icon"></i> 
-                    <h5 id="text"></h5>
-                </div>
-
-                <button class = "logout" id = "logout">Logout</button>            
+      
+          <!-- Desktop Actions -->
+          <div class="navbar-actions desktop-actions">
+      
+             <!-- Language (NO JS) -->
+        <details class="lang-dropdown">
+            <summary class="lang-trigger" title="اختر اللغة">
+              <i class="fas fa-globe"></i>
+              <span class="lang-code">AR</span>
+              <i class="fas fa-chevron-down chevron"></i>
+            </summary>
+  
+            <div class="lang-menu" role="listbox" aria-label="اختر اللغة">
+              <a class="lang-option" href="../index.html">🇬🇧English</a>
+              <a class="lang-option active" href="./Arabic.html">🇸🇦العربية</a>
+              <a class="lang-option" href="../TR.html/TR.html">🇹🇷 Türkçe</a>
             </div>
+          </details>
+      
+            <!-- Notifications -->
+            <div class="notification-icon-container">
+              <i class="fas fa-bell action-icon" id="notifications-icon"></i>
+              <span class="notification-badge" id="notificationBadge"></span>
+            </div>
+      
+            <!-- Favorites -->
+            <div class="favorites-icon-container">
+              <i class="fas fa-heart action-icon" id="favorites-icon"></i>
+              <span class="favorites-count" id="favorites-count">0</span>
+            </div>
+      
+            <!-- Account -->
+            <div class="user-icon" id="user-icon">
+              <i class="fas fa-user action-icon"></i>
+              <h5 id="text"> تسجيل دخول</h5>
+            </div>
+      
+            <button class="logout" id="logout">تسجيل خروج</button>
+          </div>
+      
+          <!-- Mobile Menu Button -->
+          <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+      
         </div>
-    </nav>
+      
+        <!-- Mobile Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <button class="close-menu">✕</button>
+          
+            <!-- Language -->
+            <details class="lang-dropdown">
+              <summary class="lang-trigger" title="اختر اللغة">
+                <i class="fas fa-globe"></i>
+                <span class="lang-code">AR</span>
+                <i class="fas fa-chevron-down chevron"></i>
+              </summary>
+          
+              <div class="lang-menu" role="listbox" aria-label="اختر اللغة">
+                <a class="lang-option" href="../index.html"> 🇬🇧 English</a>
+                <a class="lang-option active" href="./Arabic.html">🇸🇦 العربية</a>
+                <a class="lang-option" href="../TR.html/TR.html">Türkçe</a>
+              </div>
+            </details>
+          
+            <!-- Links -->
+            <a href="#top" class="mobile-link">
+              <i class="fas fa-home"></i>
+              <span>الرئيسية</span>
+            </a>
+          
+            <a href="#movies-section" class="mobile-link">
+              <i class="fas fa-film"></i>
+              <span>الأفلام</span>
+            </a>
+          
+            <a href="#series-section" class="mobile-link">
+              <i class="fas fa-tv"></i>
+              <span>المسلسلات</span>
+            </a>
+          
+            <a href="#popular-section" class="mobile-link">
+              <i class="fas fa-fire"></i>
+              <span>جديد وشائع</span>
+            </a>
+          
+            <!-- Actions -->
+            <button class="mobile-btn mobile-arabic" id="mobileNotifications">
+              <i class="fas fa-bell"></i>
+              <span>الإشعارات</span>
+            </button>
+          
+            <button class="mobile-btn mobile-arabic" id="mobileFavorites">
+              <i class="fas fa-heart"></i>
+              <span>المفضلة</span>
+            </button>
+          
+            <button class="mobile-btn mobile-arabic" id="mobileAccount">
+              <i class="fas fa-user"></i>
+              <span>الحساب</span>
+            </button>
+          
+            <button class="mobile-logout mobile-arabic" id="mobileLogout">
+              <i class="fas fa-right-from-bracket"></i>
+              <span>تسجيل خروج</span>
+            </button>
+          </div>
+      </nav>
 
     <!-- Hero Section -->
     <div class="hero">
