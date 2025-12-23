@@ -1382,3 +1382,53 @@ menuToggle2.addEventListener("click", () => {
 closeMenu.addEventListener("click", () => {
   mobileNav.classList.remove("active");
 });
+
+const messages = document.getElementById("messages");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+sendBtn.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  // show typing indicator
+  addMessage("Gemini is thinking...", "bot");
+
+  try {
+    const response = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: text })
+    });
+
+    const data = await response.json();
+
+    // remove "thinking" message
+    messages.lastChild.remove();
+
+    addMessage(data.reply, "bot");
+
+  } catch (error) {
+    messages.lastChild.remove();
+    addMessage("Error talking to Gemini 😢", "bot");
+  }
+}
+
+function addMessage(text, sender) {
+  const div = document.createElement("div");
+  div.classList.add("message", sender);
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
