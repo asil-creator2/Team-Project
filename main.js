@@ -1420,14 +1420,16 @@ async function sendMessage() {
 }
 
 
-function addMessage(text, sender) {
+function addMessage(text, sender, save = true) {
   const div = document.createElement("div");
   div.classList.add("message", sender);
   div.textContent = text;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
-  return div;
+
+  if (save) saveMessage(text, sender);
 }
+
 
 
 function showTyping() {
@@ -1456,6 +1458,7 @@ function removeTyping() {
 const chatToggle = document.getElementById("chat-toggle");
 const chatContainer = document.getElementById("chat-container");
 const chatClose = document.getElementById("chat-close");
+const chatClear = document.getElementById("chat-clear");
 
 chatToggle.addEventListener("click", () => {
   chatContainer.style.display = "flex";
@@ -1466,3 +1469,31 @@ chatClose.addEventListener("click", () => {
   chatContainer.style.display = "none";
   chatToggle.style.display = "flex";
 });
+
+chatClear.addEventListener("click", () => {
+  // Clear all messages and typing indicator
+  messages.innerHTML = '';
+  removeTyping();
+  input.focus();
+clearChat()
+  
+});
+
+const CHAT_KEY = "movie_chat_history";
+
+function saveMessage(text, sender) {
+  const history = JSON.parse(localStorage.getItem(CHAT_KEY)) || [];
+  history.push({ text, sender });
+  localStorage.setItem(CHAT_KEY, JSON.stringify(history));
+}
+
+function loadMessages() {
+  const history = JSON.parse(localStorage.getItem(CHAT_KEY)) || [];
+  history.forEach(msg => addMessage(msg.text, msg.sender, false));
+}
+window.addEventListener("load", loadMessages);
+
+function clearChat() {
+  localStorage.removeItem(CHAT_KEY);
+  messages.innerHTML = "";
+}
