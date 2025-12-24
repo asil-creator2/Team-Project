@@ -12,72 +12,73 @@ app.use(express.json());
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
-  });
-  // 🎬 function to get movies from TMDB
-  async function getMoviesByGenre(genreName) {
-    const genreMap = {
-        action: 28,
-            comedy: 35,
-                horror: 27,
-                    romance: 10749,
-                        animation: 16,
-                          };
+});
 
-                            const genreId = genreMap[genreName.toLowerCase()];
-                              if (!genreId) return [];
+// 🎬 function to get movies from TMDB
+async function getMoviesByGenre(genreName) {
+  const genreMap = {
+    action: 28,
+    comedy: 35,
+    horror: 27,
+    romance: 10749,
+    animation: 16,
+  };
 
-                                const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
+  const genreId = genreMap[genreName.toLowerCase()];
+  if (!genreId) return [];
 
-                                  const response = await fetch(url);
-                                    const data = await response.json();
+  const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
 
-                                      return data.results.slice(0, 5).map(movie => movie.title);
-                                      }
+  const response = await fetch(url);
+  const data = await response.json();
 
-                                      app.post("/api/chat", async (req, res) => {
-                                        try {
-                                            const userMessage = req.body.message;
+  return data.results.slice(0, 5).map(movie => movie.title);
+}
 
-                                                const genres = ["action", "comedy", "horror", "romance", "animation"];
-                                                    const foundGenre = genres.find(g =>
-                                                          userMessage.toLowerCase().includes(g)
-                                                              );
+app.post("/api/chat", async (req, res) => {
+  try {
+    const userMessage = req.body.message;
 
-                                                                  let movieListText = "No movie data available.";
+    const genres = ["action", "comedy", "horror", "romance", "animation"];
+    const foundGenre = genres.find(g =>
+      userMessage.toLowerCase().includes(g)
+    );
 
-                                                                      if (foundGenre) {
-                                                                            const movies = await getMoviesByGenre(foundGenre);
-                                                                                  movieListText = movies.join(", ");
-                                                                                      }
+    let movieListText = "No movie data available.";
 
-                                                                                          const completion = await groq.chat.completions.create({
-                                                                                                model: "llama-3.1-8b-instant",
-                                                                                                      messages: [
-                                                                                                              {
-                                                                                                                        role: "system",
-                                                                                                                                  content: `
-                                                                                                                                  You are a movie assistant for a movie website.
-                                                                                                                                  The website uses TMDB as its movie database.
-                                                                                                                                  Only recommend movies from this list:
-                                                                                                                                  ${movieListText}
-                                                                                                                                  If the list is empty, say you couldn't find movies.
-                                                                                                                                            `,
-                                                                                                                                                    },
-                                                                                                                                                            {
-                                                                                                                                                                      role: "user",
-                                                                                                                                                                                content: userMessage,
-                                                                                                                                                                                        },
-                                                                                                                                                                                              ],
-                                                                                                                                                                                                  });
+    if (foundGenre) {
+      const movies = await getMoviesByGenre(foundGenre);
+      movieListText = movies.join(", ");
+    }
 
-                                                                                                                                                                                                      res.json({
-                                                                                                                                                                                                            reply: completion.choices[0].message.content,
-                                                                                                                                                                                                                });
-                                                                                                                                                                                                                  } catch (error) {
-                                                                                                                                                                                                                      console.error(error);
-                                                                                                                                                                                                                          res.status(500).json({ error: "Movie AI error" });
-                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                            });
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are a movie assistant for a movie website.
+The website uses TMDB as its movie database.
+Only recommend movies from this list:
+${movieListText}
+If the list is empty, say you couldn't find movies.
+          `,
+        },
+        {
+          role: "user",
+          content: userMessage,
+        },
+      ],
+    });
 
-                                                                                                                                                                                                                            // ✅ THIS is what Vercel needs
-                                                                                                                                                                                                                            export default app;
+    res.json({
+      reply: completion.choices[0].message.content,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Movie AI error" });
+  }
+});
+
+// ✅ THIS is what Vercel needs
+export default app;
