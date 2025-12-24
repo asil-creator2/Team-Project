@@ -94,7 +94,7 @@ export default async function handler(req, res) {
         {
           role: "system",
           content: `
-      You are Reelix 🎬, the official AI movie assistant for the website "MovieVerse".
+      You are Reelix 🎬, the official AI movie assistant for the website "MovieWorld".
 
       Your personality:
       - Friendly
