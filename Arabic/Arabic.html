@@ -349,6 +349,103 @@
         </div>
     </section>
 
+    
+<!-- Plans Section -->
+
+<h1 class="plans-title">اختر خطتك المثالية واستمتع بالمشاهدة 🎬</h1>
+
+  <div class="plans-wrapper">
+
+    <!-- FREE PLAN -->
+    <div class="plan-card plan-free">
+      <h2 class="plan-name">الخطة المجانية</h2>
+      <div class="plan-price">0$</div>
+      <p class="plan-desc">ابدأ رحلتك السينمائية مجاناً!</p>
+
+      <ul class="plan-features">
+        <li><i class="fa-solid fa-check"></i>أفلام محدودة</li>
+        <li><i class="fa-solid fa-check"></i>إعلانات</li>
+        <li><i class="fa-solid fa-check"></i>جودة قياسية</li>
+      </ul>
+
+      <button class="plan-btn" onclick="freeAlert()">ابدأ مجاناً</button>
+    </div>
+
+    <!-- 6 MONTHS PLAN -->
+    <div class="plan-card plan-six-months">
+      <h2 class="plan-name">6 أشهر</h2>
+      <div class="plan-old-price">59$</div>
+      <div class="plan-price">29$</div>
+      <p class="plan-desc">استمتع بجودة HD بدون إعلانات.</p>
+
+      <ul class="plan-features">
+        <li><i class="fa-solid fa-check"></i>بدون إعلانات</li>
+        <li><i class="fa-solid fa-check"></i>جودة HD</li>
+        <li><i class="fa-solid fa-check"></i>جميع الأفلام والمسلسلات</li>
+      </ul>
+
+      <button class="plan-btn" onclick="openModal(29)">اشترك</button>
+    </div>
+
+    <!-- PREMIUM PLAN -->
+    <div class="plan-card plan-premium">
+      <span class="plan-badge">الأفضل</span>
+      <h2 class="plan-name">السنة المميزة</h2>
+      <div class="plan-old-price">99$</div>
+      <div class="plan-price">49$</div>
+      <p class="plan-desc">الوصول غير المحدود لجميع المحتويات بجودة Ultra HD.</p>
+
+      <ul class="plan-features">
+        <li><i class="fa-solid fa-check"></i>جودة Ultra HD</li>
+        <li><i class="fa-solid fa-check"></i>وصول غير محدود</li>
+        <li><i class="fa-solid fa-check"></i>محتوى حصري</li>
+      </ul>
+
+      <button class="plan-btn plan-btn-premium" onclick="openModal(49)">
+        اذهب للمميزة
+      </button>
+    </div>
+
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-box">
+
+      <span class="modal-close" onclick="closeModal()">×</span>
+      <h3 class="modal-title">الدفع</h3>
+
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input id="userEmail" type="email" placeholder="البريد الإلكتروني">
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-credit-card"></i>
+        <input id="cardNumber" placeholder="رقم البطاقة">
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-dollar-sign"></i>
+        <input id="totalAmount" readonly>
+      </div>
+
+      <button id="confirmPayBtn" class="pay-btn" disabled>
+        ادفع الآن
+      </button>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS ALERT -->
+  <div class="success-alert" id="successAlert">
+    <div class="alert-content">
+      <h2>تم تفعيل الاشتراك 🎉</h2>
+      <p>استمتع بالمشاهدة بدون حدود</p>
+      <button class="alert-btn" onclick="closeAlert()">رائع</button>
+    </div>
+  </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -672,7 +769,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 
-    <script type="module" src="../main.js"></script>
+    <script type="module" src="../main.js" defer></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 

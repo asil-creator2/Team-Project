@@ -386,6 +386,103 @@
         </div>
     </section>
 
+
+  <!-- PLANS SECTION -->
+    <h1 class="plans-title">Choose Your Perfect Plan and Enjoy Watching 🎬</h1>
+
+    <div class="plans-wrapper">
+    
+      <!-- FREE PLAN -->
+      <div class="plan-card plan-free">
+        <h2 class="plan-name">Free Plan</h2>
+        <div class="plan-price">0$</div>
+        <p class="plan-desc">Start your movie journey for free!</p>
+    
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i>Limited Movies</li>
+          <li><i class="fa-solid fa-check"></i>Ads</li>
+          <li><i class="fa-solid fa-check"></i>Standard Quality</li>
+        </ul>
+    
+        <button class="plan-btn" onclick="freeAlert()">Start for Free</button>
+      </div>
+    
+      <!-- 6 MONTHS PLAN -->
+      <div class="plan-card plan-six-months">
+        <h2 class="plan-name">6 Months</h2>
+        <div class="plan-old-price">59$</div>
+        <div class="plan-price">29$</div>
+        <p class="plan-desc">Enjoy HD quality without ads.</p>
+    
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i>No Ads</li>
+          <li><i class="fa-solid fa-check"></i>HD Quality</li>
+          <li><i class="fa-solid fa-check"></i>All Movies & Series</li>
+        </ul>
+    
+        <button class="plan-btn" onclick="openModal(29)">Subscribe</button>
+      </div>
+    
+      <!-- PREMIUM PLAN -->
+      <div class="plan-card plan-premium">
+        <span class="plan-badge">Best</span>
+        <h2 class="plan-name">Premium Year</h2>
+        <div class="plan-old-price">99$</div>
+        <div class="plan-price">49$</div>
+        <p class="plan-desc">Unlimited access to all content in Ultra HD quality.</p>
+    
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i>Ultra HD Quality</li>
+          <li><i class="fa-solid fa-check"></i>Unlimited Access</li>
+          <li><i class="fa-solid fa-check"></i>Exclusive Content</li>
+        </ul>
+    
+        <button class="plan-btn plan-btn-premium" onclick="openModal(49)">
+          Go Premium
+        </button>
+      </div>
+    
+    </div>
+    
+    <!-- PAYMENT MODAL -->
+    <div class="payment-modal" id="paymentModal">
+      <div class="payment-box">
+    
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <h3 class="modal-title">Payment</h3>
+    
+        <div class="input-group">
+          <i class="fa-solid fa-envelope"></i>
+          <input id="userEmail" type="email" placeholder="Email">
+        </div>
+    
+        <div class="input-group">
+          <i class="fa-solid fa-credit-card"></i>
+          <input id="cardNumber" placeholder="Card Number">
+        </div>
+    
+        <div class="input-group">
+          <i class="fa-solid fa-dollar-sign"></i>
+          <input id="totalAmount" readonly>
+        </div>
+    
+        <button id="confirmPayBtn" class="pay-btn" disabled>
+          Pay Now
+        </button>
+    
+      </div>
+    </div>
+    
+    <!-- SUCCESS ALERT -->
+    <div class="success-alert" id="successAlert">
+      <div class="alert-content">
+        <h2>Subscription Activated 🎉</h2>
+        <p>Enjoy unlimited watching!</p>
+        <button class="alert-btn" onclick="closeAlert()">Great</button>
+      </div>
+    </div>
+
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
