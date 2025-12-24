@@ -210,7 +210,8 @@ onAuthStateChanged(auth, async (user) => {
   const text = document.getElementById('text');
   const logout = document.getElementById('logout');
   const userIcon = document.getElementById('user-icon');
-
+  const logoutMobile = document.getElementById('mobileLogout')
+  const mobileAccount = document.getElementById('account')
   if (user) {
     await user.reload(); 
 
@@ -218,6 +219,8 @@ onAuthStateChanged(auth, async (user) => {
     console.log("Name:", user.displayName);
 
     text.innerText = user.displayName || 'User';
+    mobileAccount.innerText = user.displayName || 'User';
+    logoutMobile.style.display = 'block'
     userIcon.style.display = 'block';
     logout.style.display = 'block';
     userIcon.removeEventListener('click', openSignupModel)
@@ -235,7 +238,7 @@ onAuthStateChanged(auth, async (user) => {
           text.innerText = 'Giriş Yap';
           break;
      }
-    
+    logoutMobile.style.display = 'none'
     logout.style.display = 'none';
     userIcon.addEventListener('click',() => {
       signupModel.classList.add('active')
@@ -1380,7 +1383,7 @@ menuToggle2.addEventListener("click", () => {
 });
 
 closeMenu.addEventListener("click", () => {
-  mobileNav.classList.remove("active");
+  mobileNav2.classList.remove("active");
 });
 
 const messages = document.getElementById("messages");
