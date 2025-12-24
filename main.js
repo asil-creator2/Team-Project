@@ -227,7 +227,7 @@ onAuthStateChanged(auth, async (user) => {
 
   } else {
     console.log("Logged out");
-     switch (window.document.html.lang) {
+     switch (document.documentElement.lang) {
         case 'ar':
           text.innerText = 'تسجيل الدخول';
           break;
@@ -1157,6 +1157,7 @@ try {
   let iframe = document.getElementById("model_iframe");
   iframe.src = `https://www.youtube.com/embed/${find_Vid.key}?autoplay=1`;
   iframe.style.display = "block";
+  
   addToContinueWatchingFromPlayer(id, type);
 } catch (error) {
   alert("An error occurred while playing the video");
