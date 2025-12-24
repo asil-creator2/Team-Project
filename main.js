@@ -1400,28 +1400,26 @@ async function sendMessage() {
   addMessage(text, "user");
   input.value = "";
 
-  // show typing indicator
-  addMessage("Gemini is thinking...", "bot");
+  // typing indicator
+  const thinkingDiv = addMessage("AI is thinking… 🤖", "bot");
 
   try {
-    const response = await fetch("http://localhost:3000/chat", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ message: text }),
     });
 
     const data = await response.json();
 
-    // remove "thinking" message
-    messages.lastChild.remove();
-
+    thinkingDiv.remove();
     addMessage(data.reply, "bot");
 
   } catch (error) {
-    messages.lastChild.remove();
-    addMessage("Error talking to Gemini 😢", "bot");
+    thinkingDiv.remove();
+    addMessage("Error talking to AI 😢", "bot");
   }
 }
 
@@ -1431,4 +1429,5 @@ function addMessage(text, sender) {
   div.textContent = text;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
+  return div;
 }
