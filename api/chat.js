@@ -1,20 +1,11 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import Groq from "groq-sdk";
 import fetch from "node-fetch";
-
-dotenv.config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-// 🎬 function to get movies from TMDB
+// 🎬 get movies from TMDB
 async function getMoviesByGenre(genreName) {
   const genreMap = {
     action: 28,
@@ -35,20 +26,26 @@ async function getMoviesByGenre(genreName) {
   return data.results.slice(0, 5).map(movie => movie.title);
 }
 
-app.post("/api/chat", async (req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
-    const userMessage = req.body.message;
+    const { message } = req.body;
 
     const genres = ["action", "comedy", "horror", "romance", "animation"];
     const foundGenre = genres.find(g =>
-      userMessage.toLowerCase().includes(g)
+      message.toLowerCase().includes(g)
     );
 
     let movieListText = "No movie data available.";
 
     if (foundGenre) {
       const movies = await getMoviesByGenre(foundGenre);
-      movieListText = movies.join(", ");
+      movieListText = movies.length
+        ? movies.join(", ")
+        : "No movies found.";
     }
 
     const completion = await groq.chat.completions.create({
@@ -58,7 +55,6 @@ app.post("/api/chat", async (req, res) => {
           role: "system",
           content: `
 You are a movie assistant for a movie website.
-The website uses TMDB as its movie database.
 Only recommend movies from this list:
 ${movieListText}
 If the list is empty, say you couldn't find movies.
@@ -66,19 +62,17 @@ If the list is empty, say you couldn't find movies.
         },
         {
           role: "user",
-          content: userMessage,
+          content: message,
         },
       ],
     });
 
-    res.json({
+    res.status(200).json({
       reply: completion.choices[0].message.content,
     });
-  } catch (error) {
-    console.error(error);
+
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Movie AI error" });
   }
-});
-
-// ✅ THIS is what Vercel needs
-export default app;
+}

@@ -1405,12 +1405,13 @@ async function sendMessage() {
 
   try {
     const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: text }),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: text })
     });
+
 
     const data = await response.json();
 
