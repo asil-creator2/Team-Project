@@ -642,7 +642,29 @@ mahmoudwalaa696@gmail.com                                </div>
             </section>
         </div>
     </div>
+<div id="chat-toggle">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+    <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+      stroke="currentColor" stroke-width="2"/>
+  </svg>
+</div>
 
+<div class="chat-container" id="chat-container">
+  <div class="chat-header">
+    <span>Movie Assistant</span>
+    <div class="chat-header-actions">
+      <button id="chat-clear" class="chat-clear" title="Clear chat" aria-label="Clear chat">Clear</button>
+      <button id="chat-close" class="chat-close" title="Close chat" aria-label="Close chat">✕</button>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="messages"></div>
+
+  <div class="chat-input">
+    <input id="userInput" placeholder="Ask about movies or series..." />
+    <button id="sendBtn">➤</button>
+  </div>
+</div>
     <!-- scroll To Top -->
     <button id="scrollToTop" class="scroll-top-btn">
         <i class="fas fa-arrow-up"></i>
