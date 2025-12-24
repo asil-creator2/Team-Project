@@ -1400,29 +1400,25 @@ async function sendMessage() {
   addMessage(text, "user");
   input.value = "";
 
-  // typing indicator
-  const thinkingDiv = addMessage("AI is thinking… 🤖", "bot");
+  showTyping();
 
   try {
     const response = await fetch("/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message: text })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
     });
 
-
     const data = await response.json();
-
-    thinkingDiv.remove();
+    removeTyping();
     addMessage(data.reply, "bot");
 
   } catch (error) {
-    thinkingDiv.remove();
-    addMessage("Error talking to AI 😢", "bot");
+    removeTyping();
+    addMessage("Something went wrong. Try again 🎬", "bot");
   }
 }
+
 
 function addMessage(text, sender) {
   const div = document.createElement("div");
@@ -1432,3 +1428,41 @@ function addMessage(text, sender) {
   messages.scrollTop = messages.scrollHeight;
   return div;
 }
+
+
+function showTyping() {
+  const typingDiv = document.createElement("div");
+  typingDiv.classList.add("message", "bot");
+  typingDiv.id = "typing";
+
+  typingDiv.innerHTML = `
+    <div class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  `;
+
+  messages.appendChild(typingDiv);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTyping() {
+  const typing = document.getElementById("typing");
+  if (typing) typing.remove();
+}
+
+
+const chatToggle = document.getElementById("chat-toggle");
+const chatContainer = document.getElementById("chat-container");
+const chatClose = document.getElementById("chat-close");
+
+chatToggle.addEventListener("click", () => {
+  chatContainer.style.display = "flex";
+  chatToggle.style.display = "none";
+});
+
+chatClose.addEventListener("click", () => {
+  chatContainer.style.display = "none";
+  chatToggle.style.display = "flex";
+});
