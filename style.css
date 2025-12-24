@@ -1455,8 +1455,16 @@ button {
 
 .viewall-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr); /* شاشات كبيرة */
     gap: 25px;
+}
+
+/* موبايل وشاشات صغيرة */
+@media (max-width: 768px) {
+    .viewall-grid {
+        grid-template-columns: 1fr; /* عمود واحد */
+
+    }
 }
 
 #viewAll-close {
@@ -2340,7 +2348,7 @@ html[dir="rtl"] .lang-menu {
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--shadow);
-  z-index: 1000;
+  z-index: 998;
   transition: var(--transition);
   border: none;
 }
@@ -2814,3 +2822,9 @@ html[dir="rtl"] .lang-menu {
   .alert-btn:hover{
     transform:scale(1.05);
   }
+
+  .fi {
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px;
+}
