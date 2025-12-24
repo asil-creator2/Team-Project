@@ -5,7 +5,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-// 🎬 get movies from TMDB
+// 🎬 MOVIES from TMDB
 async function getMoviesByGenre(genreName) {
   const genreMap = {
     action: 28,
@@ -13,6 +13,8 @@ async function getMoviesByGenre(genreName) {
     horror: 27,
     romance: 10749,
     animation: 16,
+    drama: 18,
+    crime: 80,
   };
 
   const genreId = genreMap[genreName.toLowerCase()];
@@ -26,6 +28,27 @@ async function getMoviesByGenre(genreName) {
   return data.results.slice(0, 5).map(movie => movie.title);
 }
 
+// 📺 TV SERIES from TMDB
+async function getTVSeriesByGenre(genreName) {
+  const genreMap = {
+    action: 10759, // Action & Adventure
+    comedy: 35,
+    drama: 18,
+    animation: 16,
+    crime: 80,
+  };
+
+  const genreId = genreMap[genreName.toLowerCase()];
+  if (!genreId) return [];
+
+  const url = `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  return data.results.slice(0, 5).map(show => show.name);
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -33,19 +56,34 @@ export default async function handler(req, res) {
 
   try {
     const { message } = req.body;
+    const text = message.toLowerCase();
 
-    const genres = ["action", "comedy", "horror", "romance", "animation"];
-    const foundGenre = genres.find(g =>
-      message.toLowerCase().includes(g)
-    );
+    const genres = [
+      "action",
+      "comedy",
+      "horror",
+      "romance",
+      "animation",
+      "drama",
+      "crime",
+    ];
 
-    let movieListText = "No movie data available.";
+    const foundGenre = genres.find(g => text.includes(g));
+
+    let titlesText = "";
 
     if (foundGenre) {
-      const movies = await getMoviesByGenre(foundGenre);
-      movieListText = movies.length
-        ? movies.join(", ")
-        : "No movies found.";
+      if (
+        text.includes("tv") ||
+        text.includes("series") ||
+        text.includes("show")
+      ) {
+        const shows = await getTVSeriesByGenre(foundGenre);
+        titlesText = shows.join(", ");
+      } else {
+        const movies = await getMoviesByGenre(foundGenre);
+        titlesText = movies.join(", ");
+      }
     }
 
     const completion = await groq.chat.completions.create({
@@ -54,10 +92,22 @@ export default async function handler(req, res) {
         {
           role: "system",
           content: `
-You are a movie assistant for a movie website.
-Only recommend movies from this list:
-${movieListText}
-If the list is empty, say you couldn't find movies.
+You are a smart, friendly assistant on a movie & TV website.
+
+Behavior rules:
+- Recommend titles naturally, like a human.
+- ONLY recommend from the titles provided below.
+- Never mention lists, databases, APIs, or missing information.
+- If no titles are provided, ask what genre or type they want.
+- If the user thanks you or chats casually, respond politely.
+
+Style:
+- Friendly
+- Confident
+- Short and helpful 🎬📺
+
+Titles you can recommend:
+${titlesText}
           `,
         },
         {
