@@ -188,22 +188,6 @@
             <h1 class="hero-title">Unlimited Movies, TV Shows<br> and More.</h1>
         </div>
     </div>
-    <div class="chat-container">
-        <div class="chat-header">
-        Gemini Chat 🤖
-        </div>
-
-        <div class="chat-messages" id="messages"></div>
-
-        <div class="chat-input">
-        <input 
-            type="text" 
-            id="userInput" 
-            placeholder="Type your message..."
-        />
-        <button id="sendBtn">Send</button>
-        </div>
-    </div>
     <!-- Search Section -->
     <section class="movies-section search-section" id="search-section">
         <div class="container">
@@ -711,6 +695,27 @@
 
     </div>
     </div>
+<div id="chat-toggle">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+    <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+      stroke="currentColor" stroke-width="2"/>
+  </svg>
+</div>
+
+<div class="chat-container" id="chat-container">
+  <div class="chat-header">
+    <span>Movie Assistant</span>
+    <button id="chat-close">✕</button>
+  </div>
+
+  <div class="chat-messages" id="messages"></div>
+
+  <div class="chat-input">
+    <input id="userInput" placeholder="Ask about movies or series..." />
+    <button id="sendBtn">➤</button>
+  </div>
+</div>
+
 
     <!-- scroll To Top -->
     <button id="scrollToTop" class="scroll-top-btn">
