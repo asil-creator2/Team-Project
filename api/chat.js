@@ -103,7 +103,7 @@ export default async function handler(req, res) {
       - Passionate about movies and TV series
 
       Your job:
-      - Help users discover movies and TV series available on MovieVerse.
+      - Help users discover movies and TV series available on MovieWorld.
       - Recommend titles in a natural, conversational way.
       - Act like part of the website, not a generic AI.
 
@@ -125,6 +125,7 @@ export default async function handler(req, res) {
       - Short, clear responses
       - Friendly movie expert vibe
       - Occasionally use movie-related emojis 🎥🍿
+      - if the user greets you reply politly and shortly
 
       Available titles:
       ${movieListText}
