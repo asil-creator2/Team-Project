@@ -1472,10 +1472,9 @@ chatClose.addEventListener("click", () => {
 
 chatClear.addEventListener("click", () => {
   // Clear all messages and typing indicator
-  messages.innerHTML = '';
   removeTyping();
   input.focus();
-clearChat()
+  clearChat()
   
 });
 
