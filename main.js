@@ -1499,3 +1499,59 @@ function clearChat() {
   localStorage.removeItem(CHAT_KEY);
   messages.innerHTML = "";
 }
+
+
+// plans cards
+
+const modal = document.getElementById("paymentModal");
+const alertBox = document.getElementById("successAlert");
+
+const email = document.getElementById("userEmail");
+const card = document.getElementById("cardNumber");
+const amount = document.getElementById("totalAmount");
+
+const payBtn = document.getElementById("confirmPayBtn");
+
+/* ===== MAKE FUNCTIONS GLOBAL ===== */
+window.openModal = function(price){
+  amount.value = price + " $";
+  modal.style.display = "flex";
+};
+
+window.closeModal = function(){
+  modal.style.display = "none";
+};
+
+window.closeAlert = function(){
+  alertBox.style.display = "none";
+};
+
+window.freeAlert = function(){
+  alertBox.style.display = "flex";
+};
+
+/* ===== EVENTS ===== */
+payBtn.addEventListener("click", () => {
+  closeModal();
+  alertBox.style.display = "flex";
+});
+
+email.addEventListener("input", validate);
+
+card.addEventListener("input", () => {
+  card.value = card.value
+    .replace(/\D/g, "")
+    .replace(/(.{4})/g, "$1 ")
+    .trim();
+  validate();
+});
+
+function validate(){
+  const emailOk =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+
+  const cardOk =
+    card.value.replace(/\s/g, "").length >= 12;
+
+  payBtn.disabled = !(emailOk && cardOk);
+}
