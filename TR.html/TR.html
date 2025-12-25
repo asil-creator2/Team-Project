@@ -66,13 +66,18 @@
               <i class="fas fa-heart action-icon" id="favorites-icon"></i>
               <span class="favorites-count" id="favorites-count">0</span>
             </div>
-      
+
             <!-- Account -->
             <div class="user-icon" id="user-icon">
               <i class="fas fa-user action-icon"></i>
               <h5 id="text">Giriş Yap</h5>
             </div>
-      
+
+            <!-- Plan badge (placed between user and logout) -->
+            <div class="plan-badge" id="plan-badge" title="Your plan and remaining movies" tabindex="0">
+              Free • 4 left
+            </div>
+
             <button class="logout" id="logout">Çıkış Yap</button>
           </div>
       
@@ -122,6 +127,7 @@
               <i class="fas fa-fire"></i>
               Yeni & Popüler
             </a>
+
           
             <!-- Buttons -->
             <button class="mobile-btn" id="mobileNotifications">
@@ -138,7 +144,9 @@
               <i class="fas fa-user"></i>
               <span id="account">Hesap</span>
             </button>
-          
+                      <!-- Mobile Plan badge -->
+            <a id="plan-badge-mobile" href="#planssection" class="mobile-plan-badge">Free</a>
+
             <button class="mobile-logout" id="mobileLogout">
               <i class="fas fa-right-from-bracket"></i>
               Çıkış Yap
@@ -381,7 +389,7 @@
     <!-- PLANS SECTION -->
     <h1 class="plans-title">Mükemmel Planınızı Seçin ve İzlemenin Tadını Çıkarın 🎬</h1>
 
-<div class="plans-wrapper">
+<div id="planssection" class="plans-wrapper">
 
   <!-- ÜCRETSİZ PLAN -->
   <div class="plan-card plan-free">
@@ -398,17 +406,17 @@
     <button class="plan-btn" onclick="freeAlert()">Ücretsiz Başla</button>
   </div>
 
-  <!-- 6 AYLIK PLAN -->
+  <!-- 6 AYLIK PLAN (Pro) -->
   <div class="plan-card plan-six-months">
-    <h2 class="plan-name">6 Ay</h2>
+    <h2 class="plan-name">Pro Planı (6 Ay)</h2>
     <div class="plan-old-price">59$</div>
     <div class="plan-price">29$</div>
-    <p class="plan-desc">Reklamsız HD kalitenin tadını çıkarın.</p>
+    <p class="plan-desc">Reklamsız HD kalite. 10 film ile sınırlıdır.</p>
 
     <ul class="plan-features">
       <li><i class="fa-solid fa-check"></i>Reklamsız</li>
       <li><i class="fa-solid fa-check"></i>HD Kalite</li>
-      <li><i class="fa-solid fa-check"></i>Tüm Filmler ve Diziler</li>
+      <li><i class="fa-solid fa-check"></i>10 film ile sınırlı</li>
     </ul>
 
     <button class="plan-btn" onclick="openModal(29)">Abone Ol</button>

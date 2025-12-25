@@ -23,10 +23,6 @@
       
           <!-- Logo -->
           <a href="#" class="logo">Movie<span>World</span></a>
-      
-       
-  
-  
                 <!-- Desktop Nav Links -->
             <ul class="nav-links">
                 <li><a href="#top" class="active">Home</a></li>
@@ -72,13 +68,19 @@
               <i class="fas fa-heart action-icon" id="favorites-icon"></i>
               <span class="favorites-count" id="favorites-count">0</span>
             </div>
-      
+
             <!-- Account -->
             <div class="user-icon" id="user-icon">
               <i class="fas fa-user action-icon"></i>
               <h5 id="text">Sign up</h5>
+              
+            <!-- Plan badge (placed between user and logout) -->
+            <div class="plan-badge" id="plan-badge" title="Your plan and remaining movies" tabindex="0">
+              Free • 4 left
             </div>
-      
+
+            </div>
+
             <button class="logout" id="logout">Logout</button>
           </div>
       
@@ -122,6 +124,8 @@
               <i class="fas fa-house"></i>
               <span>Home</span>
             </a>
+
+
           
             <a href="#movies-section">
               <i class="fas fa-film"></i>
@@ -153,6 +157,8 @@
               <i class="fas fa-user"></i>
               <span id="account">Account</span>
             </button>
+            <!-- Mobile Plan badge -->
+            <a id="plan-badge-mobile" href="#planssection" class="mobile-plan-badge">Free</a>
             <button class="mobile-logout " id="mobileLogout">
                 <i class="fas fa-right-from-bracket"></i>
                 <span>Logout</span>
@@ -392,7 +398,7 @@
   <!-- PLANS SECTION -->
     <h1 class="plans-title">Choose Your Perfect Plan and Enjoy Watching 🎬</h1>
 
-    <div class="plans-wrapper">
+    <div id="planssection" class="plans-wrapper">
     
       <!-- FREE PLAN -->
       <div class="plan-card plan-free">
@@ -409,17 +415,17 @@
         <button class="plan-btn" onclick="freeAlert()">Start for Free</button>
       </div>
     
-      <!-- 6 MONTHS PLAN -->
+<!-- 6 MONTHS PLAN (Pro) -->
       <div class="plan-card plan-six-months">
-        <h2 class="plan-name">6 Months</h2>
+        <h2 class="plan-name">Pro Plan (6 Months)</h2>
         <div class="plan-old-price">59$</div>
         <div class="plan-price">29$</div>
-        <p class="plan-desc">Enjoy HD quality without ads.</p>
-    
+        <p class="plan-desc">Enjoy HD quality without ads. Limited to 10 movies.</p>
+
         <ul class="plan-features">
           <li><i class="fa-solid fa-check"></i>No Ads</li>
           <li><i class="fa-solid fa-check"></i>HD Quality</li>
-          <li><i class="fa-solid fa-check"></i>All Movies & Series</li>
+          <li><i class="fa-solid fa-check"></i>Limited to 10 movies</li>
         </ul>
     
         <button class="plan-btn" onclick="openModal(29)">Subscribe</button>

@@ -93,7 +93,142 @@ let unreadCount = 0;
 let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
 let nowWatching = JSON.parse(localStorage.getItem("nowWatching")) || [];
 
+/* ===== Subscription helpers (persisted per user or guest) ===== */
+function getCurrentUserKey() {
+  return auth.currentUser?.uid || 'guest';
+}
 
+function loadPlansMap() {
+  try {
+    return JSON.parse(localStorage.getItem('plans_map') || '{}');
+  } catch (e) {
+    console.warn('Invalid plans_map in localStorage, resetting');
+    localStorage.removeItem('plans_map');
+    return {};
+  }
+}
+
+function savePlansMap(map) {
+  localStorage.setItem('plans_map', JSON.stringify(map));
+}
+
+function ensurePlanInfo() {
+  const key = getCurrentUserKey();
+  const map = loadPlansMap();
+  if (!map[key]) {
+    map[key] = { plan: 'free', monthStart: Date.now(), moviesWatchedThisMonth: 0 };
+    savePlansMap(map);
+  } else {
+    const info = map[key];
+    const start = new Date(info.monthStart);
+    const now = new Date();
+    if (start.getMonth() !== now.getMonth() || start.getFullYear() !== now.getFullYear()) {
+      info.monthStart = Date.now();
+      info.moviesWatchedThisMonth = 0;
+      savePlansMap(map);
+    }
+  }
+  return map[key];
+}
+
+function getPlanForCurrentUser() {
+  return ensurePlanInfo();
+}
+
+function setPlanForCurrentUser(plan) {
+  const key = getCurrentUserKey();
+  const map = loadPlansMap();
+  map[key] = map[key] || { plan: 'free', monthStart: Date.now(), moviesWatchedThisMonth: 0 };
+  map[key].plan = plan;
+  map[key].monthStart = Date.now();
+  map[key].moviesWatchedThisMonth = 0;
+  savePlansMap(map);
+}
+
+function remainingMoviesForUser() {
+  const info = ensurePlanInfo();
+  const limits = { free: 4, pro: 10, premium: Infinity };
+  const limit = limits[info.plan] ?? 4;
+  return limit === Infinity ? Infinity : Math.max(0, limit - info.moviesWatchedThisMonth);
+}
+
+function incrementMovieCount() {
+  const key = getCurrentUserKey();
+  const map = loadPlansMap();
+  map[key] = map[key] || { plan: 'free', monthStart: Date.now(), moviesWatchedThisMonth: 0 };
+  map[key].moviesWatchedThisMonth = (map[key].moviesWatchedThisMonth || 0) + 1;
+  savePlansMap(map);
+}
+
+// Update the small plan badge in the navbar (desktop and mobile)
+function updatePlanBadge() {
+  const el = document.getElementById('plan-badge');
+  const mobileEl = document.getElementById('plan-badge-mobile');
+  try {
+    const info = getPlanForCurrentUser();
+    const planName = (info.plan || 'free').replace(/^./, s => s.toUpperCase());
+    const remaining = remainingMoviesForUser();
+    const remText = remaining === Infinity ? 'Unlimited' : `${remaining} left`;
+    if (el) el.textContent = `${planName} • ${remText}`;
+    if (mobileEl) mobileEl.textContent = `${planName}`;
+  } catch (e) {
+    if (el) el.textContent = 'Free • 4 left';
+    if (mobileEl) mobileEl.textContent = 'Free';
+    console.warn('updatePlanBadge error', e);
+  }
+
+  // Attach click handler once
+  const elDesktop = document.getElementById('plan-badge');
+  if (elDesktop && !elDesktop.dataset.bound) {
+    elDesktop.addEventListener('click', (e) => { e.preventDefault(); scrollToPlans(); });
+    elDesktop.dataset.bound = '1';
+  }
+  const elMobile = document.getElementById('plan-badge-mobile');
+  if (elMobile && !elMobile.dataset.bound) {
+    elMobile.addEventListener('click', () => scrollToPlans());
+    elMobile.dataset.bound = '1';
+  }
+}
+
+// Smoothly scroll to the plans section, with debug logging
+function scrollToPlans() { 
+  // Prefer explicit id anchor
+  let el = document.querySelector('#planssection') || document.querySelector('.plans-wrapper');
+  if (!el) {
+    console.warn('scrollToPlans: plans element not found');
+    return;
+  }
+
+  console.log('scrollToPlans: target element found:', el);
+
+  const headerOffset = 80; // adjust if your navbar height differs
+
+  try {
+    const rect = el.getBoundingClientRect();
+    const absoluteTop = window.pageYOffset + rect.top - headerOffset;
+    const targetTop = Math.max(0, Math.floor(absoluteTop));
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+
+    // briefly highlight the section
+    const prev = el.style.boxShadow;
+    el.style.boxShadow = '0 12px 36px rgba(157,78,221,0.18)';
+    setTimeout(() => (el.style.boxShadow = prev || ''), 1600);
+  } catch (err) {
+    console.warn('scrollToPlans: error during scrollIntoView', err);
+    // fallback: compute absolute position and scroll
+    try {
+      const rect = el.getBoundingClientRect();
+      const absoluteTop = window.pageYOffset + rect.top;
+      window.scrollTo({ top: Math.max(0, absoluteTop - headerOffset), behavior: 'smooth' });
+      const prev = el.style.boxShadow;
+      el.style.boxShadow = '0 12px 36px rgba(157,78,221,0.18)';
+      setTimeout(() => (el.style.boxShadow = prev || ''), 1600);
+      console.log('scrollToPlans: fallback scrolled to', absoluteTop - headerOffset);
+    } catch (err2) {
+      console.warn('scrollToPlans: fallback also failed', err2);
+    }
+  }
+}
 
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
@@ -111,8 +246,7 @@ setupEventListeners();
 
 updateBadge();
 renderNotifications();
-// Setup FAQ accordion - Netflix Style
-setupNetflixFAQAccordion();
+  updatePlanBadge();
 
 // Navbar scroll effect
 window.addEventListener("scroll", handleNavbarScroll);
@@ -225,6 +359,17 @@ onAuthStateChanged(auth, async (user) => {
     logout.style.display = 'block';
     userIcon.removeEventListener('click', openSignupModel)
 
+    // Show current plan and remaining allowance on login
+    try {
+      const planInfo = getPlanForCurrentUser();
+      const remaining = remainingMoviesForUser();
+      showNotification(`Plan: ${planInfo.plan} • ${remaining === Infinity ? 'Unlimited' : remaining + ' left'}`);
+      updatePlanBadge();
+    } catch (err) {
+      // ignore if helpers not yet available
+      console.warn('Plan info not available yet', err);
+    }
+
   } else {
     console.log("Logged out");
      switch (document.documentElement.lang) {
@@ -243,6 +388,8 @@ onAuthStateChanged(auth, async (user) => {
     userIcon.addEventListener('click',() => {
       signupModel.classList.add('active')
     })
+    // Update plan badge to reflect guest state when logged out
+    try { updatePlanBadge(); } catch(e) { /* ignore */ }
 
   }
 });
@@ -378,11 +525,6 @@ document.getElementById("clearNotifications").addEventListener("click", () => {
 
 
 
-
-setTimeout(() => {
-addNotification("Your watch progress was saved.");
-showNotification('Your watch progress was saved.')
-}, 8000);
 
 setInterval(() => {
 if (notificationModal.classList.contains("active")) {
@@ -1127,7 +1269,110 @@ document.getElementById("viewAll-modal").classList.remove("active");
 
 // Play movie / tv trailer
 async function play_Movies(id, type) {
+  // Require sign-in
+  if (!auth.currentUser) {
+    // Hide movie modal and clear iframe when prompting to sign in
+    try {
+      if (movieModal && movieModal.classList.contains('active')) {
+        movieModal.classList.remove('active');
+      }
+      const iframeEl = document.getElementById('model_iframe');
+      if (iframeEl) {
+        iframeEl.style.display = 'none';
+        iframeEl.src = '';
+      }
+    } catch (e) {
+      console.warn('Error hiding movie modal:', e);
+    }
+
+    Swal.fire({
+      title: 'Sign in required',
+      text: 'You must sign in to watch movies. Sign in now?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sign in',
+      cancelButtonText: 'Cancel',
+      customClass : {
+        confirmButton : 'swal-confirm',
+        cancelButton : 'swal-confirm',
+        popup : 'rounded-swal',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        loginModal.classList.add('active');
+        signupModel.classList.remove('active');
+      }
+    });
+    return;
+  }
 try {
+    // Enforce subscription quotas per month
+    try {
+      const info = getPlanForCurrentUser();
+      const limits = { free: 4, pro: 10, premium: Infinity };
+      const limit = limits[info.plan] ?? 4;
+
+      if (info.moviesWatchedThisMonth >= limit) {
+        // Hide movie modal and reset iframe so details disappear when alert shows
+        try {
+          if (movieModal && movieModal.classList.contains('active')) {
+            movieModal.classList.remove('active');
+          }
+          const iframeEl = document.getElementById('model_iframe');
+          if (iframeEl) {
+            iframeEl.style.display = 'none';
+            iframeEl.src = '';
+          }
+          const modalBackdropEl = document.getElementById('modal-backdrop');
+          if (modalBackdropEl) modalBackdropEl.style.display = 'none';
+        } catch (hideErr) {
+          console.warn('Could not hide modal before limit alert:', hideErr);
+        }
+
+        Swal.fire({
+          title: 'Monthly limit reached',
+          text: `Your ${info.plan} plan allows ${limit === Infinity ? 'unlimited' : limit} movies per month. ${info.plan !== 'premium' ? 'Consider upgrading for more.' : ''}`,
+          icon: 'warning',
+          confirmButtonText: 'View Plans',
+          customClass: { popup: 'rounded-swal', confirmButton: 'swal-confirm' }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log('View Plans clicked — attempting to scroll to plans section');
+            // Wait briefly for Swal to finish its close animation (and restore body scroll)
+            setTimeout(() => {
+              try {
+                // Try setting hash (anchor) first
+                location.hash = '#planssection';
+              } catch (e) {
+                console.warn('Could not set location.hash', e);
+              }
+
+              scrollToPlans();
+
+              // Gentle correction: after a short delay, smooth-correct if still off
+              setTimeout(() => {
+                const target = document.querySelector('#planssection') || document.querySelector('.plans-wrapper');
+                if (!target) return;
+                const targetTop = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - 80);
+                if (Math.abs(window.pageYOffset - targetTop) > 120) {
+                  console.warn('scrollToPlans: applying smooth correction to target');
+                  window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                }
+              }, 900);
+            }, 420);
+          }
+        });
+        return;
+      }
+
+      // Allowed → increment usage now
+      incrementMovieCount();
+      const remaining = remainingMoviesForUser();
+      if (remaining !== Infinity) showNotification(`You have ${remaining} movie${remaining === 1 ? '' : 's'} left this month.`);
+    } catch (err) {
+      console.warn('Plan enforcement error:', err);
+    }
+
   let type_Movies;
 
   if (type === "tv") {
@@ -1514,9 +1759,16 @@ const amount = document.getElementById("totalAmount");
 const payBtn = document.getElementById("confirmPayBtn");
 
 /* ===== MAKE FUNCTIONS GLOBAL ===== */
+let selectedPlan = null; // 'free' | 'pro' | 'premium'
+
 window.openModal = function(price){
-  amount.value = price + " $";
-  modal.style.display = "flex";
+  // try to infer plan from the selected card if not set
+  if (!selectedPlan) {
+    if (price === 29) selectedPlan = 'pro';
+    else if (price === 49) selectedPlan = 'premium';
+  }
+  if (typeof amount !== 'undefined' && amount) amount.value = price + " $";
+  if (modal) modal.style.display = "flex"; else console.warn('paymentModal element not found');
 };
 
 window.closeModal = function(){
@@ -1528,13 +1780,87 @@ window.closeAlert = function(){
 };
 
 window.freeAlert = function(){
-  alertBox.style.display = "flex";
+  try {
+    const info = getPlanForCurrentUser();
+    const freeLimit = 4;
+
+    // If user is already on Free plan
+    if (info.plan === 'free') {
+      if (info.moviesWatchedThisMonth >= freeLimit) {
+        // They've already used their free allowance — don't reset counters, encourage upgrade
+        Swal.fire({
+          title: 'Free limit reached',
+          text: `You've already watched ${info.moviesWatchedThisMonth} movies this month on the Free plan (limit ${freeLimit}). Consider upgrading for more.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'View Plans',
+          cancelButtonText: 'Cancel',
+          customClass: { popup: 'rounded-swal', confirmButton: 'swal-confirm', cancelButton: 'swal-confirm' }
+        }).then((res) => {
+          if (res.isConfirmed) scrollToPlans();
+        });
+      } else {
+        const remaining = Math.max(0, freeLimit - info.moviesWatchedThisMonth);
+        Swal.fire({
+          title: 'Free Plan Active',
+          text: `You're already on the Free plan. You have ${remaining} movie${remaining === 1 ? '' : 's'} left this month.`,
+          icon: 'info',
+          customClass: { popup: 'rounded-swal', confirmButton: 'swal-confirm' }
+        });
+      }
+
+      return;
+    }
+
+    // If not currently free, assign free plan (resets counters)
+    setPlanForCurrentUser('free');
+    updatePlanBadge();
+    Swal.fire({ title: 'Free Plan Activated', text: 'You are now on the Free plan (4 movies / month).', icon: 'success', customClass: { popup: 'rounded-swal', confirmButton: 'swal-confirm' } });
+  } catch (e) {
+    console.warn('Could not set free plan:', e);
+    Swal.fire({ title: 'Error', text: 'Could not activate Free plan. Try again.', icon: 'error' });
+  }
 };
 
 /* ===== EVENTS ===== */
-payBtn.addEventListener("click", () => {
-  closeModal();
-  alertBox.style.display = "flex";
+// When the user confirms payment, assign the selected plan (simulated)
+if (payBtn) {
+  payBtn.addEventListener("click", () => {
+    // Try to infer plan from amount if the selectedPlan wasn't set
+    if (!selectedPlan) {
+      const val = amount.value || '';
+      if (val.includes('29')) selectedPlan = 'pro';
+      if (val.includes('49')) selectedPlan = 'premium';
+    }
+
+    if (selectedPlan) {
+      setPlanForCurrentUser(selectedPlan);
+      updatePlanBadge();
+      closeModal();
+      // Show only one alert (SweetAlert) to avoid duplicates
+      Swal.fire({ title: `Subscribed to ${selectedPlan}`, text: `Your ${selectedPlan} plan is active.`, icon: 'success' ,customClass : {
+        confirmButton : 'swal-confirm',
+        popup : 'rounded-swal',
+      },});
+      selectedPlan = null;
+    } else {
+      closeModal();
+      Swal.fire({ title: 'No plan selected', text: 'Please choose a plan before confirming payment.', icon: 'info' });
+    }
+  });
+} else {
+  console.warn('payBtn not found - payment confirmation listener not attached');
+}
+
+// Hook up quick selection so buttons set the pending plan (no change to HTML required)
+document.querySelectorAll('.plan-card').forEach(card => {
+  const btn = card.querySelector('.plan-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    if (card.classList.contains('plan-free')) selectedPlan = 'free';
+    else if (card.classList.contains('plan-six-months')) selectedPlan = 'pro';
+    else if (card.classList.contains('plan-premium')) selectedPlan = 'premium';
+  });
 });
 
 email.addEventListener("input", validate);

@@ -66,13 +66,18 @@
               <i class="fas fa-heart action-icon" id="favorites-icon"></i>
               <span class="favorites-count" id="favorites-count">0</span>
             </div>
-      
+
             <!-- Account -->
             <div class="user-icon" id="user-icon">
               <i class="fas fa-user action-icon"></i>
               <h5 id="text"> تسجيل دخول</h5>
             </div>
-      
+
+            <!-- Plan badge (placed between user and logout) -->
+            <div class="plan-badge" id="plan-badge" title="Your plan and remaining movies" tabindex="0">
+              Free • 4 left
+            </div>
+
             <button class="logout" id="logout">تسجيل خروج</button>
           </div>
       
@@ -122,6 +127,7 @@
               <i class="fas fa-fire"></i>
               <span>جديد وشائع</span>
             </a>
+
           
             <!-- Actions -->
             <button class="mobile-btn mobile-arabic" id="mobileNotifications">
@@ -138,7 +144,9 @@
               <i class="fas fa-user"></i>
               <span id="account">الحساب</span>
             </button>
-          
+                      <!-- Mobile Plan badge -->
+            <a id="plan-badge-mobile" href="#planssection" class="mobile-plan-badge">Free Plan</a>
+
             <button class="mobile-logout mobile-arabic" id="mobileLogout">
               <i class="fas fa-right-from-bracket"></i>
               <span>تسجيل خروج</span>
@@ -355,7 +363,7 @@
 
 <h1 class="plans-title">اختر خطتك المثالية واستمتع بالمشاهدة 🎬</h1>
 
-  <div class="plans-wrapper">
+  <div id="planssection" class="plans-wrapper">
 
     <!-- FREE PLAN -->
     <div class="plan-card plan-free">
@@ -372,17 +380,17 @@
       <button class="plan-btn" onclick="freeAlert()">ابدأ مجاناً</button>
     </div>
 
-    <!-- 6 MONTHS PLAN -->
+    <!-- 6 MONTHS PLAN (Pro) -->
     <div class="plan-card plan-six-months">
-      <h2 class="plan-name">6 أشهر</h2>
+      <h2 class="plan-name">خطة Pro (6 أشهر)</h2>
       <div class="plan-old-price">59$</div>
       <div class="plan-price">29$</div>
-      <p class="plan-desc">استمتع بجودة HD بدون إعلانات.</p>
+      <p class="plan-desc">استمتع بجودة HD بدون إعلانات. محدود إلى 10 أفلام.</p>
 
       <ul class="plan-features">
         <li><i class="fa-solid fa-check"></i>بدون إعلانات</li>
         <li><i class="fa-solid fa-check"></i>جودة HD</li>
-        <li><i class="fa-solid fa-check"></i>جميع الأفلام والمسلسلات</li>
+        <li><i class="fa-solid fa-check"></i>محدود إلى 10 أفلام</li>
       </ul>
 
       <button class="plan-btn" onclick="openModal(29)">اشترك</button>
