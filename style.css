@@ -110,7 +110,76 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: visible; /* ensure child badges are not clipped */
+    min-height: 64px; /* prevent small-height header causing wrapping */
 }
+
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+
+  background: linear-gradient(135deg, var(--primary-color), #7b2cbf);
+  color: #fff;
+
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(157,78,221,0.18);
+
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* use normal flow inside the .user-icon flex container for stable alignment */
+  position: static;
+  margin-left: 4px; /* LTR spacing; overridden by RTL rules below */
+  transition: var(--transition);
+}
+
+.plan-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(157,78,221,0.2);
+}
+
+
+/* RTL adjustments */
+.navbar[dir='rtl'] .plan-badge {
+  margin-inline-start: 0;
+  margin-inline-end: 8px;
+} 
+.plan-badge:focus {
+  outline: 2px solid rgba(157,78,221,0.25);
+  outline-offset: 2px;
+  box-shadow: 0 8px 20px rgba(157,78,221,0.18), 0 0 0 3px rgba(157,78,221,0.06);
+}
+/* ensure badge doesn't shrink and cause layout jumps */
+.user-icon .plan-badge {
+  flex-shrink: 0;
+}
+
+.mobile-plan-badge {
+  display: none;
+  width: calc(100% - 40px);
+  margin: 12px auto;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+  color: #fff;
+  border-radius: 12px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .plan-badge { display: none; }
+  .mobile-plan-badge { display: block; }
+}
+
+/* Duplicate block removed - single authoritative .plan-badge rules are earlier in the file */
 
 .logo {
     font-family: 'Poppins', sans-serif;
@@ -2002,8 +2071,62 @@ html[dir="rtl"] .lang-menu {
 }
 .user-icon{
     cursor: pointer;
-    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    min-width: 0; /* prevent long badges from forcing layout */
+} 
+
+/* make username text compact and vertically centered */
+.user-icon h5, .user-icon #text {
+  margin: 0;
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-color, #9d4edd);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* keep small icon and text vertically centered */
+.user-icon .action-icon {
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* make navbar-specific plan badge stable and scoped to the desktop badge */
+#plan-badge {
+  position: static; /* align inside .user-icon flex layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-left: 8px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: var(--transition);
+}
+
+#plan-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(157,78,221,0.2);
+}
+
+#plan-badge:focus {
+  outline: 2px solid rgba(157,78,221,0.25);
+  outline-offset: 2px;
+  box-shadow: 0 8px 20px rgba(157,78,221,0.18), 0 0 0 3px rgba(157,78,221,0.06);
+}
+
+/* RTL: keep username and badge visually correct */
+.navbar[dir='rtl'] .user-icon {
+  flex-direction: row-reverse;
+} 
 
 #text{
     color: purple;
