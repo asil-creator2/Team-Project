@@ -526,11 +526,6 @@ document.getElementById("clearNotifications").addEventListener("click", () => {
 
 
 
-setTimeout(() => {
-addNotification("Your watch progress was saved.");
-showNotification('Your watch progress was saved.')
-}, 8000);
-
 setInterval(() => {
 if (notificationModal.classList.contains("active")) {
   renderNotifications();
@@ -1843,7 +1838,10 @@ if (payBtn) {
       updatePlanBadge();
       closeModal();
       // Show only one alert (SweetAlert) to avoid duplicates
-      Swal.fire({ title: `Subscribed to ${selectedPlan}`, text: `Your ${selectedPlan} plan is active.`, icon: 'success' });
+      Swal.fire({ title: `Subscribed to ${selectedPlan}`, text: `Your ${selectedPlan} plan is active.`, icon: 'success' ,customClass : {
+        confirmButton : 'swal-confirm',
+        popup : 'rounded-swal',
+      },});
       selectedPlan = null;
     } else {
       closeModal();
