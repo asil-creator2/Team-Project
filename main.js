@@ -73,7 +73,6 @@ const movieModalClose = document.getElementById("movie-modal-close");
 const favoritesModalClose = document.getElementById("favorites-modal-close");
 const signupBtn = document.getElementById("signup-btn");
 const searchInput = document.querySelector(".search-input");
-const faqItems = document.querySelectorAll(".faq-item");
 const browseMoviesBtn = document.getElementById("browse-movies-btn");
 const favoritesCountElement = document.getElementById("favorites-count");
 const favoritesCountText = document.getElementById("favorites-count-text");
@@ -244,9 +243,12 @@ loadContinuePlayingMovies();
 // Setup event listeners
 setupEventListeners();
 
+// Initialize FAQ accordion (querying elements after DOM is ready)
+setupNetflixFAQAccordion();
+
 updateBadge();
 renderNotifications();
-  updatePlanBadge();
+updatePlanBadge();
 
 // Navbar scroll effect
 window.addEventListener("scroll", handleNavbarScroll);
@@ -601,37 +603,43 @@ return `${days} day${days > 1 ? "s" : ""} ago`;
 
 // Setup Netflix-Style FAQ Accordion
 function setupNetflixFAQAccordion() {
-faqItems.forEach((item) => {
-  const question = item.querySelector(".faq-question");
-  const answer = item.querySelector(".faq-answer");
+  const faqItemsLocal = document.querySelectorAll(".faq-item");
+  if (!faqItemsLocal || faqItemsLocal.length === 0) return;
 
-  question.addEventListener("click", () => {
-    // Close all other FAQ items
-    faqItems.forEach((otherItem) => {
-      if (otherItem !== item && otherItem.classList.contains("active")) {
-        otherItem.classList.remove("active");
-        const otherAnswer = otherItem.querySelector(".faq-answer");
-        otherAnswer.style.maxHeight = 0;
-        otherAnswer.style.opacity = 0;
-        otherAnswer.style.padding = "0 30px";
+  faqItemsLocal.forEach((item) => {
+    const question = item.querySelector(".faq-question");
+    const answer = item.querySelector(".faq-answer");
+    if (!question || !answer) return;
+
+    question.addEventListener("click", () => {
+      // Close all other FAQ items
+      faqItemsLocal.forEach((otherItem) => {
+        if (otherItem !== item && otherItem.classList.contains("active")) {
+          otherItem.classList.remove("active");
+          const otherAnswer = otherItem.querySelector(".faq-answer");
+          if (otherAnswer) {
+            otherAnswer.style.maxHeight = 0;
+            otherAnswer.style.opacity = 0;
+            otherAnswer.style.padding = "0 30px";
+          }
+        }
+      });
+
+      // Toggle current item
+      if (item.classList.contains("active")) {
+        item.classList.remove("active");
+        answer.style.maxHeight = 0;
+        answer.style.opacity = 0;
+        answer.style.padding = "0 30px";
+      } else {
+        item.classList.add("active");
+        answer.style.maxHeight = answer.scrollHeight + "px";
+        answer.style.opacity = 1;
+        answer.style.padding = "30px";
       }
     });
-
-    // Toggle current item
-    if (item.classList.contains("active")) {
-      item.classList.remove("active");
-      answer.style.maxHeight = 0;
-      answer.style.opacity = 0;
-      answer.style.padding = "0 30px";
-    } else {
-      item.classList.add("active");
-      answer.style.maxHeight = answer.scrollHeight + "px";
-      answer.style.opacity = 1;
-      answer.style.padding = "30px";
-    }
   });
-});
-}
+} 
 
 // Update favorites count in navbar
 function updateFavoritesCount() {
